@@ -1,5 +1,9 @@
 import { NextResponse, type NextRequest } from "next/server";
-import { DEFAULT_LOCALE, isLocale } from "@/lib/i18n/config";
+// ⚠ `@/` takma adı DEĞİL, göreli yol. Middleware Edge çalışma zamanında ayrı
+// paketlenir; takma ad çözümlemesini o yoldan tamamen çıkarmak, 2026-09-05'te
+// yaşanan `MIDDLEWARE_INVOCATION_FAILED` arızasının olası sebeplerinden birini
+// eler. Tek kaynak yine aynı dosya — yalnız ona ulaşma biçimi sadeleşti.
+import { DEFAULT_LOCALE, isLocale } from "./lib/i18n/config";
 
 /**
  * DİL YÖNLENDİRMESİ + YASAL URL TAKMA ADLARI
@@ -30,7 +34,38 @@ const PATH_ALIASES: Record<string, string> = {
  */
 const PASSTHROUGH = new Set(["/robots.txt", "/sitemap.xml", "/delete-account"]);
 
+/**
+ * ⚠ NEDEN HER ŞEY TRY/CATCH İÇİNDE
+ *
+ * 2026-09-05: Next.js uygulaması ilk kez Vercel'e çıktığında SİTENİN TAMAMI
+ * `500 MIDDLEWARE_INVOCATION_FAILED` verdi — ana sayfa, yasal sayfalar,
+ * paylaşım linkleri, hepsi. Yerelde (`next build` + `next start`) aynı kod
+ * sorunsuz çalışıyordu; hata yalnız Vercel'in Edge çalışma zamanında çıktı.
+ *
+ * Buradaki ders mimari: **dil yönlendirmesi bir KOLAYLIKTIR, sitenin ayakta
+ * kalma şartı değildir.** Bu fonksiyon çökerse ziyaretçi Türkçe yerine
+ * yönlendirilmemiş bir sayfa görmeli — hiçbir şey görmemeli DEĞİL. Gizlilik
+ * politikası ve hesap silme adresleri Play Console'a bildirildi; oradaki bir
+ * robot 500 görürse yayın reddedilir (`PLAY-CONSOLE-YAYIN-DOSYASI.md` §0.1).
+ *
+ * Yakalanan hata sessizce yutulmaz: `x-laume-mw-error` başlığıyla görünür
+ * kalır (kural 2 — sessiz fallback yasak). Başlık yalnız kendi hata
+ * metnimizi taşır, istek/kullanıcı verisi taşımaz.
+ */
 export function middleware(request: NextRequest) {
+  try {
+    return route(request);
+  } catch (error) {
+    const response = NextResponse.next();
+    response.headers.set(
+      "x-laume-mw-error",
+      (error instanceof Error ? `${error.name}: ${error.message}` : String(error)).slice(0, 200),
+    );
+    return response;
+  }
+}
+
+function route(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   if (PASSTHROUGH.has(pathname)) return NextResponse.next();

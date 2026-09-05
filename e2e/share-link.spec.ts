@@ -30,6 +30,28 @@ test.describe("Paylaşım linki — kimlik sözleşmesi", () => {
     }
   });
 
+  test("paylaşılan adres sosyal önizleme etiketlerini SUNUCUDA üretir", async ({ request }) => {
+    // Önizleme robotları JavaScript çalıştırmaz: etiketler ilk HTML yanıtında
+    // olmak zorunda. `page.goto` yerine ham istek kullanmamızın sebebi bu.
+    const html = await (await request.get(`/n/${REAL_ID}`)).text();
+
+    for (const property of ["og:title", "og:description", "og:url", "og:site_name"]) {
+      expect(html, `${property} ilk HTML yanıtında olmalı`).toContain(`property="${property}"`);
+    }
+    expect(html).toContain('name="twitter:card"');
+    expect(html).toContain(`https://laumeapp.com/n/${REAL_ID}`);
+  });
+
+  test("veri yokken sayfa 'mektup yok' iddiasında BULUNMAZ", async ({ page }) => {
+    // Ortam bağlı değilken (veya 0160 uygulanmadan) sunucu cevap veremez.
+    // Bilinmeyeni yokluk gibi göstermek yasak — CLAUDE.md kural 2/7.
+    await page.goto(`/n/${REAL_ID}`);
+    const body = (await page.locator("body").innerText()).toLowerCase();
+    for (const claim of ["artık burada değil", "bulunamadı", "no longer here", "not found"]) {
+      expect(body, `"${claim}" iddiası veri yokken gösterilemez`).not.toContain(claim);
+    }
+  });
+
   test("paylaşım sayfası mektup gövdesini veya koordinatı asla taşımaz", async ({ page }) => {
     await page.goto(`/n/${REAL_ID}`);
     const html = (await page.content()).toLowerCase();

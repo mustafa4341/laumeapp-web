@@ -2,8 +2,10 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { DeepLinkBridge } from "@/components/deeplink/DeepLinkBridge";
 import { isShareableNoteId } from "@/lib/letters/noteId";
+import { fetchSharePreview } from "@/lib/letters/sharePreview";
 import {
   DEFAULT_LOCALE,
+  LOCALE_META,
   SITE_URL,
   getDictionary,
   isLocale,
@@ -24,16 +26,51 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     return { title: dict.letter.invalidTitle };
   }
 
+  /*
+   * Paylaşılan adres BU rotadır (`layarUrl.ts` → `/n/<id>`), bu yüzden
+   * WhatsApp/X/Signal önizlemesini üreten meta etiketleri burada olmak
+   * ZORUNDA. Önizleme robotları JavaScript çalıştırmaz — istemci tarafında
+   * kurulan bir başlık onlara hiç ulaşmaz, bu yüzden veri sunucuda okunur.
+   *
+   * Sunucu cevap veremiyorsa (henüz yapılandırılmadı, 0160 uygulanmadı, ağ
+   * hatası) BAŞLIK UYDURULMAZ: genel, dürüst metne düşülür. "Bu mektup yok"
+   * denmez — bilmediğimiz şeyi yokluk gibi göstermek yasak.
+   */
+  const preview = await fetchSharePreview(id);
+  const hasRealData = preview.kind === "found";
+
+  const title = hasRealData && preview.title ? preview.title : dict.letter.sealTitlePrefix;
+  const description =
+    hasRealData && preview.locationName
+      ? `${preview.locationName} · ${dict.letter.sealDescription}`
+      : dict.letter.sealDescription;
+  const url = `${SITE_URL}${localeHref(locale, `/n/${id}`)}`;
+
   return {
-    title: `${dict.letter.sealTitlePrefix} #${id}`,
-    description: dict.letter.sealDescription,
+    title,
+    description,
     // Kanonik yüzey paylaşım sayfasıdır; köprü yalnız uygulamayı açar.
     alternates: {
       canonical: `${SITE_URL}${localeHref(locale, `/letters/${id}`)}`,
     },
+    openGraph: {
+      title,
+      description,
+      url,
+      siteName: dict.seo.siteName,
+      locale: LOCALE_META[locale].ogLocale,
+      type: "article",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+    },
     robots: {
       // Taramaya açık ama indekslenmez: engellenen bir sayfanın noindex'i
       // hiç okunmaz, o yüzden engel robots.txt'te değil burada.
+      // ⚠ Bu, sosyal önizlemeyi ETKİLEMEZ: WhatsApp/X kazıyıcıları robots
+      // yönergesine değil, yukarıdaki og:* etiketlerine bakar.
       index: false,
       follow: true,
     },

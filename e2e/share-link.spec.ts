@@ -69,6 +69,18 @@ test.describe("Paylaşım linki — kimlik sözleşmesi", () => {
     expect(href).toBe(`layar://n/${REAL_ID}`);
   });
 
+  test("assetlinks.json tam olarak beklenen adreste ve doğru pakette", async ({ request }) => {
+    // Android bu adresi HARFİYEN arar; tek karakter sapma doğrulamayı düşürür.
+    const res = await request.get("/.well-known/assetlinks.json");
+    expect(res.status()).toBe(200);
+
+    const statements = JSON.parse(await res.text());
+    expect(Array.isArray(statements)).toBe(true);
+    expect(statements[0].relation).toContain("delegate_permission/common.handle_all_urls");
+    expect(statements[0].target.package_name).toBe("app.layar.mobile");
+    expect(statements[0].target.namespace).toBe("android_app");
+  });
+
   test("paylaşım sayfası mektup gövdesini veya koordinatı asla taşımaz", async ({ page }) => {
     await page.goto(`/n/${REAL_ID}`);
     const html = (await page.content()).toLowerCase();

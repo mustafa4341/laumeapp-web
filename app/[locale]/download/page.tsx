@@ -40,15 +40,30 @@ export default async function DownloadPage({ params }: LocaleParams) {
         <div className="card">
           <h2>{t.playHeading}</h2>
           <p style={{ marginBottom: "20px" }}>{t.playBody}</p>
-          {/* Mağaza adresi tek yerde: lib/i18n. Paket kimliği app.layar.mobile. */}
-          <a
-            href={STORES.googlePlay}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn btn-primary"
-          >
-            {dict.download.googlePlay} &rarr;
-          </a>
+          {/*
+            Mağaza adresi tek yerde: `lib/config.ts` → `STORES`.
+            Yayında değilse App Store dalıyla AYNI davranış: devre dışı buton.
+            Ölü bir mağaza linki, eksik bir linkten daha kötüdür.
+          */}
+          {STORES.googlePlay ? (
+            <a
+              href={STORES.googlePlay}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn-primary"
+            >
+              {dict.download.googlePlay} &rarr;
+            </a>
+          ) : (
+            <button
+              type="button"
+              className="btn btn-secondary"
+              disabled
+              style={{ opacity: 0.7, cursor: "not-allowed" }}
+            >
+              {dict.download.googlePlay}
+            </button>
+          )}
         </div>
 
         <div className="card">

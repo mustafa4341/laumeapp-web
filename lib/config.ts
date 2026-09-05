@@ -21,9 +21,23 @@ export const appConfig: AppConfig = {
   domain: "laumeapp.com",
   supportEmail: "destek@laumeapp.com",
   stores: {
+    /**
+     * ⚠ YAYINA GİRİNCE TEK SATIRLIK GERİ DÖNÜŞ:
+     *   status: "active"  +  url: PLAY_LISTING_URL
+     *
+     * Şu an `coming_soon`, çünkü uygulama Play'de HENÜZ YAYINDA DEĞİL:
+     * adres 2026-09-05'te doğrulandı ve **HTTP 404** döndü (karşılaştırma
+     * için bilinen canlı bir uygulama aynı anda 200 döndü — yani engelleme
+     * değil, gerçekten yok). Yayın durumu: `layar` deposu →
+     * `docs/LAUME-YAYIN-CHECKLIST.md` (kapalı test bile başlamadı).
+     *
+     * `active` bırakılsaydı ana sayfadaki birincil indirme düğmesi her
+     * ziyaretçiyi 404'e götürürdü. `StoreButtons` bu durumda düğmeyi
+     * devre dışı gösterir — kayıp bir tıklama, kırık bir vaatten iyidir.
+     */
     googlePlay: {
-      url: "https://play.google.com/store/apps/details?id=app.layar.mobile",
-      status: "active",
+      url: null,
+      status: "coming_soon",
       label: "Google Play",
     },
     appStore: {

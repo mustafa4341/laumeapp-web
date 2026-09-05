@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { appConfig } from "@/lib/config";
 import { DEFAULT_LOCALE, LOCALES, LOCALE_META, type Locale, localeHref } from "./config";
 import { getDictionary } from "./dictionaries";
 
@@ -16,10 +17,19 @@ export * from "./page";
 export const SITE_URL = "https://laumeapp.com";
 export const SUPPORT_EMAIL = "destek@laumeapp.com";
 
-/** Mağaza bağlantıları. Yayında olmayan mağaza `null` kalır — uydurma link yok. */
+/**
+ * Mağaza bağlantıları. Yayında olmayan mağaza `null` kalır — uydurma link yok.
+ *
+ * ⚠ TEK KAYNAK `lib/config.ts`'tir. Bu adres bir zamanlar burada AYRICA sabit
+ * kodlanmıştı; `appConfig` "yayında değil"e çevrildiğinde bu kopya eski
+ * değerde kalıyor, hem `/download` sayfası hem yapısal verideki `installUrl`
+ * ziyaretçiyi (ve Google'ı) 404'e göndermeye devam ediyordu. Aynı gerçeğin
+ * iki yerde yaşamasının maliyeti tam olarak budur.
+ */
 export const STORES = {
-  googlePlay: "https://play.google.com/store/apps/details?id=app.layar.mobile",
-  appStore: null as string | null,
+  googlePlay:
+    appConfig.stores.googlePlay.status === "active" ? appConfig.stores.googlePlay.url : null,
+  appStore: appConfig.stores.appStore.status === "active" ? appConfig.stores.appStore.url : null,
 };
 
 /**
@@ -127,7 +137,9 @@ export function buildJsonLd(locale: Locale) {
         applicationCategory: "SocialNetworkingApplication",
         applicationSubCategory: "Location-based discovery",
         operatingSystem: "Android 10+, iOS 15+",
-        installUrl: STORES.googlePlay,
+        // Mağaza yayında değilken alan HİÇ yazılmaz: `installUrl: null`
+        // Google'a "kurulum adresi yok" değil, "bozuk bir adres var" der.
+        ...(STORES.googlePlay ? { installUrl: STORES.googlePlay } : {}),
         offers: {
           "@type": "Offer",
           price: "0",

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { PublicLetterPreview } from "@/components/letter/PublicLetterPreview";
+import { isShareableNoteId } from "@/lib/letters/noteId";
 import {
   DEFAULT_LOCALE,
   LOCALE_META,
@@ -15,16 +16,12 @@ type Props = {
   params: Promise<{ id: string; locale: string }>;
 };
 
-function isValidLetterId(id: string): boolean {
-  return /^[a-zA-Z0-9_-]{3,32}$/.test(id);
-}
-
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id, locale: raw } = await params;
   const locale: Locale = isLocale(raw) ? raw : DEFAULT_LOCALE;
   const dict = getDictionary(locale);
 
-  if (!isValidLetterId(id)) {
+  if (!isShareableNoteId(id)) {
     return { title: dict.letter.invalidTitle };
   }
 
@@ -56,7 +53,7 @@ export default async function ShareableLetterPage({ params }: Props) {
   const { id, locale: raw } = await params;
   const locale: Locale = isLocale(raw) ? raw : DEFAULT_LOCALE;
 
-  if (!isValidLetterId(id)) {
+  if (!isShareableNoteId(id)) {
     notFound();
   }
 

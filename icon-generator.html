@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title>Laume Icon Generator</title>
+<style>
+  body { background: #2a2a2a; font-family: sans-serif; color: #fff; padding: 24px; }
+  canvas { border: 1px solid #444; margin: 12px 0; }
+  button { padding: 10px 18px; font-size: 14px; cursor: pointer; margin-right: 12px; margin-bottom: 24px; }
+  h2 { font-size: 16px; }
+</style>
+</head>
+<body>
+  <h2>App icon (512x512)</h2>
+  <canvas id="icon" width="512" height="512"></canvas><br/>
+  <button onclick="download('icon','laume-icon-512.png')">Download icon PNG</button>
+
+  <h2>Feature graphic (1024x500)</h2>
+  <canvas id="feature" width="1024" height="500"></canvas><br/>
+  <button onclick="download('feature','laume-feature-graphic.png')">Download feature graphic PNG</button>
+
+<script>
+function drawWaxSeal(ctx, cx, cy, r) {
+  const grad = ctx.createRadialGradient(cx - r*0.3, cy - r*0.3, r*0.1, cx, cy, r);
+  grad.addColorStop(0, '#f0b555');
+  grad.addColorStop(0.55, '#d98f2e');
+  grad.addColorStop(1, '#a8601a');
+  ctx.save();
+  ctx.beginPath();
+  const bumps = 14;
+  for (let i = 0; i < bumps; i++) {
+    const a = (i / bumps) * Math.PI * 2;
+    const rr = r * (0.94 + (i % 2 === 0 ? 0.06 : 0));
+    const x = cx + Math.cos(a) * rr;
+    const y = cy + Math.sin(a) * rr;
+    if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+  }
+  ctx.closePath();
+  ctx.fillStyle = grad;
+  ctx.fill();
+  ctx.restore();
+
+  ctx.save();
+  ctx.beginPath();
+  ctx.arc(cx, cy, r * 0.62, 0, Math.PI * 2);
+  ctx.strokeStyle = 'rgba(80,45,10,0.35)';
+  ctx.lineWidth = r * 0.02;
+  ctx.stroke();
+  ctx.restore();
+
+  ctx.save();
+  ctx.font = `${Math.round(r*0.85)}px Georgia, serif`;
+  ctx.fillStyle = 'rgba(80,45,10,0.55)';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText('L', cx, cy + r*0.06);
+  ctx.restore();
+}
+
+function renderIcon() {
+  const c = document.getElementById('icon');
+  const ctx = c.getContext('2d');
+  const bg = ctx.createLinearGradient(0, 0, 0, 512);
+  bg.addColorStop(0, '#14161c');
+  bg.addColorStop(1, '#0b0c10');
+  ctx.fillStyle = bg;
+  ctx.fillRect(0, 0, 512, 512);
+  drawWaxSeal(ctx, 256, 256, 168);
+}
+
+function renderFeature() {
+  const c = document.getElementById('feature');
+  const ctx = c.getContext('2d');
+  const bg = ctx.createLinearGradient(0, 0, 1024, 500);
+  bg.addColorStop(0, '#0b0c10');
+  bg.addColorStop(1, '#181a20');
+  ctx.fillStyle = bg;
+  ctx.fillRect(0, 0, 1024, 500);
+
+  drawWaxSeal(ctx, 190, 250, 120);
+
+  ctx.save();
+  ctx.font = '600 64px Georgia, serif';
+  ctx.fillStyle = '#f4f4f5';
+  ctx.textAlign = 'left';
+  ctx.textBaseline = 'alphabetic';
+  ctx.fillText('Laume', 360, 240);
+  ctx.font = '28px -apple-system, sans-serif';
+  ctx.fillStyle = '#a1a1aa';
+  ctx.fillText('A letter waits for you', 362, 285);
+  ctx.restore();
+}
+
+function download(id, name) {
+  const c = document.getElementById(id);
+  const link = document.createElement('a');
+  link.download = name;
+  link.href = c.toDataURL('image/png');
+  link.click();
+}
+
+renderIcon();
+renderFeature();
+</script>
+</body>
+</html>

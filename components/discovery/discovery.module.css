@@ -1,0 +1,715 @@
+/* ==========================================================================
+   LAUME KEŞİF SAHNESİ
+   Tek bir kalıcı sahne; durumlar yalnızca prop/CSS değişkeni değiştirir.
+   Katman sırası docs/LAUME_ASSET_ANIMATION_IMPLEMENTATION.md §3'e uyar.
+   ========================================================================== */
+
+.stage {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  background: var(--laume-bg);
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Metin seçimi mektup okuma aşamasında geri açılır
+   (spec §9: mektup gerçek, seçilebilir metindir). */
+.stage[data-reading="true"] {
+  user-select: auto;
+  -webkit-user-select: auto;
+}
+
+.background {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Zeminin üzerinde çok yumuşak bir vinyet — düz PNG'yi mekâna çevirir. */
+.vignette {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: radial-gradient(
+    120% 100% at 50% 45%,
+    rgba(255, 255, 255, 0) 40%,
+    rgba(15, 23, 42, 0.05) 100%
+  );
+}
+
+.fogCanvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 6;
+  pointer-events: none;
+}
+
+/* --------------------------------------------------------------------------
+   İZ — pusun üstünde durur; bulunduğu anda kalıcı olarak görünür kalır.
+   -------------------------------------------------------------------------- */
+.traceLayer {
+  position: absolute;
+  inset: 0;
+  z-index: 7;
+  pointer-events: none;
+}
+
+.step {
+  position: absolute;
+  background-image: url("/assets/discovery/physical-trace.png");
+  background-repeat: no-repeat;
+  opacity: 0;
+  transform-origin: 50% 50%;
+  /* Krem izler krem zeminde kaybolmasın diye maddi bir gölge + hafif koyulaştırma. */
+  filter: drop-shadow(0 2px 2px rgba(15, 23, 42, 0.26)) saturate(1.18) brightness(0.82)
+    contrast(1.08);
+  transition: opacity 520ms var(--ease-out), transform 520ms var(--ease-default);
+  will-change: opacity, transform;
+}
+
+.stepFound {
+  opacity: 0.92;
+}
+
+/* Sıradaki adım — nereye gideceğini söyleyen tek ipucu. */
+.stepNext {
+  opacity: 0.3;
+  animation: stepBreath 2600ms var(--ease-fade) infinite;
+}
+
+.stepNextUrgent {
+  --hint-low: 0.42;
+  --hint-high: 0.82;
+  animation-duration: 1500ms;
+}
+
+@keyframes stepBreath {
+  0%,
+  100% {
+    opacity: var(--hint-low, 0.26);
+  }
+  50% {
+    opacity: var(--hint-high, 0.58);
+  }
+}
+
+/* Bulunan adımın altındaki sıcak leke — "buraya bastın" geri bildirimi. */
+.stepGlow {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  background: radial-gradient(circle, rgba(215, 166, 90, 0.34) 0%, rgba(215, 166, 90, 0) 70%);
+  opacity: 0;
+  transform: scale(0.4);
+  transition: opacity 900ms var(--ease-out), transform 900ms var(--ease-default);
+}
+
+.stepGlowOn {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* --------------------------------------------------------------------------
+   KÂĞIT PARÇASI
+   -------------------------------------------------------------------------- */
+.fragment {
+  position: absolute;
+  z-index: 8;
+  width: clamp(150px, 15vw, 250px);
+  transform: translate(-50%, -50%) rotate(-6deg) scale(0.9);
+  opacity: 0;
+  transition: opacity 900ms var(--ease-out), transform 900ms var(--ease-default);
+  pointer-events: none;
+  filter: drop-shadow(0 10px 20px rgba(15, 23, 42, 0.14));
+}
+
+.fragmentVisible {
+  opacity: 1;
+  transform: translate(-50%, -50%) rotate(-6deg) scale(1);
+}
+
+.fragmentImage {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.fragmentText {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16% 20%;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: clamp(1.05rem, 1.6vw, 1.5rem);
+  color: var(--laume-ink);
+  text-align: center;
+  opacity: 0;
+  transition: opacity 500ms var(--ease-out) 180ms;
+}
+
+.fragmentVisible .fragmentText {
+  opacity: 1;
+}
+
+/* --------------------------------------------------------------------------
+   ZARF RIG'İ
+   -------------------------------------------------------------------------- */
+.rig {
+  position: absolute;
+  z-index: 10;
+  aspect-ratio: 3 / 2;
+  /* Zarf mesafe kapandıkça yavaşça "büyüyerek" belirir; --emerge 0 → 1. */
+  transform: translate(-50%, -50%) scale(calc(0.78 + var(--emerge, 0) * 0.22));
+  isolation: isolate;
+  opacity: var(--emerge, 0);
+  pointer-events: none;
+  /* Bulunduğu andan okuma aşamasına kadarki tüm yolculuk tek geçiş üzerinden;
+     bilinçli olarak yavaş — nesnenin ağırlığı buradan geliyor. */
+  transition: opacity 1100ms var(--ease-out), transform 1100ms var(--ease-default),
+    left 1100ms var(--ease-default), top 1100ms var(--ease-default),
+    width 1100ms var(--ease-default);
+}
+
+.rigVisible {
+  pointer-events: auto;
+}
+
+/* Zarfın gerçekten "orada" durduğunu söyleyen sıcak yerel ışık. */
+.rigLight {
+  position: absolute;
+  left: 50%;
+  top: 56%;
+  width: 150%;
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  z-index: 5;
+  pointer-events: none;
+  background: radial-gradient(
+    circle,
+    rgba(240, 206, 141, 0.38) 0%,
+    rgba(240, 206, 141, 0.14) 42%,
+    rgba(240, 206, 141, 0) 68%
+  );
+  opacity: 0;
+  transition: opacity 900ms var(--ease-out);
+}
+
+.rigLightOn {
+  opacity: 1;
+}
+
+.envelopeLayer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+  transition: opacity 420ms var(--ease-fade), transform 900ms var(--ease-default);
+}
+
+.envelopeClosed {
+  z-index: 20;
+  transform: translateY(var(--dim-y, 0px));
+}
+
+.envelopeBreaking {
+  animation: envelopeRecoil 460ms cubic-bezier(0.2, 0.9, 0.3, 1) both;
+}
+
+@keyframes envelopeRecoil {
+  0% {
+    transform: translateY(0) rotate(0deg);
+  }
+  30% {
+    transform: translateY(3px) rotate(-0.45deg);
+  }
+  66% {
+    transform: translateY(-2px) rotate(0.25deg);
+  }
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+}
+
+.envelopeRear {
+  z-index: 10;
+  transform: translateY(var(--dim-y, 0px));
+}
+
+/* Ön cep ile arka katman aynı ölçekte üretilmemiş: ön cebin gövdesi arka
+   katmanın gövdesinden ~%25 geniş. Aşağıdaki dönüşüm ikisini birebir
+   üst üste oturtur (ölçüm: scripts/measure-assets.mjs).
+   ön bbox x[0.0716, 0.9284] → arka gövde x[0.1582, 0.8418] */
+.envelopeFront {
+  z-index: 30;
+  transform-origin: top left;
+  transform: translate(10.1%, calc(21.5% + var(--dim-y, 0px))) scale(0.798);
+}
+
+/* Mektup okunurken zarf geri çekilir (asset doc §9). */
+.envelopeDimmed {
+  --dim-y: 26px;
+}
+
+/* --------------------------------------------------------------------------
+   MEKTUP
+   -------------------------------------------------------------------------- */
+/* Mektup, zarfın içine sığan katlanmış bir sayfa oranındadır: dar ve dik.
+   Kalibrasyon 1440×900'de yapıldı, tüm ölçüler rig'e oranlıdır. */
+.letterLayer {
+  position: absolute;
+  left: 50%;
+  bottom: 12%;
+  width: 31.5%;
+  z-index: 20;
+  /* --pull 0 → kâğıt cebin içinde, yalnızca üst şeridi V açıklığından görünür.
+     --pull 1 → üçte ikisi zarfın üstünde. */
+  transform: translateX(-50%) translateY(calc(var(--pull, 0) * -142%))
+    rotate(calc((1 - var(--pull, 0)) * -1.1deg)) scale(calc(0.97 + var(--pull, 0) * 0.03));
+  filter: drop-shadow(
+    0 calc(6px + var(--pull, 0) * 12px) calc(12px + var(--pull, 0) * 20px)
+    rgba(15, 23, 42, calc(0.1 + var(--pull, 0) * 0.06))
+  );
+  transition: width 900ms var(--ease-default), bottom 900ms var(--ease-default),
+    opacity 420ms var(--ease-fade);
+  touch-action: none;
+  cursor: grab;
+  will-change: transform;
+}
+
+/* Okuma aşaması: sayfa zarftan çıkıp sahnenin ortasına yerleşir. */
+.letterFocused {
+  width: 66%;
+  bottom: 50%;
+  transform: translate(-50%, 50%);
+  cursor: auto;
+  filter: drop-shadow(0 26px 48px rgba(15, 23, 42, 0.16));
+  transition: transform 900ms var(--ease-default), width 900ms var(--ease-default),
+    bottom 900ms var(--ease-default), filter 900ms var(--ease-default),
+    opacity 420ms var(--ease-fade);
+}
+
+.letterDragging {
+  cursor: grabbing;
+}
+
+/* Sürüklerken anlık; bırakınca yaylanarak oturur. */
+.letterSettling {
+  transition: transform 460ms var(--ease-default), width 900ms var(--ease-default),
+    bottom 900ms var(--ease-default), opacity 420ms var(--ease-fade);
+}
+
+.letterImage {
+  display: block;
+  width: 100%;
+  height: auto;
+  pointer-events: none;
+}
+
+.letterCopy {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(12px, 1.6vw, 22px);
+  padding: 14% 13%;
+  text-align: center;
+  opacity: 0;
+  transition: opacity 520ms var(--ease-out);
+  pointer-events: none;
+}
+
+.letterCopyVisible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.letterTitle {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-size: clamp(1.35rem, 2.6vw, 2.4rem);
+  line-height: 1.12;
+  color: var(--laume-ink);
+}
+
+.letterBody {
+  font-family: var(--font-serif);
+  font-size: clamp(0.95rem, 1.35vw, 1.25rem);
+  line-height: 1.6;
+  color: var(--laume-ink);
+  max-width: 26ch;
+}
+
+.letterRule {
+  width: 42px;
+  height: 1px;
+  background: var(--laume-paper-edge);
+}
+
+/* Mektubun üst kenarındaki "beni çek" tutamağı. */
+.pullHandle {
+  position: absolute;
+  left: 50%;
+  top: -6px;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  color: var(--laume-violet);
+  opacity: 0;
+  transition: opacity 420ms var(--ease-out);
+  pointer-events: none;
+}
+
+.pullHandleVisible {
+  opacity: 0.9;
+  animation: pullBob 1700ms var(--ease-fade) infinite;
+}
+
+@keyframes pullBob {
+  0%,
+  100% {
+    transform: translateX(-50%) translateY(0);
+  }
+  50% {
+    transform: translateX(-50%) translateY(-7px);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   MÜHÜR
+   -------------------------------------------------------------------------- */
+.sealRig {
+  position: absolute;
+  left: 50%;
+  top: 70%;
+  width: 16%;
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  z-index: 40;
+  display: grid;
+  place-items: center;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  touch-action: none;
+  transition: top 620ms var(--ease-default), opacity 420ms var(--ease-fade);
+}
+
+.sealRig:disabled {
+  cursor: default;
+}
+
+/* Basılı tutarken mühür fiziksel olarak sıkışır (asset doc §8). */
+.sealFrames {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform: scale(calc(1 - var(--hold, 0) * 0.025));
+  filter: drop-shadow(0 4px 10px rgba(15, 23, 42, 0.24));
+}
+
+.sealFrame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+/* 44×44 minimum dokunma alanı — mühür görselinden bağımsız. */
+.sealHit {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  min-width: 52px;
+  min-height: 52px;
+  width: 130%;
+  height: 130%;
+  border-radius: 50%;
+}
+
+.sealRing {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 150%;
+  height: 150%;
+  transform: translate(-50%, -50%) rotate(-90deg);
+  pointer-events: none;
+  overflow: visible;
+}
+
+.sealRingTrack {
+  fill: none;
+  stroke: rgba(15, 23, 42, 0.08);
+  stroke-width: 2;
+}
+
+.sealRingProgress {
+  fill: none;
+  stroke: var(--laume-violet);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+}
+
+/* Mührün "beni tut" nefesi — sadece henüz dokunulmamışken. */
+.sealIdle {
+  animation: sealBreath 2800ms var(--ease-fade) infinite;
+}
+
+@keyframes sealBreath {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.035);
+  }
+}
+
+/* Kırık parçalar — aynı sarmalayıcıda, tam olarak mührün durduğu yerden. */
+.sealPiece {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+  /* Parçalar kaynak görselde mühürden ~1.2× büyük çizilmiş; ölçüm için
+     bkz. scripts/measure-assets.mjs. 0.83 onları mühre birebir oturtur. */
+  transform: scale(0.83);
+  opacity: 1;
+  transition: transform 560ms cubic-bezier(0.2, 0.9, 0.3, 1), opacity 340ms var(--ease-in) 260ms;
+}
+
+.sealPieceLeftOut {
+  transform: scale(0.83) translate(-36px, 20px) rotate(-16deg);
+  opacity: 0;
+}
+
+.sealPieceRightOut {
+  transform: scale(0.83) translate(36px, 22px) rotate(17deg);
+  opacity: 0;
+}
+
+/* --------------------------------------------------------------------------
+   ANLATI METNİ
+   -------------------------------------------------------------------------- */
+.narrative {
+  position: absolute;
+  left: clamp(24px, 6vw, 88px);
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 20;
+  max-width: min(420px, 38vw);
+  pointer-events: none;
+}
+
+.narrative > * {
+  pointer-events: auto;
+}
+
+.line {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-size: clamp(2.05rem, 3.2vw, 3.25rem);
+  line-height: 1.12;
+  color: var(--laume-ink);
+  /* Taban durum GÖRÜNÜR. Animasyon yalnızca girişi yumuşatır; animasyonlar
+     kapalıysa veya kesilirse metin yine de okunur kalır. */
+  opacity: 1;
+  animation: lineIn 620ms var(--ease-out) both;
+}
+
+.distance {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: clamp(3.5rem, 6vw, 5.1rem);
+  line-height: 1;
+  color: var(--laume-ink);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+}
+
+.distanceUnit {
+  font-size: 0.36em;
+  margin-left: 0.2em;
+  color: var(--laume-muted);
+  letter-spacing: 0.04em;
+}
+
+.sub {
+  margin-top: var(--space-3);
+  font-size: var(--text-base);
+  color: var(--laume-muted);
+  opacity: 1;
+  animation: lineIn 520ms var(--ease-out) 140ms both;
+}
+
+@keyframes lineIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.continueLink {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  margin-top: var(--space-5);
+  background: none;
+  border: 0;
+  padding: 0;
+  font: inherit;
+  font-size: var(--text-lg);
+  color: var(--laume-violet);
+  text-decoration: underline;
+  text-underline-offset: 5px;
+  cursor: pointer;
+}
+
+.continueLink:hover {
+  color: var(--laume-violet-pressed);
+}
+
+.note {
+  margin-top: var(--space-1);
+  font-size: var(--text-sm);
+  color: var(--laume-muted);
+}
+
+/* Kullanıcı takılırsa beliren tek satırlık, sessiz yönlendirme. */
+.hint {
+  position: absolute;
+  left: 50%;
+  bottom: clamp(28px, 6vh, 56px);
+  transform: translateX(-50%);
+  z-index: 25;
+  font-size: var(--text-sm);
+  color: var(--laume-muted);
+  background: var(--laume-fog-deep);
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-full);
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 500ms var(--ease-out);
+  pointer-events: none;
+}
+
+.hintVisible {
+  opacity: 1;
+}
+
+/* --------------------------------------------------------------------------
+   CHROME
+   -------------------------------------------------------------------------- */
+.brand {
+  position: absolute;
+  top: var(--space-6);
+  left: var(--space-6);
+  z-index: 30;
+  font-family: var(--font-serif);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  color: var(--laume-ink);
+}
+
+.audioSlot {
+  position: absolute;
+  top: var(--space-6);
+  right: var(--space-6);
+  z-index: 30;
+}
+
+.skip {
+  position: absolute;
+  bottom: var(--space-6);
+  left: var(--space-6);
+  z-index: 30;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 var(--space-2);
+  background: none;
+  border: 0;
+  font: inherit;
+  font-size: var(--text-sm);
+  color: var(--laume-muted);
+  cursor: pointer;
+}
+
+.skip:hover {
+  color: var(--laume-ink);
+}
+
+/* --------------------------------------------------------------------------
+   RESPONSIVE
+   -------------------------------------------------------------------------- */
+@media (max-width: 860px) {
+  .narrative {
+    left: 50%;
+    top: clamp(72px, 14vh, 132px);
+    transform: translateX(-50%);
+    text-align: center;
+    max-width: 88vw;
+  }
+
+  .letterCopy {
+    padding: 12% 10%;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   AZALTILMIŞ HAREKET (spec §7 / asset doc §12)
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .step,
+  .fragment,
+  .rig,
+  .letterLayer,
+  .sealPiece {
+    transition-duration: 180ms !important;
+  }
+
+  .stepNext,
+  .pullHandleVisible,
+  .sealIdle {
+    animation: none !important;
+  }
+
+  .stepNext {
+    opacity: 0.4;
+  }
+
+  .pullHandleVisible {
+    transform: translateX(-50%);
+  }
+}

@@ -1,3 +1,4 @@
+import fs from "node:fs";
 import { test, expect } from "@playwright/test";
 
 /**
@@ -69,6 +70,28 @@ test.describe("Paylaşım linki — kimlik sözleşmesi", () => {
     expect(href).toBe(`layar://n/${REAL_ID}`);
   });
 
+  test("ortam bağlıyken önizleme GERÇEK mektup başlığını sunucuda basar", async ({ request }) => {
+    /*
+     * Bu test yalnız Supabase bağlıyken anlamlı. Ortam yoksa ATLANIR —
+     * "yapılandırılmamış" durumu yukarıdaki testler zaten kapsıyor ve bu
+     * testi sahte bir şekilde geçirmek, gerçek bir kırığı gizlerdi.
+     *
+     * ⚠ `REAL_NOTE_ID` production'daki gerçek, silinmemiş bir mektuptur.
+     * Silinirse bu test kırılır — bu KASITLI: kırıldığında yerine başka bir
+     * gerçek kimlik konur, uydurma bir kimlikle "geçer" hâle getirilmez.
+     */
+    test.skip(!fs.existsSync(".env.local"), "Supabase ortamı bağlı değil");
+
+    const REAL_NOTE_ID = "57f5d6f4-426a-4cc4-850c-6093051403e9";
+    const html = await (await request.get(`/n/${REAL_NOTE_ID}`)).text();
+
+    const ogTitle = html.match(/<meta property="og:title" content="([^"]*)"/)?.[1];
+    expect(ogTitle, "og:title sunucuda üretilmeli").toBeTruthy();
+    // Genel yedek metne düşmüş olmamalı: gerçek başlık gelmiş olmalı.
+    expect(ogTitle).not.toBe("Laume mührü");
+    expect(ogTitle).not.toBe("Laume seal");
+  });
+
   test("assetlinks.json tam olarak beklenen adreste ve doğru pakette", async ({ request }) => {
     // Android bu adresi HARFİYEN arar; tek karakter sapma doğrulamayı düşürür.
     const res = await request.get("/.well-known/assetlinks.json");
@@ -85,9 +108,17 @@ test.describe("Paylaşım linki — kimlik sözleşmesi", () => {
     await page.goto(`/n/${REAL_ID}`);
     const html = (await page.content()).toLowerCase();
 
-    // Gizlilik sınırı: sunucudan yalnız başlık + bölge adı gelir. Gövde,
-    // koordinat ve yazar kimliği bu sayfaya hiçbir koşulda girmez.
-    for (const forbidden of ["latitude", "longitude", '"lat"', '"lng"', "body:", "author_id"]) {
+    /*
+     * Gizlilik sınırı: sunucudan yalnız başlık + bölge adı gelir. Gövde,
+     * koordinat ve yazar kimliği bu sayfaya hiçbir koşulda girmez.
+     *
+     * ⚠ `body:` BİLEREK bu listede değil: Next.js kendi çalışma-anı
+     * JavaScript'ini sayfaya gömüyor ve orada `{ body: body[0] }` gibi
+     * ifadeler geçiyor. Onu aramak mektup gövdesini değil, çerçeveyi
+     * yakalar — yanlış alarm üretip testi değersizleştirir. Gerçek bir
+     * sızıntı serileştirilmiş veri olarak `"body"` anahtarıyla görünürdü.
+     */
+    for (const forbidden of ["latitude", "longitude", '"lat"', '"lng"', '"body"', "author_id"]) {
       expect(html, `${forbidden} sayfada görünmemeli`).not.toContain(forbidden);
     }
   });

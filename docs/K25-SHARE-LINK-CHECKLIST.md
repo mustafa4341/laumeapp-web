@@ -53,23 +53,48 @@ Her adım kendi commit'ini alır ve push edilir.
 
 ## 2. DURUM ETİKETLERİ (dürüstlük sözleşmesi)
 
-Bu iş bitince aşağıdaki etiketler **ayrı ayrı** raporlanır — biri diğerini kapatmaz:
+Etiketler **ayrı ayrı** raporlanır — biri diğerini kapatmaz. Son güncelleme: 2026-09-05.
 
 ```
-WEB-PASS              ✅  /n/<uuid> üretim build'inde doğru durumu render ediyor
-SHARE-PASS            ✅  OG/Twitter/canonical metadata sunucuda üretiliyor
+WEB-PASS              ✅  next build PASS · /n/<uuid> "ƒ" (sunucuda render) çıkıyor
+SHARE-PASS            ✅  og:title/description/url + twitter + canonical ilk HTML'de
+REAL-DATA-PASS        ✅  gerçek nottan gerçek başlık geldi (aşağıdaki kanıt)
 PRIVACY-PASS          ✅  yalnız title + location_name; gövde/koordinat/kimlik YOK
-ERROR-STATES-PASS     ✅  not_found ≠ network ≠ unavailable
-CANONICAL-DOMAIN      ✅  laumeapp.com (tek kanonik host)
-REAL-NOTE-TEST        🟡  PENDING-REAL-NOTE-ID — gerçek public not id'si verilmedi
-MIGRATION (0160)      🟡  PENDING-APPROVAL — production'a uygulanmadı
-SHA-256               🟡  PENDING-PLAY-CONSOLE — gerçek parmak izi yok
+ERROR-STATES-PASS     🟡  KISMİ — metadata katmanı ayırıyor, sayfa GÖVDESİ ayırmıyor (§4)
+CANONICAL-DOMAIN      ✅  laumeapp.com · canonical /letters/<id>
+MIGRATION (0160)      ✅  production'a UYGULANDI ve doğrulandı (2026-09-05)
+DEEP-LINK-FORMAT      ✅  layar://n/<id>?ref=<kod> — uygulamanın ayrıştırıcısıyla eşleşiyor
+PACKAGE-VERIFIED-BY-REPO ✅  app.layar.mobile (frontend/app.json:45)
+PLAY-CONSOLE-VERIFIED 🟡  Play Console ile karşılaştırılmadı
+SHA-256               🟡  PENDING-PLAY-CONSOLE — gerçek parmak izi girilmedi
 ANDROID-APP-LINK      🟡  BLOCKED-EXTERNAL — SHA + gerçek cihaz testi gerekiyor
-PLAY-CONSOLE-VERIFIED 🟡  paket adı yalnız repodan doğrulandı
+PROD-ENV              🟡  SUPABASE_URL/ANON_KEY yalnız YERELDE (.env.local); dağıtıma girilmedi
 ```
 
 **Kural:** `APP-LINK-PASS` yalnız (gerçek SHA + canlı `assetlinks.json` + gerçek Android
 cihazda link → uygulama → doğru mektup) üçü birden görüldükten sonra yazılır.
+
+### Gerçek veri kanıtı (2026-09-05, yerel üretim davranışı)
+
+Production Supabase'e karşı, gerçek bir mektupla:
+
+```
+GET /n/57f5d6f4-426a-4cc4-850c-6093051403e9
+  <meta property="og:title" content="video deneme 3">        ← GERÇEK başlık
+  <link rel="canonical" href="https://laumeapp.com/letters/57f5d6f4-...">
+
+GET /en/n/57f5d6f4-...
+  og:title  = "video deneme 3"      (kullanıcı içeriği çevrilmez — doğru)
+  og:description = İngilizce çerçeve cümlesi · og:locale = en_US
+
+GET /n/00000000-0000-4000-8000-000000000000   (DB'de yok)
+  og:title = "Laume mührü"          ← uydurma başlık YOK, dürüst yedek
+
+GET /.well-known/assetlinks.json → 200
+```
+
+Bu notun `location_name` alanı `null`; açıklama bu yüzden genel cümleye düştü —
+**uydurma bir yer adı yazılmadı** (kural 1).
 
 ---
 
@@ -77,7 +102,18 @@ cihazda link → uygulama → doğru mektup) üçü birden görüldükten sonra 
 
 | Bağımlılık | Kimde | Olmadan ne olmaz |
 |---|---|---|
-| `0160` migration'ının production'a uygulanması | kullanıcı onayı (CLAUDE.md kural 11) | Önizleme gerçek başlık/bölge gösteremez — sayfa çalışır ama "şu an yüklenemiyor" der |
+| **Dağıtım ortam değişkenleri** — `SUPABASE_URL`, `SUPABASE_ANON_KEY` | kullanıcı (Vercel → Project Settings → Environment Variables) | Canlı sitede önizleme gerçek başlık gösteremez. **Değerler mobil uygulamanınkiyle AYNI** (`layar/frontend/.env` → `EXPO_PUBLIC_SUPABASE_*`) — yeni bir sır üretmeye gerek yok, `.env.example`'daki iki isme aynı değerler girilir |
 | Play Console → App Signing → SHA-256 | kullanıcı | Android App Link doğrulanmaz; link tarayıcıda açılır |
-| Gerçek public not id'si | kullanıcı | "Doğru mektup geliyor mu" testi yapılamaz |
-| Play Store yayını | kullanıcı | Mağaza CTA'sı gerçek linke geçemez |
+| Play Store yayını | kullanıcı | Mağaza CTA'sı gerçek linke geçemez (şu an kontrollü "coming soon") |
+
+## 4. BİLİNEN AÇIK — hata durumlarının GÖVDEDE ayrışmaması
+
+`generateMetadata` üç durumu ayırıyor (bulundu / bulunamadı / cevap alınamadı) ama
+**sayfa gövdesi** (`DeepLinkBridge`) bu sonucu hiç almıyor: her üç durumda da
+"uygulamaya bağlanılıyor" diyor. Yani gerçekten silinmiş bir mektubun linkine
+tıklayan kişi, boşuna bekliyor.
+
+Bu bilerek bu turda kapatılmadı: o yüzey ürünün **ritüel/anlatı** alanı ve
+metin/tasarım kararı kullanıcıya ait. Kapatmak için gereken tek şey `preview`
+sonucunun `DeepLinkBridge`'e prop olarak geçirilip üç duruma üç metin yazılması —
+veri katmanı (`lib/letters/sharePreview.ts`) bunu zaten hazır veriyor.

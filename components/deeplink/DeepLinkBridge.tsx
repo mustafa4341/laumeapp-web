@@ -6,21 +6,25 @@ import { trackEvent } from "@/lib/analytics";
 
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { localeHref, type Locale } from "@/lib/i18n/config";
+import { buildAppDeepLink } from "@/lib/letters/deepLink";
 
 interface DeepLinkBridgeProps {
   locale: Locale;
   letterId: string;
+  /** Paylaşan kişinin atıf kodu (`?ref=`). Yoksa `null` — link yine çalışır. */
+  refCode?: string | null;
 }
 
-export function DeepLinkBridge({ letterId, locale }: DeepLinkBridgeProps) {
+export function DeepLinkBridge({ letterId, locale, refCode = null }: DeepLinkBridgeProps) {
   const t = getDictionary(locale).letter;
   const [attempted, setAttempted] = useState(false);
+  // Tek kaynak: uygulamanın ayrıştırıcısının tanıdığı biçim (`layar://n/<id>`).
+  const appUrl = buildAppDeepLink(letterId, refCode);
 
   useEffect(() => {
     trackEvent({ name: "web_letter_revealed", payload: { letterId } });
 
     // Client-side deep link attempt with graceful fallback
-    const appUrl = `layar://letter/${letterId}`;
     const timer = setTimeout(() => {
       setAttempted(true);
     }, 1200);
@@ -33,7 +37,7 @@ export function DeepLinkBridge({ letterId, locale }: DeepLinkBridgeProps) {
     }
 
     return () => clearTimeout(timer);
-  }, [letterId]);
+  }, [letterId, appUrl]);
 
   return (
     <div className="card" style={{ maxWidth: "520px", margin: "0 auto var(--space-8)", textAlign: "center", padding: "var(--space-8)" }}>
@@ -71,7 +75,7 @@ export function DeepLinkBridge({ letterId, locale }: DeepLinkBridgeProps) {
       {/* Action Buttons */}
       <div style={{ display: "flex", flexDirection: "column", gap: "var(--space-3)", marginBottom: "var(--space-6)" }}>
         <a
-          href={`layar://letter/${letterId}`}
+          href={appUrl}
           className="btn btn-primary btn-lg"
           data-testid="btn-open-app"
         >

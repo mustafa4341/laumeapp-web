@@ -5,6 +5,7 @@ import Link from "next/link";
 
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { localeHref, type Locale } from "@/lib/i18n/config";
+import { buildAppDeepLink } from "@/lib/letters/deepLink";
 
 interface PublicLetterPreviewProps {
   locale: Locale;
@@ -106,7 +107,7 @@ export function PublicLetterPreview({ letterId, locale }: PublicLetterPreviewPro
       <div style={{ textAlign: "center", display: "flex", flexDirection: "column", gap: "var(--space-4)", alignItems: "center" }}>
         <div style={{ display: "flex", gap: "var(--space-3)", flexWrap: "wrap", justifyContent: "center" }}>
           <a
-            href={`layar://letter/${letterId}`}
+            href={buildAppDeepLink(letterId)}
             className="btn btn-primary btn-lg"
             data-testid="btn-letter-open-app"
           >

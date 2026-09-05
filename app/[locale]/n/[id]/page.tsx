@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { DeepLinkBridge } from "@/components/deeplink/DeepLinkBridge";
-import { isShareableNoteId } from "@/lib/letters/noteId";
+import { isShareableNoteId, normalizeRefCode } from "@/lib/letters/noteId";
 import { fetchSharePreview } from "@/lib/letters/sharePreview";
 import {
   DEFAULT_LOCALE,
@@ -15,6 +15,8 @@ import {
 
 type Props = {
   params: Promise<{ id: string; locale: string }>;
+  /** `?ref=<kod>` — paylaşan kişinin atıf kodu; uygulamaya aynen taşınır. */
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -77,7 +79,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default async function DeepLinkPage({ params }: Props) {
+export default async function DeepLinkPage({ params, searchParams }: Props) {
   const { id, locale: raw } = await params;
   const locale: Locale = isLocale(raw) ? raw : DEFAULT_LOCALE;
 
@@ -85,5 +87,12 @@ export default async function DeepLinkPage({ params }: Props) {
     notFound();
   }
 
-  return <DeepLinkBridge letterId={id} locale={locale} />;
+  /*
+   * Atıf kodu paylaşım adresinde geliyor (`/n/<id>?ref=<kod>`) ve uygulamanın
+   * ayrıştırıcısı onu okuyabiliyor — web arada düşürürse davetin kimden
+   * geldiği ölçülemez. Doğrulanamayan bir kod TAŞINMAZ, sessizce kırpılmaz.
+   */
+  const refCode = normalizeRefCode((await searchParams).ref);
+
+  return <DeepLinkBridge letterId={id} locale={locale} refCode={refCode} />;
 }

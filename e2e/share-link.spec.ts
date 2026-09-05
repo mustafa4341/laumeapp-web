@@ -52,6 +52,23 @@ test.describe("Paylaşım linki — kimlik sözleşmesi", () => {
     }
   });
 
+  test("derin bağlantı uygulamanın tanıdığı biçimdedir ve atıf kodunu korur", async ({ page }) => {
+    // `layar://letter/<id>` uygulamanın ayrıştırıcısında HİÇBİR dala düşmez;
+    // yalnız `n` (veya `note`) segmenti tanınır. Bu test o regresyonu kilitler.
+    await page.goto(`/n/${REAL_ID}?ref=ABC123`);
+    const href = await page.getByTestId("btn-open-app").getAttribute("href");
+
+    expect(href).toBe(`layar://n/${REAL_ID}?ref=ABC123`);
+    expect(href).not.toContain("layar://letter/");
+  });
+
+  test("geçersiz atıf kodu derin bağlantıya taşınmaz", async ({ page }) => {
+    await page.goto(`/n/${REAL_ID}?ref=${encodeURIComponent("bad code!<>")}`);
+    const href = await page.getByTestId("btn-open-app").getAttribute("href");
+
+    expect(href).toBe(`layar://n/${REAL_ID}`);
+  });
+
   test("paylaşım sayfası mektup gövdesini veya koordinatı asla taşımaz", async ({ page }) => {
     await page.goto(`/n/${REAL_ID}`);
     const html = (await page.content()).toLowerCase();

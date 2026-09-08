@@ -1,0 +1,11 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appID": "APPLE_TEAM_ID.app.layar.mobile",
+        "paths": ["/n/*", "/reset-password", "/reset-password?*"]
+      }
+    ]
+  }
+}

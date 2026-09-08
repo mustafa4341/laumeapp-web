@@ -112,14 +112,14 @@ export function DiscoveryStage({ locale }: { locale: Locale }) {
 
   // Zarf bilinçli olarak küçük: keşfedilen bir nesne, bir afiş değil.
   const rigWidth = Math.min(
-    viewport.width - 48,
-    viewport.width <= 860 ? 300 : Math.max(260, viewport.width * 0.27),
+    viewport.width - 72,
+    viewport.width <= 860 ? 250 : Math.max(260, viewport.width * 0.27),
     420
   );
   // Okuma aşamasında sahne mektuba odaklanır: rig büyür, zarf söner.
   const focusedRigWidth = Math.min(
     viewport.width - 40,
-    viewport.width <= 860 ? 420 : Math.max(520, viewport.width * 0.5),
+    viewport.width <= 860 ? 340 : Math.max(520, viewport.width * 0.5),
     720
   );
 
@@ -149,19 +149,19 @@ export function DiscoveryStage({ locale }: { locale: Locale }) {
         void img.decode?.().catch(() => undefined);
       });
     };
-    load(["scene-background.png", "physical-trace.png", "paper-fragment-blank.png"]);
+    load(["scene-background.webp", "physical-trace.webp", "paper-fragment-blank.webp"]);
     const t = window.setTimeout(
       () =>
         load([
-          "envelope-closed.png",
-          "seal-intact.png",
-          "seal-crack-01.png",
-          "seal-crack-02.png",
-          "seal-piece-left.png",
-          "seal-piece-right.png",
-          "envelope-open-rear.png",
-          "envelope-open-front.png",
-          "letter-sheet-blank.png",
+          "envelope-closed.webp",
+          "seal-intact.webp",
+          "seal-crack-01.webp",
+          "seal-crack-02.webp",
+          "seal-piece-left.webp",
+          "seal-piece-right.webp",
+          "envelope-open-rear.webp",
+          "envelope-open-front.webp",
+          "letter-sheet-blank.webp",
         ]),
       1200
     );
@@ -388,9 +388,6 @@ export function DiscoveryStage({ locale }: { locale: Locale }) {
     "fragment",
     "approaching",
     "near",
-    "seal-ready",
-    "seal-hold",
-    "letter-pull",
   ].includes(current);
   const fragmentVisible = ["fragment", "approaching"].includes(current);
 
@@ -442,7 +439,7 @@ export function DiscoveryStage({ locale }: { locale: Locale }) {
       data-reading={current === "letter-read" || current === "continuation" ? "true" : "false"}
       style={{ opacity: leaving ? 0 : 1, transition: "opacity 420ms ease-out" }}
     >
-      <img className={styles.background} src={`${ASSET}/scene-background.png`} alt="" aria-hidden="true" />
+      <img className={styles.background} src={`${ASSET}/scene-background.webp`} alt="" aria-hidden="true" />
       <span className={styles.vignette} aria-hidden="true" />
 
       <FogField fogAlpha={fogAlpha} lensActive={lensActive} onFrame={handleFrame} />
@@ -464,7 +461,7 @@ export function DiscoveryStage({ locale }: { locale: Locale }) {
       >
         <img
           className={styles.fragmentImage}
-          src={`${ASSET}/paper-fragment-blank.png`}
+          src={`${ASSET}/paper-fragment-blank.webp`}
           alt=""
           draggable={false}
         />

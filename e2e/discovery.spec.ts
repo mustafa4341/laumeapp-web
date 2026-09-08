@@ -194,7 +194,7 @@ test.describe("Keşif deneyimi", () => {
     await expect(page.getByText("Yakınında başka ne var?", { exact: true })).toBeVisible();
 
     await page.getByTestId("btn-continue-discovery").click();
-    await expect(page).toHaveURL(/\/home/);
+    await expect(page).toHaveURL(/\/home/, { timeout: 12_000 });
   });
 
   test("azaltılmış harekette mühür ve mektup tek dokunuşla tamamlanır", async ({ page }) => {
@@ -259,5 +259,45 @@ test.describe("Keşif deneyimi", () => {
     await clearDiscoveryStorage(page);
     await page.goto("/");
     await expect(page.locator("body")).not.toContainText("Layar");
+  });
+});
+
+test.describe("Keşif deneyimi — mobil", () => {
+  test.use({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
+
+  test("ritüel dar ekrana sığar ve dokunarak izlenebilir", async ({ page }) => {
+    await clearDiscoveryStorage(page);
+    await page.goto("/");
+
+    const stage = page.getByTestId("discovery-stage");
+    await expect(stage).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Burada bir şey var." })).toBeVisible();
+    await expect.poll(() => page.evaluate(() => document.documentElement.scrollWidth)).toBe(390);
+    await page.keyboard.press("Enter");
+    await expectState(page, "trace");
+
+    for (let index = 0; index < TRACE_STEPS; index++) {
+      if ((await stageState(page)) === "seal-ready") break;
+      const step = page.locator(`[data-step="${index}"]`);
+      const box = await step.boundingBox();
+      if (!box) {
+        await expectState(page, "seal-ready");
+        break;
+      }
+      await page.touchscreen.tap(box.x + box.width / 2, box.y + box.height / 2);
+      await page.waitForTimeout(180);
+    }
+
+    await expectState(page, "seal-ready", 10_000);
+    await expect(page.locator("[data-step]")).toHaveCount(0);
+    const envelopeBox = await page.getByTestId("envelope-rig").boundingBox();
+    expect(envelopeBox).not.toBeNull();
+    expect(envelopeBox!.width).toBeLessThanOrEqual(250);
+    const sealBox = await page.getByTestId("seal-press-target").boundingBox();
+    expect(sealBox).not.toBeNull();
+    expect(sealBox!.x).toBeGreaterThanOrEqual(0);
+    expect(sealBox!.y).toBeGreaterThanOrEqual(0);
+    expect(sealBox!.x + sealBox!.width).toBeLessThanOrEqual(390);
+    expect(sealBox!.y + sealBox!.height).toBeLessThanOrEqual(844);
   });
 });

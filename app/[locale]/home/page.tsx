@@ -1,8 +1,5 @@
 import type { Metadata } from "next";
-import { Hero } from "@/components/home/Hero";
-import { ProductIntro } from "@/components/home/ProductIntro";
-import { HowItWorks } from "@/components/home/HowItWorks";
-import { DownloadCTA } from "@/components/home/DownloadCTA";
+import { HomeExperience } from "@/components/home/HomeExperience";
 import {
   buildMetadata,
   getDictionary,
@@ -24,13 +21,5 @@ export async function generateMetadata({ params }: LocaleParams): Promise<Metada
 
 export default async function HomePage({ params }: LocaleParams) {
   const locale = await resolveLocale(params);
-
-  return (
-    <div className="container">
-      <Hero locale={locale} />
-      <ProductIntro locale={locale} />
-      <HowItWorks locale={locale} />
-      <DownloadCTA locale={locale} />
-    </div>
-  );
+  return <HomeExperience locale={locale} />;
 }

@@ -32,7 +32,18 @@ const PATH_ALIASES: Record<string, string> = {
  * içindeki rewrite ile çözülür. Middleware onu dile sokarsa o rewrite'a hiç
  * ulaşılamaz (sıra: redirects → middleware → rewrites).
  */
-const PASSTHROUGH = new Set(["/robots.txt", "/sitemap.xml", "/delete-account"]);
+const PASSTHROUGH = new Set([
+  "/robots.txt",
+  "/sitemap.xml",
+  "/delete-account",
+  /**
+   * iOS App Link doğrulama dosyası. Uzantısı olmadığı için `matcher`'daki
+   * `\.[\w]+$` eleyicisine takılmaz ve middleware'e ulaşır; dile sokulursa
+   * `/tr/.well-known/...` olur ve 404 döner. `assetlinks.json` bu listede yok
+   * çünkü `.json` uzantısı onu matcher'dan zaten çıkarıyor (kaynak: FIX-026).
+   */
+  "/.well-known/apple-app-site-association",
+]);
 
 /**
  * ⚠ NEDEN HER ŞEY TRY/CATCH İÇİNDE

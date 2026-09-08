@@ -55,29 +55,21 @@ export default async function DownloadPage({ params }: LocaleParams) {
               {dict.download.googlePlay} &rarr;
             </a>
           ) : (
-            <button
-              type="button"
-              className="btn btn-secondary"
-              disabled
-              style={{ opacity: 0.7, cursor: "not-allowed" }}
-            >
-              {dict.download.googlePlay}
-            </button>
+            <div className="store-status" role="status">
+              <span aria-hidden="true" />
+              {t.comingSoon}
+            </div>
           )}
         </div>
 
         <div className="card">
           <h2>{t.appStoreHeading}</h2>
           <p style={{ marginBottom: "20px" }}>{t.appStoreBody}</p>
-          {/* App Store yayında değil: uydurma link yerine devre dışı buton. */}
-          <button
-            type="button"
-            className="btn btn-secondary"
-            disabled
-            style={{ opacity: 0.7, cursor: "not-allowed" }}
-          >
-            {dict.download.appStore}
-          </button>
+          {/* Mağaza yayında değil: tıklanmayan bir düğme yerine açık durum bilgisi. */}
+          <div className="store-status" role="status">
+            <span aria-hidden="true" />
+            {t.comingSoon}
+          </div>
         </div>
       </div>
 

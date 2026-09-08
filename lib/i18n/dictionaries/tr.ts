@@ -14,13 +14,13 @@ const tr = {
     siteName: "Laume",
     titleTemplate: "%s | Laume",
     /** Mağaza kaydındaki uygulama adı. */
-    appName: "Laume: Bir mektup bir yere ait",
-    tagline: "Bir yere mektup bırak. Onu okumanın tek yolu oraya gitmek.",
+    appName: "Laume: A letter waits for you",
+    tagline: "Bir mektup seni bekliyor.",
     description:
-      "Laume'da bir mektup bir yere aittir. Gerçek bir yere mektup bırakırsın; " +
-      "onu okumanın tek yolu oraya gitmektir. 50 metreye yaklaşınca mühür açılır.",
+      "Laume, gerçek yerlere metin, fotoğraf ve sesli mektuplar bırakabileceğin konuma bağlı keşif uygulamasıdır. " +
+      "Mühürler yalnızca 50 metreye yaklaştığında açılır.",
     socialDescription:
-      "Gerçek bir yere mektup bırak. Onu okumanın tek yolu oraya gitmek — 50 metreye yaklaşınca mühür açılır.",
+      "Gerçek bir yere mektup bırak. Haritadaki mührü bul; 50 metreye yaklaşınca aç.",
     keywords: [
       "Laume",
       "Laume uygulama",
@@ -52,7 +52,7 @@ const tr = {
   },
 
   footer: {
-    blurb: "Bir mektup bir yere aittir. Onu okumanın tek yolu oraya gitmek.",
+    blurb: "Gerçek yerlere mektuplar bırak. Yalnızca oraya gidenlerin açabildiği hikâyeleri keşfet.",
     navHeading: "Gezinme",
     supportHeading: "Destek & Yardım",
     legalHeading: "Yasal & Güvenlik",
@@ -71,12 +71,12 @@ const tr = {
     refunds: "İade Politikası",
     deleteAccount: "Hesabı Sil",
     rights: "Tüm hakları saklıdır.",
-    domainTagline: "laumeapp.com — Bir mektup bir yere aittir",
+    domainTagline: "laumeapp.com — A letter waits for you",
   },
 
   /** Keşif sahnesi (kök sayfa). */
   discovery: {
-    metaTitle: "Laume — Bir mektup bir yere aittir",
+    metaTitle: "Laume: A letter waits for you",
     arrivalTitle: "Burada bir şey var.",
     arrivalSub: "Hareket et.",
     traceTitle: "Bir iz.",
@@ -126,9 +126,105 @@ const tr = {
   },
 
   home: {
-    metaTitle: "Laume Nasıl Çalışır — Gerçek Bir Yere Mektup Bırak",
+    metaTitle: "Laume — Konuma Bağlı Mektuplar ve Yerel Keşif",
     metaDescription:
-      "Gerçek bir yere mektup bırak: metin, fotoğraf ya da sesli fısıltı. Mektup o koordinata mühürlenir ve yalnızca 50 metreye yaklaşan kişi okuyabilir.",
+      "Laume ile gerçek konumlara metin, fotoğraf ve sesli mektup bırak. Haritadaki mühürleri bul; 50 metreye yaklaşınca aç.",
+    experience: {
+      nav: {
+        story: "Nasıl işler",
+        seals: "Mühürler",
+        trust: "Güven",
+        download: "Uygulamayı indir",
+        downloadShort: "İndir",
+      },
+      hero: {
+        eyebrow: "Konuma bağlı mektuplar",
+        title: "Bir mektup seni bekliyor.",
+        body: "Laume'da mektuplar bir gelen kutusuna değil, gerçek yerlere bırakılır. Haritadaki mührü bul, 50 metreye yaklaş ve hikâyeyi ait olduğu yerde aç.",
+        primary: "Nasıl çalıştığını gör",
+        secondary: "Giriş ritüelini yeniden yaşa →",
+        note: "Metin, fotoğraf veya ses. Her mektubun bir yeri var.",
+        scrollAria: "Laume hikâyesine ilerle",
+        imageAlt: "Paris manzarasında Eyfel Kulesi, mühürlü bir mektup ve farklı mektup türlerini gösteren Laume ekranı",
+      },
+      promise: {
+        eyebrow: "Nasıl çalışır",
+        title: "Mührü gör. Yolu bul. Mektubu aç.",
+        body: "Uygulamayı açtığında yakındaki mühürleri görürsün. İçerik gizli kalır; yalnızca o noktaya yürüyen kişi okuyabilir.",
+        steps: [
+          { title: "Haritada bul", body: "Yakındaki mektuplar haritada mühür olarak görünür." },
+          { title: "50 metreye yaklaş", body: "Mesafe azaldıkça mühür açılmaya hazır olur." },
+          { title: "Yerinde oku", body: "Mührü kır; metni, fotoğrafı veya sesli mektubu keşfet." },
+        ],
+      },
+      istanbul: {
+        city: "İstanbul, Türkiye",
+        eyebrow: "Anı Noktası",
+        title: "Bir yerin ortak anı defteri.",
+        body: "Anı Noktası, aynı yere gelen insanların kısa notlarını bıraktığı ortak bir defterdir. Yalnızca oraya gidenler yeni bir sayfa ekleyebilir.",
+        detail: "Uzaktan yazılmaz. Her sayfa gerçek bir ziyaretten gelir.",
+        imageAlt: "İstanbul Ortaköy kıyısında bir Anı Noktası ve aynı yere bırakılmış anılar",
+      },
+      journey: {
+        eyebrow: "Taşınan mektup",
+        title: "Bir mektup şehir değiştirebilir.",
+        body: "Taşınan Mektup'u bul, yanında götür ve başka bir gerçek yere bırak. Yeni konumu, mektubun yolculuğuna eklenir.",
+      },
+      kyoto: {
+        city: "Kyoto, Japonya",
+        eyebrow: "Zaman Kapsülü",
+        title: "Bir güne ve bir yere kilitle.",
+        body: "Zaman Kapsülü'nü gerçek bir konuma ve gelecekteki bir tarihe mühürle. Hem doğru yere hem doğru zamana gelmeden açılmaz.",
+        detail: "Doğru yer. Doğru zaman. Tek bir açılma anı.",
+        imageAlt: "Kyoto'da sakura ağaçlı bir sokakta zaman kapsülü mühürlü mektup ve cep saati",
+      },
+      seals: {
+        eyebrow: "Harita işaretleri",
+        title: "Haritadaki her mühür başka çalışır.",
+        body: "Mührün rengi ve simgesi, seni nasıl bir deneyimin beklediğini gösterir. İçeriği ise ancak oraya vardığında görürsün.",
+        items: [
+          { symbol: "✉", title: "Mektup", body: "Bulunduğu yerde açılan kişisel bir mesaj." },
+          { symbol: "↗", title: "Taşınan Mektup", body: "Bir kişi tarafından başka bir konuma taşınabilen yolcu hikâye." },
+          { symbol: "○", title: "Anı Noktası", body: "Aynı yere gelenlerin ortak anı defteri." },
+          { symbol: "⌛", title: "Zaman Kapsülü", body: "Belirlenen tarih gelene kadar kapalı kalan mektup." },
+        ],
+      },
+      trail: {
+        eyebrow: "İz Haritan",
+        title: "Keşfettiklerin tek haritada.",
+        body: "İz Haritan; açtığın mektupları, ziyaret ettiğin Anı Noktalarını ve şehirlerde bıraktığın izleri bir araya getirir.",
+        points: ["Açtığın mektupları yeniden bul", "Şehirlerde bıraktığın izleri gör", "Kendi keşif hafızanı büyüt"],
+        imageAlt: "Laume mobil uygulamasında Miami üzerindeki İngilizce İz Haritan ekranı",
+      },
+      trust: {
+        eyebrow: "Güvenli keşif",
+        title: "Konumunu paylaşmadan keşfet.",
+        body: "Laume konumunu yalnızca uygulama açıkken mesafeyi hesaplamak için kullanır. Haritada görünen sen değil, mektuptur.",
+        items: [
+          { title: "Konumun sana ait", body: "Konum yalnızca uygulama açıkken mesafeyi doğrulamak için kullanılır; arka planda takip edilmez." },
+          { title: "Güvenli noktalar", body: "Özel mülk, trafik ve erişimi tehlikeli alanlar keşif noktası olarak kabul edilmez." },
+          { title: "Topluluk kontrolü", body: "Uygunsuz içerikler uygulama içinden bildirilebilir ve incelenir." },
+        ],
+      },
+      faq: {
+        eyebrow: "Merak edilenler",
+        title: "Kısa cevaplar.",
+        body: "Mektuplar, konum izni ve 50 metre kuralı hakkında en çok sorulanlar.",
+        more: "Tüm soruları gör →",
+        items: [
+          { q: "Bir mektup ne zaman açılır?", a: "Mektubun bırakıldığı noktaya 50 metre yaklaştığında mühür açılabilir hâle gelir." },
+          { q: "Uzaktan okuyabilir miyim?", a: "Hayır. Laume'da içeriğe ulaşmanın koşulu, bırakıldığı gerçek yere gitmektir." },
+          { q: "Konumum sürekli izlenir mi?", a: "Hayır. Konum, uygulama açıkken mesafe kontrolü için kullanılır; arka plan konumu istenmez." },
+        ],
+      },
+      final: {
+        eyebrow: "İlk keşfin",
+        title: "İlk mektup yakınında olabilir.",
+        body: "Yayın durumunu ve desteklenen cihazları indirme sayfasında görebilirsin.",
+        primary: "İndirme sayfasına git",
+        secondary: "Destek merkezini aç →",
+      },
+    },
     /** Ana sayfa bileşenlerinin metinleri. */
     hero: {
       eyebrow: "Konum temelli mektup keşfi",
@@ -170,7 +266,7 @@ const tr = {
       title: "Laume ile keşfe adım at.",
       body: "Yakınındaki mühürleri bul, kendi hikâyeni şehre bırak.",
     },
-    heroTitle: "Bir mektup bir yere aittir.",
+    heroTitle: "Bir mektup seni bekliyor.",
     heroBody:
       "Sevdiğin bir bankın yanına, ilk buluştuğunuz köşeye, denize bakan o duvara bir mektup bırakırsın. O mektup orada kalır. Onu okumanın tek bir yolu vardır: oraya gitmek.",
     heroCta: "Laume'ı indir",
@@ -325,11 +421,12 @@ const tr = {
     },
     download: {
       heading: "Laume'ı indir",
-      lede: "Android ve iOS cihazında konuma bağlı mektup keşfine başla.",
+      lede: "Laume mağazalarda yerini almaya hazırlanıyor. Desteklenen cihazları ve güncel yayın durumunu burada görebilirsin.",
       playHeading: "Google Play",
-      playBody: "Android 10 (API 29) ve üzeri cihazlar için.",
+      playBody: "Android 10 (API 29) ve üzeri cihazlar için hazırlanıyor.",
       appStoreHeading: "Apple App Store",
-      appStoreBody: "iOS 15.0 ve üzeri iPhone cihazlar için.",
+      appStoreBody: "iOS 15.0 ve üzeri iPhone cihazlar için hazırlanıyor.",
+      comingSoon: "Yayın hazırlığında",
     },
     support: {
       heading: "Destek Merkezi",
@@ -473,6 +570,28 @@ const tr = {
     privacyNoticeBody:
       "Bu mektubun tamamı ve saklandığı tam koordinat, yalnızca LAUME mobil uygulamasıyla fiziksel olarak 50 metre mesafeye yaklaşıldığında görüntülenebilir.",
     backHome: "← LAUME ana sayfasına dön",
+  },
+
+  /**
+   * Şifre sıfırlama köprüsü (`/reset-password`). Supabase kurtarma e-postası
+   * bu adrese `?code=…` ile döner; sayfa şifreyi DEĞİŞTİRMEZ, yalnız kullanıcıyı
+   * boş ekranda bırakmaz ve kodu Laume uygulamasına taşır (kaynak: FIX-026).
+   */
+  resetPassword: {
+    metaTitle: "Şifreni sıfırla",
+    metaDescription:
+      "Bu bağlantı Laume uygulamasında açılır; şifre sıfırlama adımını orada tamamlarsın.",
+    heading: "Şifreni sıfırla",
+    intro:
+      "Bu bağlantı Laume uygulamasında açılır. Yeni şifreni uygulamadan belirleyeceksin.",
+    openInApp: "Uygulamada aç",
+    noAppHeading: "Uygulama telefonunda kurulu değil mi?",
+    noAppBody: "Önce Laume'ı indir, sonra bu bağlantıya telefonundan yeniden dokun.",
+    downloadCta: "Laume'ı indir",
+    desktopNote:
+      "Bilgisayardaysan bu bağlantıyı telefonundan açman gerekiyor. Şifre sıfırlama yalnızca Laume uygulamasında tamamlanır.",
+    missingCodeNote:
+      "Bu sayfa yalnızca şifre sıfırlama e-postandaki bağlantıyla açıldığında çalışır.",
   },
 };
 

@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { localeHref, splitLocale, type Locale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
@@ -39,7 +40,7 @@ export default function Footer({ locale }: { locale: Locale }) {
       }}
     >
       <div
-        className="container"
+        className="container footer-grid"
         style={{
           display: "grid",
           gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
@@ -47,8 +48,11 @@ export default function Footer({ locale }: { locale: Locale }) {
           marginBottom: "var(--space-10)",
         }}
       >
-        <div>
-          <h3 style={headingStyle}>LAUME</h3>
+        <div className="footer-brand">
+          <h3 style={{ ...headingStyle, display: "flex", alignItems: "center", gap: "var(--space-2)" }}>
+            <Image src="/assets/brand/laume-icon.webp" alt="" width={28} height={28} style={{ borderRadius: "8px" }} />
+            LAUME
+          </h3>
           <p
             style={{
               lineHeight: "var(--leading-normal)",
@@ -64,7 +68,7 @@ export default function Footer({ locale }: { locale: Locale }) {
           <h3 style={headingStyle}>{dict.footer.navHeading}</h3>
           <ul style={listStyle}>
             <li>
-              <Link href={link("/")} className="link-subtle">
+              <Link href={`${link("/")}?replay=1`} className="link-subtle">
                 {dict.footer.discovery}
               </Link>
             </li>

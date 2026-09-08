@@ -44,6 +44,10 @@ export async function generateMetadata({
     description: dict.seo.description,
     keywords: dict.seo.keywords,
     applicationName: dict.seo.siteName,
+    icons: {
+      icon: "/assets/brand/laume-icon-192.png",
+      apple: "/assets/brand/laume-icon-192.png",
+    },
     authors: [{ name: dict.seo.siteName, url: SITE_URL }],
     creator: dict.seo.siteName,
     publisher: dict.seo.siteName,

@@ -85,6 +85,11 @@ test.describe("Paylaşım linki — kimlik sözleşmesi", () => {
     const REAL_NOTE_ID = "57f5d6f4-426a-4cc4-850c-6093051403e9";
     const html = await (await request.get(`/n/${REAL_NOTE_ID}`)).text();
 
+    // Önce kök neden: genel metne düşüldüyse sebebi (env yok / RPC yok / ağ)
+    // hata mesajında görünsün, yalnız "başlık yanlış" demesin.
+    const status = html.match(/<meta name="laume-preview-status" content="([^"]*)"/)?.[1];
+    expect(status, "önizleme durumu").toBe("found");
+
     const ogTitle = html.match(/<meta property="og:title" content="([^"]*)"/)?.[1];
     expect(ogTitle, "og:title sunucuda üretilmeli").toBeTruthy();
     // Genel yedek metne düşmüş olmamalı: gerçek başlık gelmiş olmalı.

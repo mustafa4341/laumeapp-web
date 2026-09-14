@@ -76,6 +76,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       index: false,
       follow: true,
     },
+    /*
+     * Önizleme neden genel metne düştü? Görünür kalır (kural 2 — sessiz
+     * fallback yok). Vercel logları bu hesaptan okunamadığı için canlıda
+     * `not_configured` (env yok) ile `server`/`network` ayrımını yapmanın
+     * tek yolu budur. Sır taşımaz: yalnız sabit bir durum kodu.
+     */
+    other: {
+      "laume-preview-status":
+        preview.kind === "unavailable" ? `unavailable:${preview.reason}` : preview.kind,
+    },
   };
 }
 

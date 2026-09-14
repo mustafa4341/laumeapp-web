@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import { localeHref, splitLocale, type Locale } from "@/lib/i18n/config";
@@ -14,6 +15,14 @@ export default function Header({ locale }: { locale: Locale }) {
 
   const dict = getDictionary(locale);
   const link = (p: string) => localeHref(locale, p);
+  const isHome = path === "/home";
+  const homeNav = isHome
+    ? [
+        { href: "#hikayeler", label: dict.home.experience.nav.story },
+        { href: "#muhurler", label: dict.home.experience.nav.seals },
+        { href: "#guven", label: dict.home.experience.nav.trust },
+      ]
+    : null;
 
   return (
     <header
@@ -28,7 +37,7 @@ export default function Header({ locale }: { locale: Locale }) {
       }}
     >
       <div
-        className="container"
+        className={`container ${isHome ? "home-header-container" : ""}`}
         style={{
           height: "64px",
           display: "flex",
@@ -38,7 +47,7 @@ export default function Header({ locale }: { locale: Locale }) {
         }}
       >
         <Link
-          href={link("/")}
+          href={link("/home")}
           className="link-accent"
           style={{
             fontSize: "var(--text-lg)",
@@ -51,15 +60,13 @@ export default function Header({ locale }: { locale: Locale }) {
             flexShrink: 0,
           }}
         >
-          <span
-            style={{
-              width: "8px",
-              height: "8px",
-              backgroundColor: "var(--color-accent)",
-              borderRadius: "var(--radius-full)",
-              boxShadow: "0 0 10px var(--color-accent)",
-              display: "inline-block",
-            }}
+          <Image
+            src="/assets/brand/laume-icon.webp"
+            alt=""
+            width={32}
+            height={32}
+            priority
+            style={{ borderRadius: "9px" }}
           />
           LAUME
         </Link>
@@ -67,27 +74,45 @@ export default function Header({ locale }: { locale: Locale }) {
         <div style={{ display: "flex", alignItems: "center", gap: "var(--space-4)" }}>
           <nav
             aria-label={dict.nav.ariaLabel}
-            className="header-nav"
+            className={`header-nav ${isHome ? "home-header-nav" : ""}`}
             style={{ display: "flex", alignItems: "center", gap: "var(--space-2)" }}
           >
-            <Link href={link("/home")} className="link-nav">
-              {dict.nav.home}
-            </Link>
-            <Link href={link("/download")} className="link-nav">
-              {dict.nav.download}
-            </Link>
-            <Link href={link("/about")} className="link-nav">
-              {dict.nav.about}
-            </Link>
-            <Link href={link("/support")} className="link-nav">
-              {dict.nav.support}
-            </Link>
-            <Link href={link("/legal")} className="link-nav">
-              {dict.nav.legal}
-            </Link>
+            {homeNav ? (
+              <>
+                {homeNav.map((item) => (
+                  <a href={item.href} className="link-nav" key={item.href}>
+                    {item.label}
+                  </a>
+                ))}
+                <Link href={link("/download")} className="home-download-link">
+                  <span className="home-download-full">{dict.home.experience.nav.download}</span>
+                  <span className="home-download-short">{dict.home.experience.nav.downloadShort}</span>
+                </Link>
+              </>
+            ) : (
+              <>
+                <Link href={link("/home")} className="link-nav">
+                  {dict.nav.home}
+                </Link>
+                <Link href={link("/download")} className="link-nav">
+                  {dict.nav.download}
+                </Link>
+                <Link href={link("/about")} className="link-nav">
+                  {dict.nav.about}
+                </Link>
+                <Link href={link("/support")} className="link-nav">
+                  {dict.nav.support}
+                </Link>
+                <Link href={link("/legal")} className="link-nav">
+                  {dict.nav.legal}
+                </Link>
+              </>
+            )}
           </nav>
 
-          <LanguageSwitcher locale={locale} label={dict.common.languageSwitcherLabel} />
+          <span className={isHome ? "home-language-switcher" : undefined}>
+            <LanguageSwitcher locale={locale} label={dict.common.languageSwitcherLabel} />
+          </span>
         </div>
       </div>
     </header>

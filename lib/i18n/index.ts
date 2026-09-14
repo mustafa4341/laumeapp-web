@@ -109,7 +109,7 @@ export function buildJsonLd(locale: Locale) {
         "@id": `${SITE_URL}/#organization`,
         name: dict.seo.siteName,
         url: SITE_URL,
-        logo: { "@type": "ImageObject", url: `${SITE_URL}/icon.png` },
+        logo: { "@type": "ImageObject", url: `${SITE_URL}/assets/brand/laume-icon-192.png` },
         contactPoint: {
           "@type": "ContactPoint",
           contactType: "customer support",

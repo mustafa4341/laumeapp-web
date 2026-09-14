@@ -94,7 +94,7 @@ test.describe("Çok dillilik", () => {
 
   test("içerik gerçekten çevrilmiştir, Türkçe kalıntı yok", async ({ page }) => {
     await page.goto("/en/home");
-    await expect(page.locator("body")).toContainText("A letter belongs to a place.");
+    await expect(page.locator("body")).toContainText("A letter waits for you.");
     await expect(page.locator("body")).not.toContainText("Bir mektup bir yere aittir");
   });
 

@@ -50,7 +50,9 @@ export function getStepSprite(step: number): SpriteRect {
  */
 export function getTargetAnchor(width: number, height: number): { x: number; y: number } {
   const mobile = width <= 860;
-  return mobile ? { x: width * 0.5, y: height * 0.4 } : { x: width * 0.72, y: height * 0.44 };
+  return mobile
+    ? { x: width * 0.5, y: height * (height < 620 ? 0.55 : 0.46) }
+    : { x: width * 0.72, y: height * 0.44 };
 }
 
 export interface StepPoint {
@@ -81,24 +83,24 @@ export function buildTracePath(width: number, height: number): StepPoint[] {
   // İz zarfın tam altında biter, üstünden geçmez: son adım nesnenin
   // eteğine değer, kompozisyonu bozmaz.
   const target = mobile
-    ? { x: anchor.x, y: anchor.y + height * 0.15 }
+    ? { x: anchor.x, y: anchor.y + height * 0.14 }
     : { x: anchor.x - width * 0.07, y: anchor.y + height * 0.17 };
 
   // Dar ekranda yol yalnızca yukarı gitmez: sağa savrulur, geri döner, sonra
   // nesneye çıkar. Kontrol noktaları bilinçli olarak viewport dışındadır —
   // kısa dikey mesafede uzun bir yürüyüş hissi ancak böyle oluşur.
   const start = mobile
-    ? { x: width * 0.26, y: height * 0.84 }
+    ? { x: width * 0.22, y: height * 0.88 }
     : { x: width * 0.16, y: height * 0.84 };
   const c1 = mobile
-    ? { x: width * 0.88, y: height * 0.87 }
+    ? { x: width * 0.92, y: height * 0.89 }
     : { x: width * 0.36, y: height * 0.9 };
   const c2 = mobile
-    ? { x: width * 0.12, y: height * 0.64 }
+    ? { x: width * 0.08, y: height * 0.67 }
     : { x: width * 0.52, y: height * 0.63 };
 
   // Daha küçük izler (kullanıcı geri bildirimi): yol uzun, adımlar hafif.
-  const spriteScale = mobile ? Math.min(42, width * 0.088) : Math.min(64, width * 0.038);
+  const spriteScale = mobile ? Math.min(25, width * 0.064) : Math.min(64, width * 0.038);
 
   return TRACE_WALK.map((spriteIndex, i) => {
     const t = i / (TRACE_WALK.length - 1);
@@ -119,11 +121,11 @@ export function getFragmentAnchor(width: number, height: number): { x: number; y
   const mobile = width <= 860;
   return {
     x: mobile ? width * 0.68 : mid.x - width * 0.035,
-    y: mobile ? height * 0.72 : mid.y - height * 0.17,
+    y: mobile ? height * 0.69 : mid.y - height * 0.17,
   };
 }
 
 /** İzi yakalama yarıçapı — dokunmatikte parmak, masaüstünde imleç. */
 export function getStepCatchRadius(width: number): number {
-  return width <= 860 ? 62 : 80;
+  return width <= 860 ? 56 : 80;
 }

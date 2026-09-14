@@ -46,6 +46,7 @@ export function FogField({ fogAlpha, lensActive, onFrame }: FogFieldProps) {
     if (!ctx) return;
 
     const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const coarseQuery = window.matchMedia("(pointer: coarse)");
     let reducedMotion = motionQuery.matches;
     const handleMotionChange = () => {
       reducedMotion = motionQuery.matches;
@@ -60,7 +61,7 @@ export function FogField({ fogAlpha, lensActive, onFrame }: FogFieldProps) {
       width = window.innerWidth;
       height = window.innerHeight;
       // Pus düşük frekanslı bir yüzey; tam DPR'de çizmek boşuna maliyet.
-      dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+      dpr = Math.min(window.devicePixelRatio || 1, coarseQuery.matches ? 1 : 1.5);
       canvas.width = Math.max(1, Math.round(width * dpr));
       canvas.height = Math.max(1, Math.round(height * dpr));
       canvas.style.width = `${width}px`;
@@ -214,9 +215,15 @@ export function FogField({ fogAlpha, lensActive, onFrame }: FogFieldProps) {
       });
     };
 
-    const loop = () => {
+    let lastDrawAt = 0;
+    const loop = (now: number) => {
       if (!running) return;
-      draw();
+      // Dokunmatik cihazlarda sis 30 FPS'te de aynı hissi verir; yarı kare
+      // sayısı açılış ve kaydırma sırasında GPU/CPU yükünü belirgin azaltır.
+      if (!coarseQuery.matches || now - lastDrawAt >= 32) {
+        draw();
+        lastDrawAt = now;
+      }
       rafId = requestAnimationFrame(loop);
     };
 

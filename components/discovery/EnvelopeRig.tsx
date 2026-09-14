@@ -406,7 +406,7 @@ export const EnvelopeRig = React.forwardRef<EnvelopeRigHandle, EnvelopeRigProps>
 
         {/* Kapalı zarf — mühür kırılana kadar. */}
         <img
-          src={`${ASSET}/envelope-closed.png`}
+          src={`${ASSET}/envelope-closed.webp`}
           alt=""
           aria-hidden="true"
           className={`${styles.envelopeLayer} ${styles.envelopeClosed} ${
@@ -417,7 +417,7 @@ export const EnvelopeRig = React.forwardRef<EnvelopeRigHandle, EnvelopeRigProps>
 
         {/* Açık zarf: arka katman → mektup → ön cep (asset doc §6). */}
         <img
-          src={`${ASSET}/envelope-open-rear.png`}
+          src={`${ASSET}/envelope-open-rear.webp`}
           alt=""
           aria-hidden="true"
           className={`${styles.envelopeLayer} ${styles.envelopeRear} ${
@@ -450,7 +450,7 @@ export const EnvelopeRig = React.forwardRef<EnvelopeRigHandle, EnvelopeRigProps>
           }}
         >
           <img
-            src={`${ASSET}/letter-sheet-blank.png`}
+            src={`${ASSET}/letter-sheet-blank.webp`}
             alt=""
             aria-hidden="true"
             className={styles.letterImage}
@@ -488,7 +488,7 @@ export const EnvelopeRig = React.forwardRef<EnvelopeRigHandle, EnvelopeRigProps>
         </div>
 
         <img
-          src={`${ASSET}/envelope-open-front.png`}
+          src={`${ASSET}/envelope-open-front.webp`}
           alt=""
           aria-hidden="true"
           className={`${styles.envelopeLayer} ${styles.envelopeFront} ${
@@ -562,17 +562,17 @@ export const EnvelopeRig = React.forwardRef<EnvelopeRigHandle, EnvelopeRigProps>
             >
               {sealPhase === "intact" ? (
                 <>
-                  <img src={`${ASSET}/seal-intact.png`} alt="" className={styles.sealFrame} />
+                  <img src={`${ASSET}/seal-intact.webp`} alt="" className={styles.sealFrame} />
                   <img
                     ref={crack1Ref}
-                    src={`${ASSET}/seal-crack-01.png`}
+                    src={`${ASSET}/seal-crack-01.webp`}
                     alt=""
                     className={styles.sealFrame}
                     style={{ opacity: 0 }}
                   />
                   <img
                     ref={crack2Ref}
-                    src={`${ASSET}/seal-crack-02.png`}
+                    src={`${ASSET}/seal-crack-02.webp`}
                     alt=""
                     className={styles.sealFrame}
                     style={{ opacity: 0 }}
@@ -581,12 +581,12 @@ export const EnvelopeRig = React.forwardRef<EnvelopeRigHandle, EnvelopeRigProps>
               ) : (
                 <>
                   <img
-                    src={`${ASSET}/seal-piece-left.png`}
+                    src={`${ASSET}/seal-piece-left.webp`}
                     alt=""
                     className={`${styles.sealPiece} ${piecesOut ? styles.sealPieceLeftOut : ""}`}
                   />
                   <img
-                    src={`${ASSET}/seal-piece-right.png`}
+                    src={`${ASSET}/seal-piece-right.webp`}
                     alt=""
                     className={`${styles.sealPiece} ${piecesOut ? styles.sealPieceRightOut : ""}`}
                   />

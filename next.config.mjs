@@ -29,6 +29,22 @@ const nextConfig = {
   },
 
   /**
+   * iOS App Link doğrulaması `apple-app-site-association` dosyasını UZANTISIZ
+   * ve `application/json` içerik türüyle bekler (kaynak: FIX-026). Dosya
+   * `public/.well-known/` altında statik durur; Next uzantısız bir statik
+   * varlığa `application/json` atamaz, o yüzden içerik türü burada verilir.
+   * Android `assetlinks.json` zaten `.json` uzantısıyla doğru türü alır.
+   */
+  async headers() {
+    return [
+      {
+        source: '/.well-known/apple-app-site-association',
+        headers: [{ key: 'Content-Type', value: 'application/json' }]
+      }
+    ];
+  },
+
+  /**
    * Eski statik HTML kopyaları kanonik uygulama rotalarına kalıcı olarak
    * taşınır: aynı içeriğin iki indekslenebilir adresi olmasın.
    * `/delete-account.html` ve `/icon-generator.html` hariç — birincisinin

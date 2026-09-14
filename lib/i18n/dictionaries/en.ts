@@ -14,13 +14,13 @@ const en: Dictionary = {
   seo: {
     siteName: "Laume",
     titleTemplate: "%s | Laume",
-    appName: "Laume: Letters Left in Places",
-    tagline: "Leave a letter at a real place. The only way to read one is to go there.",
+    appName: "Laume: A letter waits for you",
+    tagline: "A letter waits for you.",
     description:
-      "On Laume, a letter belongs to a place. You leave a letter somewhere real; " +
-      "the only way to read it is to go there. Within 50 meters, the seal opens.",
+      "Laume is a location-based discovery app for leaving text, photo and voice letters at real places. " +
+      "Seals open only when you come within 50 metres.",
     socialDescription:
-      "Leave a letter at a real place. The only way to read one is to go there — within 50 meters, the seal opens.",
+      "Leave a letter at a real place. Find its seal on the map and open it within 50 metres.",
     keywords: [
       "Laume",
       "Laume app",
@@ -51,7 +51,7 @@ const en: Dictionary = {
   },
 
   footer: {
-    blurb: "A letter belongs to a place. The only way to read one is to go there.",
+    blurb: "Leave letters at real places. Discover stories that open only for people who go there.",
     navHeading: "Navigation",
     supportHeading: "Support & Help",
     legalHeading: "Legal & Safety",
@@ -70,11 +70,11 @@ const en: Dictionary = {
     refunds: "Refund policy",
     deleteAccount: "Delete account",
     rights: "All rights reserved.",
-    domainTagline: "laumeapp.com — A letter belongs to a place",
+    domainTagline: "laumeapp.com — A letter waits for you",
   },
 
   discovery: {
-    metaTitle: "Laume — A letter belongs to a place",
+    metaTitle: "Laume: A letter waits for you",
     arrivalTitle: "There is something here.",
     arrivalSub: "Move.",
     traceTitle: "A trace.",
@@ -122,9 +122,105 @@ const en: Dictionary = {
   },
 
   home: {
-    metaTitle: "How Laume Works — Leave a Letter at a Real Place",
+    metaTitle: "Laume — Location-Based Letters & Local Discovery",
     metaDescription:
-      "Leave a letter at a real place: text, a photo or a voice whisper. The letter is sealed to those coordinates and only someone within 50 meters can read it.",
+      "Leave text, photo and voice letters at real places with Laume. Find seals on the map and open them within 50 metres.",
+    experience: {
+      nav: {
+        story: "How it works",
+        seals: "Seals",
+        trust: "Safety",
+        download: "Get the app",
+        downloadShort: "Get app",
+      },
+      hero: {
+        eyebrow: "Location-based letters",
+        title: "A letter waits for you.",
+        body: "On Laume, letters are left at real places instead of sent to an inbox. Find a seal on the map, come within 50 metres and open the story where it belongs.",
+        primary: "See how it works",
+        secondary: "Replay the opening ritual →",
+        note: "Text, photo or voice. Every letter has a place.",
+        scrollAria: "Continue into the Laume story",
+        imageAlt: "The Eiffel Tower in Paris, a sealed letter and a Laume screen showing four types of letter markers",
+      },
+      promise: {
+        eyebrow: "How it works",
+        title: "See the seal. Find the place. Open the letter.",
+        body: "Open the app to see nearby seals. Their contents stay hidden until someone walks to the place where they were left.",
+        steps: [
+          { title: "Find it on the map", body: "Nearby letters appear as seals on the map." },
+          { title: "Come within 50 metres", body: "The seal becomes ready as the distance closes." },
+          { title: "Read it there", body: "Break the seal to discover a text, photo or voice letter." },
+        ],
+      },
+      istanbul: {
+        city: "Istanbul, Türkiye",
+        eyebrow: "Memory Point",
+        title: "A shared memory book for a real place.",
+        body: "A Memory Point is a shared book of short notes left by people who visit the same place. Only someone who is there can add a new page.",
+        detail: "No remote posts. Every page begins with a real visit.",
+        imageAlt: "A Memory Point on the Ortaköy waterfront in Istanbul with memories left at the same place",
+      },
+      journey: {
+        eyebrow: "Traveling letter",
+        title: "A letter can move from city to city.",
+        body: "Find a Traveling Letter, carry it with you and leave it at another real place. Its new location becomes part of the journey.",
+      },
+      kyoto: {
+        city: "Kyoto, Japan",
+        eyebrow: "Time Capsule",
+        title: "Lock it to a date and a place.",
+        body: "Seal a Time Capsule to a real location and a future date. It stays closed until the right time and place meet.",
+        detail: "The right place. The right time. One opening moment.",
+        imageAlt: "A time-capsule letter and pocket watch on a cherry-blossom street in Kyoto",
+      },
+      seals: {
+        eyebrow: "Map markers",
+        title: "Every seal on the map works differently.",
+        body: "A seal's colour and symbol show what kind of experience is waiting. Its contents appear only when you arrive.",
+        items: [
+          { symbol: "✉", title: "Letter", body: "A personal message that opens where it was left." },
+          { symbol: "↗", title: "Traveling Letter", body: "A moving story that one finder can carry to another place." },
+          { symbol: "○", title: "Memory Point", body: "A shared memory book for people who visit the same place." },
+          { symbol: "⌛", title: "Time Capsule", body: "A letter that stays sealed until its chosen date." },
+        ],
+      },
+      trail: {
+        eyebrow: "Your Trail Map",
+        title: "Everything you discover, on one map.",
+        body: "Your Trail Map brings together the letters you opened, the Memory Points you visited and the traces you left across cities.",
+        points: ["Find the letters you opened again", "See the traces you left across cities", "Grow a map that belongs only to you"],
+        imageAlt: "The English Trail Map screen in the Laume mobile app showing Miami",
+      },
+      trust: {
+        eyebrow: "Safer discovery",
+        title: "Explore without broadcasting your location.",
+        body: "Laume uses your location only while the app is open to calculate distance. The map shows the letter, not you.",
+        items: [
+          { title: "Your location is yours", body: "Location is used only while the app is open to verify distance; it is never tracked in the background." },
+          { title: "Safer places", body: "Private property, traffic and dangerous or restricted areas are not accepted as discovery points." },
+          { title: "Community control", body: "Inappropriate content can be reported in the app and reviewed." },
+        ],
+      },
+      faq: {
+        eyebrow: "Good to know",
+        title: "Quick answers.",
+        body: "The essentials about letters, location permission and the 50-metre rule.",
+        more: "See every question →",
+        items: [
+          { q: "When does a letter open?", a: "The seal becomes available when you come within 50 meters of the place where the letter was left." },
+          { q: "Can I read it remotely?", a: "No. Reaching the real place where it belongs is the condition for opening content in Laume." },
+          { q: "Is my location tracked all the time?", a: "No. Location is used to check distance while the app is open; background location is not requested." },
+        ],
+      },
+      final: {
+        eyebrow: "Your first discovery",
+        title: "Your first letter may be nearby.",
+        body: "Check release status and supported devices on the download page.",
+        primary: "Go to download",
+        secondary: "Open support →",
+      },
+    },
     hero: {
       eyebrow: "Location based letter discovery",
       title: "Some things are left to be found.",
@@ -165,7 +261,7 @@ const en: Dictionary = {
       title: "Step into discovery with Laume.",
       body: "Find the seals near you, leave your own story in the city.",
     },
-    heroTitle: "A letter belongs to a place.",
+    heroTitle: "A letter waits for you.",
     heroBody:
       "You leave a letter next to a bench you love, at the corner where you first met, on the wall facing the sea. The letter stays there. There is exactly one way to read it: to go there.",
     heroCta: "Get Laume",
@@ -319,11 +415,12 @@ const en: Dictionary = {
     },
     download: {
       heading: "Get Laume",
-      lede: "Start discovering place-bound letters on Android and iOS.",
+      lede: "Laume is preparing for its store release. Check supported devices and current availability here.",
       playHeading: "Google Play",
-      playBody: "For devices running Android 10 (API 29) or newer.",
+      playBody: "In preparation for devices running Android 10 (API 29) or newer.",
       appStoreHeading: "Apple App Store",
-      appStoreBody: "For iPhones running iOS 15.0 or newer.",
+      appStoreBody: "In preparation for iPhones running iOS 15.0 or newer.",
+      comingSoon: "Release in preparation",
     },
     support: {
       heading: "Support Center",
@@ -462,6 +559,29 @@ const en: Dictionary = {
     privacyNoticeBody:
       "The full letter and its exact coordinates can only be seen by physically coming within 50 meters of the place, using the LAUME mobile app.",
     backHome: "← Back to the LAUME home page",
+  },
+
+  /**
+   * Password reset bridge (`/reset-password`). The Supabase recovery email
+   * returns to this address with `?code=…`; the page does NOT change the
+   * password — it just keeps the user off a blank screen and carries the code
+   * into the Laume app (source: FIX-026).
+   */
+  resetPassword: {
+    metaTitle: "Reset your password",
+    metaDescription:
+      "This link opens in the Laume app, where you finish resetting your password.",
+    heading: "Reset your password",
+    intro:
+      "This link opens in the Laume app. You'll set your new password there.",
+    openInApp: "Open in the app",
+    noAppHeading: "Don't have the app installed on your phone?",
+    noAppBody: "Install Laume first, then tap this link again from your phone.",
+    downloadCta: "Get Laume",
+    desktopNote:
+      "If you're on a computer, open this link from your phone instead. Password reset is completed only in the Laume app.",
+    missingCodeNote:
+      "This page only works when it is opened from the link in your password reset email.",
   },
 };
 

@@ -17,6 +17,10 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+debug.log
+
+# local dev screenshots / scratch output
+/artifacts/
 
 # env files
 .env*.local

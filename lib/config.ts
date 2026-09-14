@@ -17,7 +17,7 @@ export interface AppConfig {
 
 export const appConfig: AppConfig = {
   appName: "Laume",
-  tagline: "Bir mektup bir yere aittir",
+  tagline: "A letter waits for you",
   domain: "laumeapp.com",
   supportEmail: "destek@laumeapp.com",
   stores: {

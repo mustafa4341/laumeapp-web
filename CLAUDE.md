@@ -249,9 +249,15 @@ görünmez (bkz. §E 2026-09-14).
 ## G. AÇIK İŞLER
 
 - **Canlıda paylaşım önizlemesi gerçek başlığı basmıyor.** `laumeapp.com/n/<id>`
-  `og:title` = "Laume mührü" (genel metin). Aynı kod `.env.local` ile yerelde
-  gerçek başlığı basıyor → büyük olasılıkla Vercel'de `SUPABASE_URL` /
-  `SUPABASE_ANON_KEY` tanımlı değil. [INFERRED] Vercel panelinden doğrulanmalı.
+  `og:title` = "Laume mührü" (genel metin). [VERIFIED 2026-09-14] Env
+  değişkenleri Vercel'e eklendikten SONRA alınan deploy (`bf409b3`) da
+  `<meta name="laume-preview-status" content="unavailable:not_configured">`
+  basıyor → production fonksiyonu `SUPABASE_URL` / `SUPABASE_ANON_KEY`
+  değerlerini görmüyor. RPC ve anahtar sağlam (aynı çağrı yerelde HTTP 200 +
+  gerçek başlık). Kontrol edilecek: değişkenler **Production** kapsamında mı,
+  adlar birebir mi (`NEXT_PUBLIC_` öneki YOK), doğru Vercel projesine mi
+  eklendi. Düzeltince yeniden deploy gerekir; kabul ölçütü bu etiketin `found`
+  olması.
 - **`/n/[id]` yerel `next start`'ta `load` olayına ulaşmıyor** (share-link'teki
   4 `page.goto` testi 30 sn'de zaman aşımı). Dev'de ve canlıda aynı testler
   geçiyor. Olası neden: `DeepLinkBridge` hızlı hydration'da `load`'dan önce

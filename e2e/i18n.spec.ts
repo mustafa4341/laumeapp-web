@@ -77,6 +77,41 @@ test.describe("Çok dillilik", () => {
     await expect(page.locator("html")).toHaveAttribute("lang", "en");
   });
 
+  test("sunucu HTML'i ön eksiz yolu kullanır: dil bağlantısı /en/tr/... olmaz", async ({ request }) => {
+    // Middleware /support'u içeriden /tr/support'a rewrite eder. Sunucu
+    // render'ı bu iç yolu görüp dil bağlantısını /en/tr/support üretiyordu
+    // (404) ve Header/Footer istemciyle uyuşmuyordu (çift navbar).
+    for (const path of ["/support", "/home", "/legal/privacy"]) {
+      const html = await (await request.get(path)).text();
+      expect(html, `${path} sunucu HTML'i`).not.toMatch(/href="\/(en\/)?tr[\/"]/);
+      expect(html).toContain(`href="/en${path}"`);
+    }
+  });
+
+  test("header ve footer her sayfada tek kez, keşif sahnesinde hiç görünmez", async ({ page }) => {
+    const hydrationErrors: string[] = [];
+    page.on("console", (msg) => {
+      if (msg.type() === "error" && /hydrat/i.test(msg.text())) hydrationErrors.push(msg.text());
+    });
+    page.on("pageerror", (err) => {
+      if (/hydrat/i.test(err.message)) hydrationErrors.push(err.message);
+    });
+
+    for (const path of ["/home", "/support", "/legal/privacy", "/en/home", "/en/support"]) {
+      await page.goto(path);
+      await page.waitForLoadState("networkidle");
+      await expect(page.locator("body > header"), `${path} header`).toHaveCount(1);
+      await expect(page.locator("body > footer"), `${path} footer`).toHaveCount(1);
+    }
+    for (const path of ["/", "/en"]) {
+      await page.goto(path);
+      await page.waitForLoadState("networkidle");
+      await expect(page.locator("body > header"), `${path} header`).toHaveCount(0);
+      await expect(page.locator("body > footer"), `${path} footer`).toHaveCount(0);
+    }
+    expect(hydrationErrors).toEqual([]);
+  });
+
   test("İngilizce sayfadaki iç bağlantılar dili korur", async ({ page }) => {
     await page.goto("/en/support");
     // Dil değiştirici hariç: onun işi zaten diğer dile bağlanmak.

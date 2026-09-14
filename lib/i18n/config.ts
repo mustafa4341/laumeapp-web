@@ -66,11 +66,19 @@ export function localeHref(locale: Locale, path: string): string {
  * Bir URL yolundan dili ve dilden bağımsız yolu ayırır.
  * "/en/support" → { locale: "en", path: "/support" }
  * "/support"    → { locale: "tr", path: "/support" }
+ * "/tr/support" → { locale: "tr", path: "/support" }
+ *
+ * ⚠ Varsayılan dilin ön eki de soyulur. Middleware ön eksiz istekleri
+ * içeriden `/tr/...` adresine rewrite ettiği için sunucu render'ında
+ * `usePathname()` `/tr/support` döner, tarayıcıda ise `/support`. Önek
+ * soyulmazsa Header/Footer sunucuda ve istemcide farklı ağaç üretir:
+ * hydration uyuşmazlığı → sayfada çift header/footer, ve dil değiştirici
+ * `/en/tr/support` gibi 404 veren bir adrese bağlanır.
  */
 export function splitLocale(pathname: string): { locale: Locale; path: string } {
   const segments = pathname.split("/").filter(Boolean);
   const first = segments[0];
-  if (first && isLocale(first) && first !== DEFAULT_LOCALE) {
+  if (first && isLocale(first)) {
     const rest = `/${segments.slice(1).join("/")}`;
     return { locale: first, path: rest === "/" ? "/" : rest.replace(/\/$/, "") };
   }

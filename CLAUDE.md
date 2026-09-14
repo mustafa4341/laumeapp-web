@@ -188,6 +188,30 @@ kırar ve birikmiş indeks sinyallerini sıfırlardı.
 EN metinleri mağaza kaydının resmî İngilizce listing'inden alındı.
 `e2e/i18n.spec.ts` ile 12 sözleşme testi eklendi.
 
+### 2026-09-14 · Çift header/footer ve kırık dil bağlantısı
+
+**SORUN:** Canlıda bazı tarayıcılarda header ve footer iki kez görünüyordu.
+Keşif sahnesinde (`/`) hiç olmaması gereken header sunucu HTML'inde vardı.
+TR sayfalardaki EN bağlantısı `/en/tr/support` gibi 404 veren bir adrese
+gidiyordu.
+
+**KÖK NEDEN:** Middleware ön eksiz istekleri `/tr/...`'ye rewrite eder ve
+sayfalar `generateStaticParams` ile `/tr/...` yolunda **statik ön-render**
+edilir. Sunucuda `usePathname()` `/tr/support` döner, tarayıcıda `/support`.
+`splitLocale` yalnız varsayılan OLMAYAN dil önekini soyuyordu; bu yüzden
+Header/Footer/LanguageSwitcher sunucuda ve istemcide farklı ağaç üretti →
+hydration uyuşmazlığı → React istemcide yeniden çizip sunucu düğümlerini
+`<body>` içinde bıraktı.
+
+**ÇÖZÜM:** `splitLocale` varsayılan dil önekini de soyar
+(`lib/i18n/config.ts`). Kapı: `e2e/i18n.spec.ts` içindeki "sunucu HTML'i ön
+eksiz yolu kullanır" ve "header ve footer her sayfada tek kez" testleri.
+
+**DERS:** Bu hata `next dev`'de **oluşmaz** (dev modunda statik ön-render
+yok). Yeni testler düzeltme olmadan dev'de geçti; ancak production build'de
+ve canlıda kırıldı. Sunucu/istemci farkına dokunan her iş `E2E_PROD=1` ile
+doğrulanır (bkz. §F).
+
 ---
 
 ## F. OTURUM AÇILIŞ PROTOKOLÜ
@@ -210,9 +234,28 @@ npx tsc --noEmit && npm run build && npx playwright test
 çıktısıyla doldurur. Ardından `next start` çalıştırırsan
 `Cannot find module './124.js'` alırsın. Çözüm: `rm -rf .next && npm run build`.
 
+**Production modu (zorunlu: sunucu/istemci farkına dokunan işlerde):**
+
+```bash
+npm run build && E2E_PROD=1 npx playwright test   # next start'a karşı
+E2E_BASE_URL=https://laumeapp.com npx playwright test   # canlı siteye karşı
+```
+
+Statik ön-render yalnız production build'de olur; hydration farkları dev'de
+görünmez (bkz. §E 2026-09-14).
+
 ---
 
 ## G. AÇIK İŞLER
+
+- **Canlıda paylaşım önizlemesi gerçek başlığı basmıyor.** `laumeapp.com/n/<id>`
+  `og:title` = "Laume mührü" (genel metin). Aynı kod `.env.local` ile yerelde
+  gerçek başlığı basıyor → büyük olasılıkla Vercel'de `SUPABASE_URL` /
+  `SUPABASE_ANON_KEY` tanımlı değil. [INFERRED] Vercel panelinden doğrulanmalı.
+- **`/n/[id]` yerel `next start`'ta `load` olayına ulaşmıyor** (share-link'teki
+  4 `page.goto` testi 30 sn'de zaman aşımı). Dev'de ve canlıda aynı testler
+  geçiyor. Olası neden: `DeepLinkBridge` hızlı hydration'da `load`'dan önce
+  `window.location.href = "layar://…"` yazıyor. [INFERRED]
 
 - **`/` ve `/home` hâlâ yakın içerik.** İkisini birleştirmek en büyük kalan SEO
   kazancı; ama keşif deneyiminin nereye konacağı bir ürün kararıdır.

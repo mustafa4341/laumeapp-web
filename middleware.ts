@@ -1,9 +1,24 @@
 import { NextResponse, type NextRequest } from "next/server";
-// ⚠ `@/` takma adı DEĞİL, göreli yol. Middleware Edge çalışma zamanında ayrı
-// paketlenir; takma ad çözümlemesini o yoldan tamamen çıkarmak, 2026-09-05'te
-// yaşanan `MIDDLEWARE_INVOCATION_FAILED` arızasının olası sebeplerinden birini
-// eler. Tek kaynak yine aynı dosya — yalnız ona ulaşma biçimi sadeleşti.
-import { DEFAULT_LOCALE, isLocale } from "./lib/i18n/config";
+
+/**
+ * ⚠ `lib/i18n/config`'ten import YOK, hiçbir dosyadan da yok — kasıtlı.
+ * 2026-09-05'te göreli yola geçmek (takma ad yerine) `MIDDLEWARE_INVOCATION_
+ * FAILED` arızasını çözmedi, arıza 2026-09-14'te aynı imzayla tekrar etti;
+ * yerelde (`next build` + `next start`) her ikisinde de kod sorunsuz çalıştı,
+ * yalnız Vercel'in Edge çalışma zamanında çöktü. Bu, hatanın middleware'in
+ * KENDİ mantığında değil, Edge izolatının modül başlatma anında başka bir
+ * dosyayı paketleyip çözmesinde olduğunu düşündürüyor. Kesin kanıt yok
+ * (Vercel MCP bu hesap için projeleri listeleyemiyor, runtime log'a
+ * ulaşılamadı) — ama en ucuz ve geri alınabilir sonraki adım, middleware'in
+ * hiçbir yerel modülü import etmemesini sağlamaktı. Dil listesi küçük ve
+ * nadiren değişir; burada tek kaynaktan kopyalanması `lib/i18n/config.ts`'i
+ * geçersiz kılmaz, yalnız middleware'i ondan bağımsızlaştırır.
+ */
+const DEFAULT_LOCALE = "tr" as const;
+const LOCALES = new Set(["tr", "en"]);
+function isLocale(value: string): boolean {
+  return LOCALES.has(value);
+}
 
 /**
  * DİL YÖNLENDİRMESİ + YASAL URL TAKMA ADLARI

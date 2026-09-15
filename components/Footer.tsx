@@ -134,6 +134,11 @@ export default function Footer({ locale }: { locale: Locale }) {
               </Link>
             </li>
             <li>
+              <Link href={link("/legal/child-safety")} className="link-subtle">
+                {dict.footer.childSafety}
+              </Link>
+            </li>
+            <li>
               <Link href={link("/legal/cookies")} className="link-subtle">
                 {dict.footer.cookies}
               </Link>

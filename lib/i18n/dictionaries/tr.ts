@@ -67,6 +67,7 @@ const tr = {
     privacy: "Gizlilik Politikası",
     terms: "Kullanım Koşulları",
     community: "Topluluk Kuralları",
+    childSafety: "Çocuk Güvenliği Standartları",
     cookies: "Çerez Politikası",
     refunds: "İade Politikası",
     deleteAccount: "Hesabı Sil",
@@ -389,6 +390,11 @@ const tr = {
       metaDescription:
         "Bir mektup gerçek bir yere bırakılır; o yer başkasının da yaşadığı yerdir. Laume'da güvenli ve saygılı keşif için kurallar.",
     },
+    childSafety: {
+      metaTitle: "Çocuk Güvenliği Standartları",
+      metaDescription:
+        "Laume'nin çocuk cinsel istismarı ve sömürüsüne (CSAE) karşı sıfır tolerans ilkesi, önleme uygulamaları ve bildirim kanalı.",
+    },
     cookies: {
       metaTitle: "Çerez Politikası",
       metaDescription:
@@ -452,6 +458,7 @@ const tr = {
         { title: "Gizlilik Politikası", body: "Konum, hesap ve kişisel verilerinin nasıl korunduğu." },
         { title: "Kullanım Koşulları", body: "Hizmet şartları, telif hakları ve kullanıcı yükümlülükleri." },
         { title: "Topluluk Kuralları", body: "Mektup bırakırken uyulması gereken etik ve güvenlik standartları." },
+        { title: "Çocuk Güvenliği Standartları", body: "CSAE'ye karşı sıfır tolerans, önleme uygulamaları ve bildirim kanalı." },
         { title: "Çerez Politikası", body: "Web sitesinde kullanılan teknik çerezler." },
         { title: "İade Politikası", body: "Uygulama içi satın alımlar ve abonelik iptal süreçleri." },
         { title: "Hesabı Sil", body: "Google Play ve Apple zorunlu hesap silme bilgilendirmesi." },
@@ -528,6 +535,28 @@ const tr = {
         {
           heading: "Bildirim",
           body: "Kurallara aykırı bir mektupla karşılaşırsan uygulama içinden bildir; her bildirim incelenir.",
+        },
+      ],
+    },
+    childSafety: {
+      heading: "Çocuk Güvenliği Standartları",
+      lede: "Laume, çocuk cinsel istismarı ve sömürüsüne (CSAE) karşı sıfır tolerans ilkesini benimser.",
+      sections: [
+        {
+          heading: "Yaş sınırı",
+          body: "Laume'de hesap açmak için en az 13 yaşında olmak gerekir. Uygulama, 13 yaş altı kullanıcılara yönelik değildir ve bilerek bu yaş grubundan veri toplanmaz. Böyle bir hesabın farkına varılırsa derhal kaldırılır.",
+        },
+        {
+          heading: "Ürün tasarımıyla önleme",
+          body: "Uygulama cihazın kamerasına doğrudan erişmez; fotoğraflar yalnızca sistemin galeri seçicisinden seçilir. Kullanıcılar arasında serbest metinli özel mesajlaşma yoktur; etkileşim herkese açık veya moderasyona tabi mektup/yorum yüzeyleri üzerinden olur. Konum yalnızca uygulama açıkken kullanılır ve bir mektubun tam konumu ancak fiziksel olarak yaklaşıldığında açılır.",
+        },
+        {
+          heading: "Şikâyet ve moderasyon",
+          body: "Her mektup ve yorum uygulama içinden şikâyet edilebilir, her kullanıcı engellenebilir. Belirli sayıda şikâyet alan içerik incelenene kadar otomatik gizlenir. CSAE şüphesi taşıyan içerik öncelikli ve acil olarak ele alınır; ilgili içerik ve hesap derhal kaldırılır/askıya alınır ve yürürlükteki mevzuat uyarınca yetkili makamlara bildirilir.",
+        },
+        {
+          heading: "Bildirim kanalı",
+          body: "CSAE şüphesi olan bir içerik veya davranışla karşılaşırsan uygulama içindeki \"Şikâyet Et\" özelliğini kullanabilir veya destek@laumeapp.com adresine, konu satırına \"CSAE / Çocuk Güvenliği\" yazarak ulaşabilirsin. İlk yanıt süresi 24 saat içindedir.",
         },
       ],
     },

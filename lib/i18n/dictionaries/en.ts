@@ -66,6 +66,7 @@ const en: Dictionary = {
     privacy: "Privacy policy",
     terms: "Terms of use",
     community: "Community guidelines",
+    childSafety: "Child safety standards",
     cookies: "Cookie policy",
     refunds: "Refund policy",
     deleteAccount: "Delete account",
@@ -384,6 +385,11 @@ const en: Dictionary = {
       metaDescription:
         "A letter is left at a real place, and that place is somewhere other people live too. Rules for safe and respectful discovery on Laume.",
     },
+    childSafety: {
+      metaTitle: "Child Safety Standards",
+      metaDescription:
+        "Laume's zero-tolerance policy toward child sexual abuse and exploitation (CSAE), our prevention practices and how to reach us.",
+    },
     cookies: {
       metaTitle: "Cookie Policy",
       metaDescription:
@@ -446,6 +452,7 @@ const en: Dictionary = {
         { title: "Privacy Policy", body: "How your location, account and personal data are protected." },
         { title: "Terms of Use", body: "Service terms, copyright and user obligations." },
         { title: "Community Guidelines", body: "The ethical and safety standards for leaving letters." },
+        { title: "Child Safety Standards", body: "Zero tolerance for CSAE, prevention practices and how to report a concern." },
         { title: "Cookie Policy", body: "The technical cookies used on this website." },
         { title: "Refund Policy", body: "In-app purchases and subscription cancellation." },
         { title: "Delete Account", body: "Account deletion notice required by Google Play and Apple." },
@@ -517,6 +524,28 @@ const en: Dictionary = {
         {
           heading: "Reporting",
           body: "If you come across a letter that breaks these rules, report it from inside the app. Every report is reviewed.",
+        },
+      ],
+    },
+    childSafety: {
+      heading: "Child Safety Standards",
+      lede: "Laume has a zero-tolerance policy toward child sexual abuse and exploitation (CSAE).",
+      sections: [
+        {
+          heading: "Age requirement",
+          body: "You must be at least 13 years old to create a Laume account. The app is not directed at children under 13 and we do not knowingly collect data from them. If we become aware of such an account, we remove it immediately.",
+        },
+        {
+          heading: "Prevention by product design",
+          body: "The app never accesses the device camera directly; photos are chosen only through the operating system's own picker. Laume has no open-ended direct-message inbox between users; interaction happens through public or moderated letter/comment surfaces. Location is foreground-only, and a letter's exact location is revealed only once someone has physically approached it.",
+        },
+        {
+          heading: "Reporting and moderation",
+          body: "Every letter and comment can be reported in the app, and any user can be blocked. Content that receives a certain number of reports is automatically hidden until reviewed. Content suspected of CSAE is handled as priority and urgent: the content and account are removed/suspended immediately and reported to the relevant authorities as required by applicable law.",
+        },
+        {
+          heading: "How to report a concern",
+          body: "If you encounter content or behaviour you suspect is CSAE, use the in-app \"Report\" feature, or write to destek@laumeapp.com with \"CSAE / Child Safety\" in the subject line. First response is within 24 hours.",
         },
       ],
     },

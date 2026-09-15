@@ -30,6 +30,7 @@ const ROUTES: Entry[] = [
   { path: "/legal/privacy", priority: 0.5, changeFrequency: "yearly" },
   { path: "/legal/terms", priority: 0.4, changeFrequency: "yearly" },
   { path: "/legal/community-guidelines", priority: 0.4, changeFrequency: "yearly" },
+  { path: "/legal/child-safety", priority: 0.4, changeFrequency: "yearly" },
   { path: "/legal/cookies", priority: 0.3, changeFrequency: "yearly" },
   { path: "/legal/refunds", priority: 0.3, changeFrequency: "yearly" },
 ];

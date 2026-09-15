@@ -24,6 +24,7 @@ const HREFS = [
   "/legal/privacy",
   "/legal/terms",
   "/legal/community-guidelines",
+  "/legal/child-safety",
   "/legal/cookies",
   "/legal/refunds",
   // Dilden bağımsız statik sayfa; Play Console'a bu adres bildirildi.

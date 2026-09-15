@@ -50,8 +50,7 @@ export default function Footer({ locale }: { locale: Locale }) {
       >
         <div className="footer-brand">
           <h3 style={{ ...headingStyle, display: "flex", alignItems: "center", gap: "var(--space-2)" }}>
-            <Image src="/assets/brand/laume-icon.webp" alt="" width={28} height={28} style={{ borderRadius: "8px" }} />
-            LAUME
+            <Image src="/assets/brand/laume-wordmark.svg" alt="Laume" width={122} height={26} unoptimized style={{ height: "26px", width: "auto" }} />
           </h3>
           <p
             style={{

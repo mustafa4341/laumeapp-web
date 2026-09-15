@@ -563,7 +563,10 @@ export function DiscoveryStage({ locale }: { locale: Locale }) {
       </div>
 
       {/* ---------------------------------------------------------- chrome ---- */}
-      <div className={styles.brand}>LAUME</div>
+      <div className={styles.brand}>
+        {/* eslint-disable-next-line @next/next/no-img-element -- statik SVG wordmark */}
+        <img src="/assets/brand/laume-wordmark.svg" alt="Laume" width={112} height={24} />
+      </div>
       <div className={styles.audioSlot}>
         <AudioToggle labelOn={t.audioOn} labelOff={t.audioOff} />
       </div>

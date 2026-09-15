@@ -60,15 +60,16 @@ export default function Header({ locale }: { locale: Locale }) {
             flexShrink: 0,
           }}
         >
+          {/* Ürün sahibinin Figma wordmark'ı (2026-09-15) — ikon + "LAUME" metninin yerine. */}
           <Image
-            src="/assets/brand/laume-icon.webp"
-            alt=""
-            width={32}
-            height={32}
+            src="/assets/brand/laume-wordmark.svg"
+            alt="Laume"
+            width={140}
+            height={30}
             priority
-            style={{ borderRadius: "9px" }}
+            unoptimized
+            style={{ height: "30px", width: "auto" }}
           />
-          LAUME
         </Link>
 
         <div style={{ display: "flex", alignItems: "center", gap: "var(--space-4)" }}>

@@ -642,6 +642,12 @@
   color: var(--laume-ink);
 }
 
+.brand img {
+  display: block;
+  height: 24px;
+  width: auto;
+}
+
 .audioSlot {
   position: absolute;
   top: var(--space-6);

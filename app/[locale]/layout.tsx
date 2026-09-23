@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "../globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { GoogleAnalytics } from "@/components/analytics/GoogleAnalytics";
 import {
   DEFAULT_LOCALE,
   LOCALES,
@@ -34,6 +35,7 @@ export async function generateMetadata({
   const locale: Locale = isLocale(raw) ? raw : DEFAULT_LOCALE;
   const dict = getDictionary(locale);
   const meta = LOCALE_META[locale];
+  const googleVerification = process.env.GOOGLE_SITE_VERIFICATION;
 
   return {
     metadataBase: new URL(SITE_URL),
@@ -84,6 +86,9 @@ export async function generateMetadata({
     other: {
       "apple-mobile-web-app-title": dict.seo.siteName,
     },
+    ...(googleVerification
+      ? { verification: { google: googleVerification } }
+      : {}),
   };
 }
 
@@ -110,6 +115,10 @@ export default async function LocaleLayout({
         <Header locale={locale} />
         <main className="main-content">{children}</main>
         <Footer locale={locale} />
+        <GoogleAnalytics
+          measurementId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID}
+          locale={locale}
+        />
       </body>
     </html>
   );

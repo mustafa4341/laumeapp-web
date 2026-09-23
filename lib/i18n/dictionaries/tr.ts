@@ -42,6 +42,15 @@ const tr = {
     backToTop: "Yukarı dön",
   },
 
+  analytics: {
+    title: "Ziyaret ölçümüne izin ver",
+    body: "Siteyi nasıl kullandığını anonim istatistiklerle anlamak için Google Analytics kullanmak istiyoruz. Reklam ve kişiselleştirme kapalıdır.",
+    details: "Ayrıntılar",
+    accept: "İzin ver",
+    reject: "Reddet",
+    settings: "Çerez ayarları",
+  },
+
   nav: {
     ariaLabel: "Ana menü",
     home: "Ana Sayfa",
@@ -49,6 +58,7 @@ const tr = {
     about: "Hakkında",
     support: "Destek",
     legal: "Yasal",
+    ideas: "Keşif Fikirleri",
   },
 
   footer: {
@@ -60,6 +70,7 @@ const tr = {
     productHome: "Ürün Ana Sayfası",
     downloadCenter: "İndirme Merkezi",
     about: "Hakkında",
+    ideas: "Şehirde Keşif Fikirleri",
     supportCenter: "Destek Merkezi",
     faq: "Sıkça Sorulan Sorular",
     contact: "İletişim",
@@ -127,9 +138,9 @@ const tr = {
   },
 
   home: {
-    metaTitle: "Laume — Konuma Bağlı Mektuplar ve Yerel Keşif",
+    metaTitle: "Laume — Sosyal Keşif ve Şehirde Eğlence",
     metaDescription:
-      "Laume ile gerçek konumlara metin, fotoğraf ve sesli mektup bırak. Haritadaki mühürleri bul; 50 metreye yaklaşınca aç.",
+      "Arkadaşlarınla şehri keşfet; gerçek konumlara metin, fotoğraf ve ses bırak. Mühürleri bul, 50 metreye yaklaş ve anıları yerinde aç.",
     experience: {
       nav: {
         story: "Nasıl işler",
@@ -224,6 +235,7 @@ const tr = {
         body: "Yayın durumunu ve desteklenen cihazları indirme sayfasında görebilirsin.",
         primary: "İndirme sayfasına git",
         secondary: "Destek merkezini aç →",
+        ideas: "Şehirde keşif ve eğlence fikirleri →",
       },
     },
     /** Ana sayfa bileşenlerinin metinleri. */
@@ -307,6 +319,38 @@ const tr = {
     metaDescription:
       "Sosyal uygulamalar seni ekrana bağlar, Laume dışarı çıkarır. İçerik akmaz; bir yerde durur ve seni bekler. Laume'ın manifestosu ve arkasındaki fikir.",
     heading: "Hakkında",
+  },
+
+  ideas: {
+    metaTitle: "Şehirde Eğlence ve Sosyal Keşif Fikirleri",
+    metaDescription: "Arkadaşlarla şehirde yapılacak farklı aktiviteler, konum tabanlı sosyal keşif, dijital zaman kapsülü ve anı bırakma fikirleri.",
+    heading: "Şehri birlikte keşfetmenin yeni yolları",
+    lede: "Eğlence bazen yeni bir mekân bulmak değil, bildiğin bir yere yeni bir anlam bırakmaktır. Laume; arkadaşlarla yürüyüşü, şehir oyunlarını ve anı paylaşımını gerçek konumlara bağlar.",
+    sections: [
+      {
+        heading: "Arkadaşlarla şehirde yapılacak farklı bir aktivite",
+        body: "Bir rota belirleyin ve yol üzerindeki noktalara birbiriniz için mektuplar bırakın. Her mesaj yalnızca doğru yere yürüyen kişi tarafından açılabildiği için sıradan bir buluşma küçük bir şehir keşfine dönüşür.",
+      },
+      {
+        heading: "Sosyal keşif, ekranda kaydırmak yerine dışarı çıkmak",
+        body: "Laume klasik bir sosyal medya akışı sunmaz. İnsanlar gerçek mekânlara metin, fotoğraf veya ses bırakır; diğerleri bunları haritada görür ve 50 metre yakına geldiğinde keşfeder. Sosyallik, aynı içeriği uzaktan tüketmek yerine aynı yere temas etmekten doğar.",
+      },
+      {
+        heading: "Dijital zaman kapsülü oluşturmak",
+        body: "Bir mesajı hem gelecekteki bir tarihe hem de gerçek bir yere kilitleyebilirsin. Doğum günü, mezuniyet, seyahat veya yıldönümü için hazırlanan zaman kapsülü ancak doğru zaman ve doğru yer bir araya geldiğinde açılır.",
+      },
+      {
+        heading: "Bir mekâna ortak anı bırakmak",
+        body: "Anı Noktası, aynı yere gelenlerin kısa notlarını bir araya getirir. Bir park, kampüs, sahil ya da mahalle köşesi; yalnızca gerçekten ziyaret edenlerin yazabildiği ortak bir dijital anı defterine dönüşebilir.",
+      },
+      {
+        heading: "Gezi rotasını hikâyeye dönüştürmek",
+        body: "Taşınan Mektup bulunduğu şehirden başka bir noktaya götürülebilir. Mektubun geçtiği yerler yolculuğunun parçası olur; böylece yürüyüş, gezi ve seyahat rotaları tek bir hikâyede buluşur.",
+      },
+    ],
+    safetyHeading: "Keşif güvenli ve saygılı olmalı",
+    safetyBody: "Mektuplar özel mülke, trafiğe açık tehlikeli noktalara veya erişimi kısıtlı alanlara bırakılmamalıdır. Konum yalnızca uygulama açıkken mesafeyi doğrulamak için kullanılır; haritada görünen kişi değil, mektuptur.",
+    cta: "Laume nasıl çalışır?",
   },
 
   download: {
@@ -398,7 +442,7 @@ const tr = {
     cookies: {
       metaTitle: "Çerez Politikası",
       metaDescription:
-        "Laume web sitesinde yalnızca teknik ve zorunlu çerezler kullanılır. Reklam veya profilleme çerezi yoktur.",
+        "Laume'ın zorunlu depolama ve yalnızca izin verildiğinde çalışan Google Analytics ölçüm tercihleri. Reklam veya profilleme yoktur.",
     },
     refunds: {
       metaTitle: "İade Politikası",
@@ -465,14 +509,14 @@ const tr = {
       ],
       backCta: "← Yasal merkeze dön",
       lastUpdatedLabel: "Son güncelleme",
-      lastUpdated: "4 Eylül 2026",
+      lastUpdated: "24 Eylül 2026",
       privacyBody: {
         collectHeading: "Topladığımız veriler",
         collectItems: [
           { title: "Hesap bilgileri", body: "E-posta adresi, kullanıcı adı ve profil bilgileri." },
           { title: "Konum verisi", body: "Mektup bırakma ve mühür açma işlevleri için cihaz konumun, yalnızca ilgili işlem sırasında ve açık iznin ile kullanılır. Arka plan konum izni hiç istenmez." },
           { title: "Kullanıcı içeriği", body: "Oluşturduğun mektup metinleri, fotoğraflar ve ses kayıtları." },
-          { title: "Kullanım verisi", body: "Hata kayıtları, uygulama içi etkileşimler ve işletim sistemi sürümü." },
+          { title: "Kullanım verisi", body: "Hata kayıtları, uygulama içi etkileşimler ve işletim sistemi sürümü. Web sitesi ziyaret ölçümü yalnız açık izin verilirse Google Analytics 4 ile yapılır; reklam kişiselleştirmesi kapalıdır." },
         ],
         useHeading: "Verileri nasıl kullanıyoruz",
         useBody:
@@ -512,11 +556,11 @@ const tr = {
       sections: [
         {
           heading: "Kullandığımız çerezler",
-          body: "Web sitesi yalnızca oturum tercihleri (keşfi tamamlama durumu, ses tercihi, dil seçimi) için zorunlu teknik yerel depolama verilerini kullanır.",
+          body: "Web sitesi, keşfi tamamlama durumu, ses ve dil seçimi ile analitik izin tercihini hatırlamak için zorunlu yerel depolama kullanır. Google Analytics 4 yalnızca ziyaretçi açıkça izin verirse etkinleşir ve ziyaret/etkileşim istatistikleri üretir.",
         },
         {
           heading: "Kullanmadıklarımız",
-          body: "Üçüncü taraf reklam veya profilleme çerezi kullanılmaz.",
+          body: "Reklam depolaması, reklam kişiselleştirmesi ve kullanıcı profillemesi kapalıdır. Analitik izni reddedilebilir veya sayfadaki çerez ayarlarından daha sonra değiştirilebilir.",
         },
       ],
     },

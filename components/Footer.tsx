@@ -86,6 +86,11 @@ export default function Footer({ locale }: { locale: Locale }) {
                 {dict.footer.about}
               </Link>
             </li>
+            <li>
+              <Link href={link("/ideas")} className="link-subtle">
+                {dict.footer.ideas}
+              </Link>
+            </li>
           </ul>
         </div>
 

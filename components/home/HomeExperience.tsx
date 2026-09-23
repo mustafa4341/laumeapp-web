@@ -179,6 +179,7 @@ export function HomeExperience({ locale }: { locale: Locale }) {
         <div className={styles.finalActions}>
           <Link className={styles.primaryAction} href={link("/download")}>{copy.final.primary}</Link>
           <Link className={styles.textAction} href={link("/support")}>{copy.final.secondary}</Link>
+          <Link className={styles.textAction} href={link("/ideas")}>{copy.final.ideas}</Link>
         </div>
       </section>
     </article>

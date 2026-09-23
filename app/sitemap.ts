@@ -9,7 +9,7 @@ import { LOCALES, LOCALE_META, SITE_URL, localeHref } from "@/lib/i18n";
  * zamanla güvenilmez sayılır ve tarama bütçesini boşa harcar. İçerik gerçekten
  * değiştiğinde bu tarih elle güncellenir.
  */
-const LAST_CONTENT_UPDATE = new Date("2026-09-05");
+const LAST_CONTENT_UPDATE = new Date("2026-09-24");
 
 type Entry = {
   /** Dilden bağımsız yol; her dil için ayrı URL üretilir. */
@@ -23,6 +23,7 @@ const ROUTES: Entry[] = [
   { path: "/home", priority: 0.9, changeFrequency: "monthly" },
   { path: "/download", priority: 0.9, changeFrequency: "monthly" },
   { path: "/about", priority: 0.8, changeFrequency: "monthly" },
+  { path: "/ideas", priority: 0.8, changeFrequency: "monthly" },
   { path: "/support", priority: 0.7, changeFrequency: "monthly" },
   { path: "/support/faq", priority: 0.8, changeFrequency: "monthly" },
   { path: "/support/contact", priority: 0.6, changeFrequency: "yearly" },
@@ -49,10 +50,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: route.priority,
       alternates: {
         languages: Object.fromEntries(
-          LOCALES.map((l) => [
-            LOCALE_META[l].hreflang,
-            `${SITE_URL}${localeHref(l, route.path)}`,
-          ])
+          [
+            ...LOCALES.map((l) => [
+              LOCALE_META[l].hreflang,
+              `${SITE_URL}${localeHref(l, route.path)}`,
+            ]),
+            ["x-default", `${SITE_URL}${localeHref("en", route.path)}`],
+          ]
         ),
       },
     }))

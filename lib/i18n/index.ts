@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { appConfig } from "@/lib/config";
-import { DEFAULT_LOCALE, LOCALES, LOCALE_META, type Locale, localeHref } from "./config";
+import { LOCALES, LOCALE_META, type Locale, localeHref } from "./config";
 import { getDictionary } from "./dictionaries";
 
 /**
@@ -45,7 +45,10 @@ export function alternatesFor(locale: Locale, path: string): Metadata["alternate
   for (const l of LOCALES) {
     languages[LOCALE_META[l].hreflang] = `${SITE_URL}${localeHref(l, path)}`;
   }
-  languages["x-default"] = `${SITE_URL}${localeHref(DEFAULT_LOCALE, path)}`;
+  // Ürün globaldir: desteklenmeyen dil/bölge eşleşmelerinde ülke bağımsız
+  // İngilizce sürüm varsayılan hedef olur. Türkçe kök URL korunur; mevcut
+  // indeks ve Play Console bağlantıları taşınmaz.
+  languages["x-default"] = `${SITE_URL}${localeHref("en", path)}`;
 
   return {
     canonical: `${SITE_URL}${localeHref(locale, path)}`,
@@ -143,7 +146,7 @@ export function buildJsonLd(locale: Locale) {
         offers: {
           "@type": "Offer",
           price: "0",
-          priceCurrency: "TRY",
+          priceCurrency: locale === "tr" ? "TRY" : "USD",
           category: "free with optional in-app purchases",
         },
         publisher: { "@id": `${SITE_URL}/#organization` },

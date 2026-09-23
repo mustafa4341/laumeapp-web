@@ -64,9 +64,7 @@ test.describe("Çok dillilik", () => {
       for (const other of LOCALES) {
         expect(map[other]).toBe(`https://laumeapp.com${href(other, "/download")}`);
       }
-      expect(map["x-default"]).toBe(
-        `https://laumeapp.com${href(DEFAULT_LOCALE, "/download")}`
-      );
+      expect(map["x-default"]).toBe("https://laumeapp.com/en/download");
     }
   });
 
@@ -145,9 +143,21 @@ test.describe("Çok dillilik", () => {
     const xml = await (await request.get("/sitemap.xml")).text();
     for (const locale of LOCALES) {
       expect(xml).toContain(`<loc>https://laumeapp.com${href(locale, "/support/faq")}</loc>`);
+      expect(xml).toContain(`<loc>https://laumeapp.com${href(locale, "/ideas")}</loc>`);
     }
     expect(xml).toContain('hreflang="en"');
     expect(xml).toContain('hreflang="tr"');
+    expect(xml).toContain('hreflang="x-default"');
+  });
+
+  test("keşif fikirleri sayfası marka dışı konuları iki dilde sunar", async ({ page }) => {
+    await page.goto("/ideas");
+    await expect(page.getByRole("heading", { level: 1 })).toContainText("Şehri");
+    await expect(page.locator("body")).toContainText("Sosyal keşif");
+
+    await page.goto("/en/ideas");
+    await expect(page.getByRole("heading", { level: 1 })).toContainText("explore the city");
+    await expect(page.locator("body")).toContainText("Social discovery");
   });
 
   test("Play Console'a bildirilen yasal adresler her dilde 200 döner", async ({ request }) => {

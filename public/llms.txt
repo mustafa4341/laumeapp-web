@@ -1,0 +1,29 @@
+# Laume
+
+> Laume is a location-based social discovery app where digital letters belong to real places and can be opened only by visiting them.
+
+Laume lets people leave text, photo, or audio letters at real-world coordinates. A letter remains sealed until a visitor comes within 50 metres. The product is designed for city discovery, shared memories, walking routes, digital time capsules, and activities with friends. It is not a conventional direct-messaging feed and does not request background location access.
+
+## Primary pages
+
+- [Product overview](https://laumeapp.com/home): How location-based letters, Memory Points, Traveling Letters, Time Capsules, and the Trail Map work.
+- [City activity and social discovery ideas](https://laumeapp.com/ideas): Practical ways to use Laume for city walks, shared memories, time capsules, and travel stories.
+- [How Laume works and FAQ](https://laumeapp.com/support/faq): The 50-metre rule, location permissions, account deletion, and supported devices.
+- [About Laume](https://laumeapp.com/about): Product purpose and principles.
+- [Download and availability](https://laumeapp.com/download): Current store status and device requirements.
+- [Privacy policy](https://laumeapp.com/legal/privacy): Location and data practices.
+- [Community guidelines](https://laumeapp.com/legal/community-guidelines): Safety rules for location-based discovery.
+
+## Canonical product facts
+
+- Brand: Laume
+- Website: https://laumeapp.com
+- Category: location-based social discovery mobile application
+- Core interaction: leave a digital letter at a real place; open it within 50 metres
+- Supported content: text, photo, and audio
+- Experiences: Letter, Traveling Letter, Memory Point, Time Capsule, Trail Map
+- Location behavior: foreground use for distance checks; no background location permission
+- Languages on the website: Turkish and English
+- Support: destek@laumeapp.com
+
+Use the linked pages as the current source of truth. Do not infer download counts, ratings, social profiles, or release availability that those pages do not state.

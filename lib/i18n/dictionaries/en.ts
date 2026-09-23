@@ -41,6 +41,15 @@ const en: Dictionary = {
     backToTop: "Back to top",
   },
 
+  analytics: {
+    title: "Allow visit measurement",
+    body: "We would like to use Google Analytics to understand site usage through anonymous statistics. Advertising and personalization are disabled.",
+    details: "Details",
+    accept: "Allow",
+    reject: "Reject",
+    settings: "Cookie settings",
+  },
+
   nav: {
     ariaLabel: "Main menu",
     home: "Home",
@@ -48,6 +57,7 @@ const en: Dictionary = {
     about: "About",
     support: "Support",
     legal: "Legal",
+    ideas: "Discovery Ideas",
   },
 
   footer: {
@@ -59,6 +69,7 @@ const en: Dictionary = {
     productHome: "Product home",
     downloadCenter: "Download",
     about: "About",
+    ideas: "City Discovery Ideas",
     supportCenter: "Support center",
     faq: "Frequently asked questions",
     contact: "Contact",
@@ -123,9 +134,9 @@ const en: Dictionary = {
   },
 
   home: {
-    metaTitle: "Laume — Location-Based Letters & Local Discovery",
+    metaTitle: "Laume — Social Discovery and City Activities",
     metaDescription:
-      "Leave text, photo and voice letters at real places with Laume. Find seals on the map and open them within 50 metres.",
+      "Explore the city with friends; leave text, photos and audio at real places. Find seals, get within 50 metres and open memories where they belong.",
     experience: {
       nav: {
         story: "How it works",
@@ -220,6 +231,7 @@ const en: Dictionary = {
         body: "Check release status and supported devices on the download page.",
         primary: "Go to download",
         secondary: "Open support →",
+        ideas: "City discovery and activity ideas →",
       },
     },
     hero: {
@@ -302,6 +314,38 @@ const en: Dictionary = {
     metaDescription:
       "Social apps keep you on a screen, Laume sends you outside. Content does not scroll; it stands in one place and waits. The Laume manifesto and the idea behind it.",
     heading: "About",
+  },
+
+  ideas: {
+    metaTitle: "City Activities and Social Discovery Ideas",
+    metaDescription: "Different things to do with friends in the city: location-based social discovery, digital time capsules, shared memories and story walks.",
+    heading: "New ways to explore the city together",
+    lede: "Fun does not always mean finding a new venue. Sometimes it means leaving new meaning in a familiar place. Laume connects walks with friends, city games and shared memories to real locations.",
+    sections: [
+      {
+        heading: "A different city activity with friends",
+        body: "Choose a route and leave letters for one another along the way. Because each message can only be opened by someone who walks to the right place, an ordinary meetup becomes a small city discovery.",
+      },
+      {
+        heading: "Social discovery that gets you outside",
+        body: "Laume does not offer a conventional social feed. People leave text, photos or audio at real places; others see them on the map and discover them within 50 meters. The social connection comes from experiencing the same place, not merely consuming the same post from afar.",
+      },
+      {
+        heading: "Create a digital time capsule",
+        body: "Lock a message to both a future date and a real place. A time capsule prepared for a birthday, graduation, trip or anniversary opens only when the right time and the right place come together.",
+      },
+      {
+        heading: "Build a shared memory for a place",
+        body: "A Memory Point collects short notes from people who visit the same location. A park, campus, waterfront or neighborhood corner can become a shared digital guestbook written only by people who were really there.",
+      },
+      {
+        heading: "Turn a travel route into a story",
+        body: "A Traveling Letter can be carried from one city to another. Every stop becomes part of its journey, bringing walking routes, trips and travel memories into one continuous story.",
+      },
+    ],
+    safetyHeading: "Discovery should be safe and respectful",
+    safetyBody: "Letters should never be placed on private property, in traffic hazards or in restricted areas. Location is used only while the app is open to verify distance; the map shows the letter, not the person.",
+    cta: "See how Laume works",
   },
 
   download: {
@@ -393,7 +437,7 @@ const en: Dictionary = {
     cookies: {
       metaTitle: "Cookie Policy",
       metaDescription:
-        "The Laume website uses only technical and strictly necessary cookies. There are no advertising or profiling cookies.",
+        "Laume's necessary storage and consent-based Google Analytics measurement preferences. No advertising or profiling is used.",
     },
     refunds: {
       metaTitle: "Refund Policy",
@@ -459,14 +503,14 @@ const en: Dictionary = {
       ],
       backCta: "← Back to legal center",
       lastUpdatedLabel: "Last updated",
-      lastUpdated: "4 September 2026",
+      lastUpdated: "24 September 2026",
       privacyBody: {
         collectHeading: "Data we collect",
         collectItems: [
           { title: "Account information", body: "Email address, username and profile details." },
           { title: "Location data", body: "Your device location is used for leaving letters and opening seals, only during that action and only with your explicit permission. Background location permission is never requested." },
           { title: "User content", body: "The letter text, photos and voice recordings you create." },
-          { title: "Usage data", body: "Error logs, in-app interactions and operating system version." },
+          { title: "Usage data", body: "Error logs, in-app interactions and operating system version. Website visit measurement uses Google Analytics 4 only after explicit consent; advertising personalization is disabled." },
         ],
         useHeading: "How we use the data",
         useBody:
@@ -501,11 +545,11 @@ const en: Dictionary = {
       sections: [
         {
           heading: "Cookies we use",
-          body: "The website uses only strictly necessary local storage for session preferences: whether you completed the discovery, your sound preference and your language choice.",
+          body: "The website uses necessary local storage to remember discovery completion, sound, language and analytics consent preferences. Google Analytics 4 is enabled only after the visitor explicitly allows it and provides visit and interaction statistics.",
         },
         {
           heading: "What we do not use",
-          body: "No third-party advertising or profiling cookies are used.",
+          body: "Advertising storage, ad personalization and user profiling are disabled. Analytics consent can be rejected or changed later through the cookie settings button on the page.",
         },
       ],
     },

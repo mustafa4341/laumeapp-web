@@ -20,7 +20,8 @@ export type AnalyticsEvent =
 
 /**
  * Dispatches an analytics event.
- * In development, logs events to console. In production, integrates with real analytics provider.
+ * Sends typed product events to Google Analytics when the visitor has granted
+ * analytics consent. Google Consent Mode handles the denied state.
  */
 export function trackEvent(event: AnalyticsEvent): void {
   if (typeof window === "undefined") return;
@@ -30,10 +31,14 @@ export function trackEvent(event: AnalyticsEvent): void {
     // console.log("[Analytics]", event.name, event.payload ?? {});
   }
 
-  // Future provider hook (e.g. window.gtag, PostHog, Mixpanel)
   try {
-    const customWindow = window as unknown as { dataLayer?: unknown[] };
-    if (customWindow.dataLayer && Array.isArray(customWindow.dataLayer)) {
+    const customWindow = window as unknown as {
+      gtag?: (...args: unknown[]) => void;
+      dataLayer?: unknown[];
+    };
+    if (typeof customWindow.gtag === "function") {
+      customWindow.gtag("event", event.name, event.payload ?? {});
+    } else if (customWindow.dataLayer && Array.isArray(customWindow.dataLayer)) {
       customWindow.dataLayer.push({ event: event.name, ...event.payload });
     }
   } catch {

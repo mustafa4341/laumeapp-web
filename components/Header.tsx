@@ -101,6 +101,9 @@ export default function Header({ locale }: { locale: Locale }) {
                 <Link href={link("/about")} className="link-nav">
                   {dict.nav.about}
                 </Link>
+                <Link href={link("/ideas")} className="link-nav">
+                  {dict.nav.ideas}
+                </Link>
                 <Link href={link("/support")} className="link-nav">
                   {dict.nav.support}
                 </Link>

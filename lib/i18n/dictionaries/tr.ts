@@ -101,11 +101,21 @@ const tr = {
     foundTitle: "Buldun.",
     holdSub: "Basılı tut.",
     pullSub: "Yukarı çek.",
-    letterTitle: "Bu sadece ilkiydi.",
-    letterBody: "Birileri, bir yerde, senin bulman için bir şey bıraktı.",
-    continuationTitle: "Yakınında başka ne var?",
-    continuationCta: "Bulmaya devam et →",
-    continuationHint: "Uygulamayı açar",
+    /**
+     * Mektubun sesi, uygulamadaki Laume Postanesi karşılama mektuplarıyla aynı
+     * (layar `pazarlama/karsilama-postanesi/POSTANE-MEKTUPLARI-v1.md`):
+     * talimat değil davet, her cümle doğru. Paragraflar "\n\n" ile ayrılır.
+     */
+    letterTitle: "Merhaba.",
+    letterBody:
+      "Bu mektubu bulmak için birkaç adım yürüdün. Laume'de her mektup böyle bulunur: gerçek bir yere bırakılır, yalnız oraya giden okur.\n\nDünyanın başka köşelerinde, başka insanların bıraktığı mektuplar da var. Kimseye gönderilmediler; yerlerine bırakıldılar.",
+    letterSign: "— Laume Postanesi",
+    continuationTitle: "Sıradaki mektup gerçek bir yerde seni bekliyor.",
+    /** Uygulama en az bir mağazada indirilebiliyorsa. */
+    continuationBodyLive: "Laume'yi indir, haritadaki en yakın mühre yürü. 50 metreye yaklaşınca açılır.",
+    /** Henüz hiçbir mağazada yoksa. */
+    continuationBodySoon: "Laume mağazalara çıkmak üzere. Çıktığı gün sana tek bir e-posta yazalım.",
+    continuationCta: "Önce siteyi gez →",
     skip: "Keşfi geç",
     audioOn: "Sesi kapat",
     audioOff: "Sesi aç",
@@ -131,9 +141,62 @@ const tr = {
       near: "Hedefe yaklaştın.",
       sealReady: "Bir zarf buldun. Mührü açmak için basılı tut.",
       letterPull: "Mühür açıldı. Mektubu yukarı çek.",
-      letterRead:
-        "Mektup açıldı: Bu sadece ilkiydi. Birileri, bir yerde, senin bulman için bir şey bıraktı.",
-      continuation: "Yakınında başka ne var? Bulmaya devam et.",
+      letterRead: "Mektup açıldı. Laume Postanesi'nden bir karşılama mektubu.",
+      continuation: "Sıradaki mektup gerçek bir yerde seni bekliyor.",
+    },
+  },
+
+  /**
+   * Uygulamayı edinme: mağaza rozetleri + bekleme listesi.
+   * Durum `lib/config.ts` → `appConfig.stores` üzerinden okunur; bir mağaza
+   * yayında değilse rozet link değil, "çıkınca haber ver" formunu açar.
+   * Ton: `layar/pazarlama/05-MARKA-DILI.md` — ünlem yok, aciliyet yok.
+   */
+  getApp: {
+    dockAria: "Laume'yi edin",
+    liveTag: "İndir",
+    soonTag: "Yakında",
+    appStore: "App Store",
+    googlePlay: "Google Play",
+    appStoreLiveAria: "App Store'dan indir",
+    googlePlayLiveAria: "Google Play'den indir",
+    appStoreSoonAria: "App Store'a çıkınca haber ver",
+    googlePlaySoonAria: "Google Play'e çıkınca haber ver",
+    soonNote: "Laume mağazalara çıkmak üzere. Rozete dokun, çıktığı gün haber verelim.",
+    cityLink: "Şehrinde henüz rota yok mu? Gelince haber verelim.",
+    waitlist: {
+      launchEyebrow: "Çıkınca haber ver",
+      launchTitle: "Laume çıktığında sana yazalım.",
+      launchBody: "Tek bir e-posta: uygulama telefonunun mağazasına geldiği gün.",
+      cityEyebrow: "Şehrime gelince haber ver",
+      cityTitle: "Şehrine mektuplar geldiğinde haber verelim.",
+      cityBody: "Şehrinde ilk rota açıldığında yalnız o şehirdekilere yazarız.",
+      email: "E-posta",
+      emailPlaceholder: "sen@ornek.com",
+      city: "Şehir",
+      cityPlaceholder: "İstanbul",
+      platform: "Telefonun",
+      ios: "iPhone",
+      android: "Android",
+      consent: "Bu adrese yalnız bu konuda e-posta gönderilmesine izin veriyorum.",
+      consentPrivacyLead: "Verilerinin nasıl işlendiği:",
+      consentPrivacyLink: "Gizlilik Politikası",
+      marketing: "Yeni rotalar ve şehrimdeki mektuplar için ara sıra yazabilirsiniz. İsteğe bağlı.",
+      submit: "Haber ver",
+      submitting: "Kaydediliyor…",
+      successTitle: "Kaydını aldık.",
+      successLaunch: "Laume çıktığı gün bu adrese yazacağız.",
+      successCity: "Şehrinde ilk rota açıldığında bu adrese yazacağız.",
+      unsubscribeNote: "Her e-postanın altında tek tıkla ayrılma bağlantısı olur.",
+      close: "Kapat",
+      errors: {
+        email: "Geçerli bir e-posta adresi yaz.",
+        city: "Şehrini yaz.",
+        platform: "Telefonunu seç.",
+        consent: "Devam etmek için izin kutusunu işaretle.",
+        server: "Şu an kaydedemedik. Biraz sonra yeniden dene.",
+        fallbackLead: "Ya da bize doğrudan yaz:",
+      },
     },
   },
 
@@ -232,8 +295,7 @@ const tr = {
       final: {
         eyebrow: "İlk keşfin",
         title: "İlk mektup yakınında olabilir.",
-        body: "Yayın durumunu ve desteklenen cihazları indirme sayfasında görebilirsin.",
-        primary: "İndirme sayfasına git",
+        body: "Laume'yi indir, haritadaki en yakın mühre yürü. 50 metreye yaklaşınca açılır.",
         secondary: "Destek merkezini aç →",
         ideas: "Şehirde keşif ve eğlence fikirleri →",
       },
@@ -471,12 +533,7 @@ const tr = {
     },
     download: {
       heading: "Laume'ı indir",
-      lede: "Laume mağazalarda yerini almaya hazırlanıyor. Desteklenen cihazları ve güncel yayın durumunu burada görebilirsin.",
-      playHeading: "Google Play",
-      playBody: "Android 10 (API 29) ve üzeri cihazlar için hazırlanıyor.",
-      appStoreHeading: "Apple App Store",
-      appStoreBody: "iOS 15.0 ve üzeri iPhone cihazlar için hazırlanıyor.",
-      comingSoon: "Yayın hazırlığında",
+      lede: "Bir mektup bir yere aittir. Onu okumanın tek yolu oraya gitmektir; 50 metreye yaklaşınca mühür açılır.",
     },
     support: {
       heading: "Destek Merkezi",
@@ -517,6 +574,7 @@ const tr = {
           { title: "Konum verisi", body: "Mektup bırakma ve mühür açma işlevleri için cihaz konumun, yalnızca ilgili işlem sırasında ve açık iznin ile kullanılır. Arka plan konum izni hiç istenmez." },
           { title: "Kullanıcı içeriği", body: "Oluşturduğun mektup metinleri, fotoğraflar ve ses kayıtları." },
           { title: "Kullanım verisi", body: "Hata kayıtları, uygulama içi etkileşimler ve işletim sistemi sürümü. Web sitesi ziyaret ölçümü yalnız açık izin verilirse Google Analytics 4 ile yapılır; reklam kişiselleştirmesi kapalıdır." },
+          { title: "Bekleme listesi (web sitesi)", body: "\"Çıkınca haber ver\" veya \"Şehrime gelince haber ver\" formunu doldurursan e-posta adresin, şehrin, telefon türün, onay zamanın ve onay verdiğin metnin sürümü saklanır. Bu bilgiler yalnız formda seçtiğin konuda sana yazmak için kullanılır; ayrıca izin vermediysen başka e-posta gönderilmez. Her e-postadaki bağlantıyla ayrılabilir veya destek adresine yazarak kaydının silinmesini isteyebilirsin." },
         ],
         useHeading: "Verileri nasıl kullanıyoruz",
         useBody:
@@ -650,6 +708,22 @@ const tr = {
    * bu adrese `?code=…` ile döner; sayfa şifreyi DEĞİŞTİRMEZ, yalnız kullanıcıyı
    * boş ekranda bırakmaz ve kodu Laume uygulamasına taşır (kaynak: FIX-026).
    */
+  /**
+   * `/auth/confirmed` — kayıt doğrulama e-postasındaki bağlantının indiği
+   * sayfa. Doğrulama sunucuda bu sayfaya gelmeden ÖNCE tamamlanır.
+   */
+  emailConfirmed: {
+    metaTitle: "E-posta adresin doğrulandı",
+    metaDescription: "Laume hesabının e-posta doğrulaması.",
+    heading: "E-posta adresin doğrulandı.",
+    body: "Laume'ye dön ve e-posta adresinle giriş yap. İlk mektubun seni bekliyor.",
+    openInApp: "Laume'yi aç",
+    desktopNote: "Bilgisayardaysan uygulamayı telefonundan aç; hesabın orada da doğrulanmış olarak görünür.",
+    errorHeading: "Bu bağlantı artık geçerli değil.",
+    errorBody:
+      "Bağlantının süresi dolmuş ya da daha önce kullanılmış olabilir. Uygulamada doğrulama ekranındaki \"Tekrar gönder\"e dokun; yeni bir kod gelir.",
+  },
+
   resetPassword: {
     metaTitle: "Şifreni sıfırla",
     metaDescription:

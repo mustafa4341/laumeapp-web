@@ -16,6 +16,8 @@ import { useDiscoveryAudio } from "./useDiscoveryAudio";
 import { useDiscoveryCompletion } from "./useDiscoveryCompletion";
 import { soundEngine } from "@/lib/audio/soundEngine";
 import { getDictionary } from "@/lib/i18n/dictionaries";
+import { appConfig } from "@/lib/config";
+import { GetApp } from "@/components/getapp/GetApp";
 import type { Locale } from "@/lib/i18n/config";
 import {
   TRACE_STEP_COUNT,
@@ -28,9 +30,25 @@ import {
 
 const ASSET = "/assets/discovery";
 
-/** İzin kaçıncı adımında hikâye ilerler. */
-const TRACE_REVEAL_AT = 3;
-const FRAGMENT_REVEAL_AT = 6;
+/** İzin kaçıncı adımında hikâye ilerler (toplam: TRACE_STEP_COUNT = 8). */
+const TRACE_REVEAL_AT = 2;
+const FRAGMENT_REVEAL_AT = 4;
+
+/**
+ * RİTÜEL ZAMANLAMASI — 2026-09-30'da kısaltıldı.
+ * Ziyaretçi mektuba varmadan bırakıyordu; her bekleme, ritüelin anlamını
+ * bozmadan olabildiğince kısa tutuldu. Etkileşim (iz, mühür, çekme) hâlâ
+ * ziyaretçiye ait: beklemek hikâyeyi ilerletmez.
+ */
+const TIMING = {
+  arrivalTitleDelay: 240,
+  fragmentHold: 1400,
+  nearPause: 420,
+  letterReadBeforeInvite: 2200,
+  /** Mektup okunurken bir dokunuş daveti hemen getirir; bu süre yanlışlıkla
+   *  çekme hareketinin bırakılmasıyla tetiklenmesin diye. */
+  letterTapGuard: 500,
+} as const;
 
 interface Viewport {
   width: number;
@@ -47,7 +65,10 @@ export function DiscoveryStage({ locale }: { locale: Locale }) {
   const t = dict.discovery;
 
   const [state, dispatch] = useReducer(discoveryReducer, INITIAL_DISCOVERY_STATE);
-  const { navigateToHome, completeDiscovery, skipDiscovery } = useDiscoveryCompletion();
+  const { navigateToHome, completeDiscovery, skipDiscovery } = useDiscoveryCompletion(locale);
+  const appLive = Object.values(appConfig.stores).some(
+    (store) => store.status === "active" && Boolean(store.url)
+  );
   const rigHandleRef = useRef<EnvelopeRigHandle | null>(null);
 
   const current = state.current;
@@ -122,6 +143,14 @@ export function DiscoveryStage({ locale }: { locale: Locale }) {
     viewport.width <= 860 ? 340 : Math.max(520, viewport.width * 0.5),
     720
   );
+  // Davet belirince mektup kenara kayar: masaüstünde sola (davet sağda),
+  // telefonda yukarı (davet altta). Mektup okunur kalır, üstüne binilmez.
+  const focusPoint =
+    current === "continuation"
+      ? viewport.width <= 860
+        ? { x: viewport.width / 2, y: viewport.height * 0.36 }
+        : { x: viewport.width * 0.36, y: viewport.height * 0.5 }
+      : null;
 
   // ---------------------------------------------------------------- yönlendirme
   useEffect(() => {
@@ -248,14 +277,14 @@ export function DiscoveryStage({ locale }: { locale: Locale }) {
   // Kâğıt parçası okunacak kadar durur, sonra yol kendiliğinden devam eder.
   useEffect(() => {
     if (current !== "fragment") return;
-    const t = window.setTimeout(() => dispatch({ type: "FOUND_FRAGMENT" }), 2400);
+    const t = window.setTimeout(() => dispatch({ type: "FOUND_FRAGMENT" }), TIMING.fragmentHold);
     return () => window.clearTimeout(t);
   }, [current]);
 
   // Yakın mesafede kısa bir duruş, sonra zarf ortaya çıkar.
   useEffect(() => {
     if (current !== "near") return;
-    const t = window.setTimeout(() => dispatch({ type: "FOUND_ENVELOPE" }), 900);
+    const t = window.setTimeout(() => dispatch({ type: "FOUND_ENVELOPE" }), TIMING.nearPause);
     return () => window.clearTimeout(t);
   }, [current]);
 
@@ -285,6 +314,10 @@ export function DiscoveryStage({ locale }: { locale: Locale }) {
         return;
       }
 
+      // Açık bir diyalog (bekleme listesi formu) klavyeyi kendisi yönetir;
+      // orada basılan Escape formu kapatır, keşfi değil.
+      if (target?.closest?.("dialog") || document.querySelector("dialog[open]")) return;
+
       if (e.key === "Escape") {
         if (stateRef.current !== "completed" && stateRef.current !== "skipped") handleSkip();
         return;
@@ -295,7 +328,9 @@ export function DiscoveryStage({ locale }: { locale: Locale }) {
       }
       // Mühür ve mektup kendi klavye davranışlarını yönetir; odak onlardaysa
       // buradan ikinci kez ilerletme.
-      if (target?.closest?.("[data-testid='seal-press-target'], [role='button']")) return;
+      // Aynı şey gerçek düğme ve bağlantılar için de geçerli (mağaza rozetleri,
+      // devam bağlantısı): Enter onların kendi tıklamasıdır.
+      if (target?.closest?.("[data-testid='seal-press-target'], [role='button'], button, a")) return;
 
       e.preventDefault();
 
@@ -338,9 +373,19 @@ export function DiscoveryStage({ locale }: { locale: Locale }) {
   // Mektup okununca kısa bir nefesten sonra devam çağrısı belirir.
   useEffect(() => {
     if (current !== "letter-read") return;
-    // Mektup önce ortaya oturur (900ms), sonra okunacak kadar durur.
-    const t = window.setTimeout(() => dispatch({ type: "SHOW_CONTINUATION" }), 4400);
-    return () => window.clearTimeout(t);
+    // Mektup önce ortaya oturur, sonra kısa bir okuma nefesi. Acelesi olan
+    // ziyaretçi ekrana dokunarak daveti hemen getirebilir.
+    const showInvite = () => dispatch({ type: "SHOW_CONTINUATION" });
+    const t = window.setTimeout(showInvite, TIMING.letterReadBeforeInvite);
+    const guard = window.setTimeout(
+      () => window.addEventListener("pointerdown", showInvite, { once: true }),
+      TIMING.letterTapGuard
+    );
+    return () => {
+      window.clearTimeout(t);
+      window.clearTimeout(guard);
+      window.removeEventListener("pointerdown", showInvite);
+    };
   }, [current]);
 
   // -------------------------------------------------------------------- görsel
@@ -475,20 +520,25 @@ export function DiscoveryStage({ locale }: { locale: Locale }) {
           anchor={targetAnchor}
           width={rigWidth}
           focusedWidth={focusedRigWidth}
+          focusPoint={focusPoint}
           emergence={emergence}
           reducedMotion={reducedMotion}
           onSealHoldStart={() => dispatch({ type: "START_SEAL_HOLD" })}
           onSealBroken={(method) => dispatch({ type: "BREAK_SEAL", method })}
           onLetterRevealed={() => dispatch({ type: "REVEAL_LETTER" })}
           labels={{ seal: t.sealAria, letter: t.letterAria, letterRegion: t.letterRegionAria }}
-          letterCopy={{ title: t.letterTitle, body: t.letterBody }}
+          letterCopy={{ title: t.letterTitle, body: t.letterBody, sign: t.letterSign }}
         />
       )}
 
       {/* --------------------------------------------------------- anlatı ---- */}
       <div className={styles.narrative}>
         {current === "arrival" && (
-          <h1 key="arrival" className={styles.line} style={{ animationDelay: "820ms" }}>
+          <h1
+            key="arrival"
+            className={styles.line}
+            style={{ animationDelay: `${TIMING.arrivalTitleDelay}ms` }}
+          >
             {t.arrivalTitle}
           </h1>
         )}
@@ -535,16 +585,20 @@ export function DiscoveryStage({ locale }: { locale: Locale }) {
         )}
 
         {current === "letter-pull" && (
-          <p key="pull" className={styles.sub} style={{ animationDelay: "500ms" }}>
+          <p key="pull" className={styles.sub} style={{ animationDelay: "160ms" }}>
             {t.pullSub}
           </p>
         )}
 
         {current === "continuation" && (
-          <>
-            <p key="continuation" className={styles.line}>
+          <div className={styles.invite} data-testid="discovery-invite">
+            <p key="continuation" className={styles.inviteTitle}>
               {t.continuationTitle}
             </p>
+            <p className={styles.inviteBody}>
+              {appLive ? t.continuationBodyLive : t.continuationBodySoon}
+            </p>
+            <GetApp locale={locale} surface="discovery_letter" variant="panel" />
             <button
               type="button"
               data-testid="btn-continue-discovery"
@@ -553,8 +607,7 @@ export function DiscoveryStage({ locale }: { locale: Locale }) {
             >
               {t.continuationCta}
             </button>
-            <p className={styles.note}>{t.continuationHint}</p>
-          </>
+          </div>
         )}
       </div>
 
@@ -566,6 +619,16 @@ export function DiscoveryStage({ locale }: { locale: Locale }) {
       <div className={styles.brand}>
         {/* eslint-disable-next-line @next/next/no-img-element -- statik SVG wordmark */}
         <img src="/assets/brand/laume-wordmark.svg" alt="Laume" width={112} height={24} />
+      </div>
+      {/* Mağaza rozetleri ilk andan itibaren elinin altında. Ritüeli bitirmek
+          şart değil; devam çağrısında aynı rozetler büyük hâliyle yer alır. */}
+      <div className={styles.dockSlot}>
+        <GetApp
+          locale={locale}
+          surface="discovery_dock"
+          variant="dock"
+          concealed={current === "continuation" || leaving}
+        />
       </div>
       <div className={styles.audioSlot}>
         <AudioToggle labelOn={t.audioOn} labelOff={t.audioOff} />

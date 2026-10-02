@@ -448,27 +448,6 @@ a:hover {
   text-decoration: none;
 }
 
-.store-status {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-2);
-  min-height: 44px;
-  padding: 0 var(--space-4);
-  border: 1px solid var(--border-medium);
-  border-radius: var(--radius-full);
-  background: var(--color-bg-base);
-  color: var(--color-text-secondary);
-  font-size: var(--text-sm);
-  font-weight: 600;
-}
-
-.store-status > span {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--laume-amber-ink);
-}
-
 @media (max-width: 640px) {
   .footer-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
@@ -699,8 +678,17 @@ a:hover {
   cursor: pointer;
 }
 
+/* Keşif sahnesinde alt kenar mağaza rozetlerine ait; küçük ayar düğmesi
+   onların üstüne binerdi. Tercih diğer tüm sayfalardan değiştirilebilir. */
+body:has([data-testid="discovery-stage"]) .analytics-settings { display: none; }
+
 @media (max-width: 700px) {
   .analytics-consent { align-items: stretch; flex-direction: column; }
   .analytics-consent-actions { justify-content: stretch; }
   .analytics-consent-actions .btn { flex: 1; }
 }
+
+/* /download: tek başlık, tek cümle, iki rozet. */
+.download-hero { max-width: 640px; padding-block: var(--space-6) var(--space-12); }
+.download-hero .page-header { margin-bottom: var(--space-8); }
+.download-requirements { margin-top: var(--space-8); color: var(--color-text-tertiary); font-size: var(--text-sm); }

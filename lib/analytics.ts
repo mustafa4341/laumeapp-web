@@ -16,7 +16,17 @@ export type AnalyticsEvent =
   | { name: "web_letter_revealed"; payload?: { letterId?: string } }
   | { name: "web_discovery_completed"; payload?: { durationMs?: number } }
   | { name: "web_home_cta_clicked"; payload?: { platform?: "google_play" | "app_store" | "general" } }
-  | { name: "web_download_cta_clicked"; payload?: { platform?: "google_play" | "app_store" | "general" } };
+  | {
+      name: "web_download_cta_clicked";
+      payload?: { platform?: "google_play" | "app_store" | "general"; surface?: string };
+    }
+  /** Bekleme listesi: kişisel veri YOK, yalnız niyet/platform/yüzey. */
+  | {
+      name: "web_waitlist_opened";
+      payload: { platform: "ios" | "android" | "unknown"; intent: "launch" | "city"; surface: string };
+    }
+  | { name: "web_waitlist_submitted"; payload: { platform: "ios" | "android"; intent: "launch" | "city" } }
+  | { name: "web_waitlist_failed"; payload: { reason: string } };
 
 /**
  * Dispatches an analytics event.

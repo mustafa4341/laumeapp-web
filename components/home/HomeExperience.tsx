@@ -3,6 +3,7 @@ import Link from "next/link";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { localeHref, type Locale } from "@/lib/i18n/config";
 import styles from "./HomeExperience.module.css";
+import { GetApp } from "@/components/getapp/GetApp";
 
 export function HomeExperience({ locale }: { locale: Locale }) {
   const copy = getDictionary(locale).home.experience;
@@ -25,8 +26,11 @@ export function HomeExperience({ locale }: { locale: Locale }) {
           <p className={styles.eyebrow}>{copy.hero.eyebrow}</p>
           <h1 id="home-title">{copy.hero.title}</h1>
           <p className={styles.heroBody}>{copy.hero.body}</p>
+          {/* İlk bakışta tek eylem: uygulamayı edinmek. Yayında olmayan mağaza
+              rozeti "çıkınca haber ver" formunu açar. */}
+          <GetApp locale={locale} surface="home" variant="panel" className={styles.heroGetApp} />
           <div className={styles.heroActions}>
-            <Link className={styles.primaryAction} href="#hikayeler">
+            <Link className={styles.textAction} href="#hikayeler">
               {copy.hero.primary}
             </Link>
             <Link className={styles.textAction} href={`${link("/")}?replay=1`}>
@@ -177,7 +181,7 @@ export function HomeExperience({ locale }: { locale: Locale }) {
           <p>{copy.final.body}</p>
         </div>
         <div className={styles.finalActions}>
-          <Link className={styles.primaryAction} href={link("/download")}>{copy.final.primary}</Link>
+          <GetApp locale={locale} surface="home" variant="panel" />
           <Link className={styles.textAction} href={link("/support")}>{copy.final.secondary}</Link>
           <Link className={styles.textAction} href={link("/ideas")}>{copy.final.ideas}</Link>
         </div>

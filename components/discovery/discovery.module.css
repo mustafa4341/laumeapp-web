@@ -178,9 +178,9 @@
   pointer-events: none;
   /* Bulunduğu andan okuma aşamasına kadarki tüm yolculuk tek geçiş üzerinden;
      bilinçli olarak yavaş — nesnenin ağırlığı buradan geliyor. */
-  transition: opacity 1100ms var(--ease-out), transform 1100ms var(--ease-default),
-    left 1100ms var(--ease-default), top 1100ms var(--ease-default),
-    width 1100ms var(--ease-default);
+  transition: opacity 800ms var(--ease-out), transform 800ms var(--ease-default),
+    left 800ms var(--ease-default), top 800ms var(--ease-default),
+    width 800ms var(--ease-default);
 }
 
 .rigVisible {
@@ -350,11 +350,21 @@
 }
 
 .letterBody {
+  display: grid;
+  gap: 0.7em;
   font-family: var(--font-serif);
-  font-size: clamp(0.95rem, 1.35vw, 1.25rem);
-  line-height: 1.6;
+  font-size: clamp(0.92rem, 1.2vw, 1.12rem);
+  line-height: 1.55;
   color: var(--laume-ink);
-  max-width: 26ch;
+  max-width: 30ch;
+}
+
+.letterSign {
+  align-self: flex-end;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: clamp(0.82rem, 1vw, 0.98rem);
+  color: var(--laume-muted);
 }
 
 .letterRule {
@@ -579,24 +589,49 @@
   }
 }
 
+/* Mektup okunduktan sonraki davet: başlık, tek cümle, rozetler, ikincil yol. */
+.invite {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-3);
+  animation: lineIn 620ms var(--ease-out) both;
+}
+
+.inviteTitle {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-size: clamp(1.7rem, 2.6vw, 2.5rem);
+  line-height: 1.14;
+  color: var(--laume-ink);
+}
+
+.inviteBody {
+  max-width: 34ch;
+  margin-bottom: var(--space-2);
+  font-size: var(--text-base);
+  line-height: 1.55;
+  color: var(--laume-muted);
+}
+
 .continueLink {
   display: inline-flex;
   align-items: center;
   min-height: 44px;
-  margin-top: var(--space-5);
+  margin-top: var(--space-1);
   background: none;
   border: 0;
   padding: 0;
   font: inherit;
-  font-size: var(--text-lg);
-  color: var(--laume-violet);
+  font-size: var(--text-sm);
+  color: var(--laume-muted);
   text-decoration: underline;
   text-underline-offset: 5px;
   cursor: pointer;
 }
 
 .continueLink:hover {
-  color: var(--laume-violet-pressed);
+  color: var(--laume-violet);
 }
 
 .note {
@@ -653,6 +688,34 @@
   top: var(--space-6);
   right: var(--space-6);
   z-index: 30;
+}
+
+/* Mağaza rozetleri: masaüstünde sağ alt köşe, ritüelin yolunu kesmez. */
+.dockSlot {
+  position: absolute;
+  width: max-content;
+  max-width: calc(100vw - 24px);
+  right: var(--space-6);
+  bottom: var(--space-6);
+  z-index: 30;
+  animation: dockIn 560ms var(--ease-out) 300ms both;
+}
+
+@keyframes dockIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Davet sahnesi (masaüstü): mektup sola kayar, davet sağda durur. */
+.stage[data-state="continuation"] .narrative {
+  left: auto;
+  right: clamp(24px, 5vw, 88px);
 }
 
 .skip {
@@ -750,19 +813,74 @@
     right: 14px;
   }
 
+  /* Alt kenar rozetlerin; "keşfi geç" üstte, ses düğmesinin yanında. */
   .skip {
+    top: max(10px, env(safe-area-inset-top));
+    right: 62px;
+    bottom: auto;
+    left: auto;
+    padding-inline: 10px;
+    font-size: 0.8rem;
+  }
+
+  .dockSlot {
+    right: auto;
     left: 50%;
-    bottom: max(8px, env(safe-area-inset-bottom));
+    bottom: max(10px, env(safe-area-inset-bottom));
     transform: translateX(-50%);
-    padding-inline: 16px;
+    animation-name: dockInCentered;
+  }
+
+  @keyframes dockInCentered {
+    from {
+      opacity: 0;
+      transform: translate(-50%, 8px);
+    }
+    to {
+      opacity: 1;
+      transform: translate(-50%, 0);
+    }
+  }
+
+  /* Davet sahnesi (telefon): mektup yukarı, davet alttan bir kart. */
+  .stage[data-state="continuation"] .narrative {
+    top: auto;
+    right: auto;
+    left: 50%;
+    bottom: max(12px, env(safe-area-inset-bottom));
+    transform: translateX(-50%);
+    width: calc(100vw - 24px);
+    max-width: 440px;
+    padding: 20px 18px 10px;
     border: 1px solid var(--laume-border);
-    border-radius: var(--radius-full);
-    background: rgba(251, 250, 247, 0.9);
-    backdrop-filter: blur(8px);
+    border-radius: 22px;
+    background: rgba(251, 250, 247, 0.92);
+    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(14px);
+    box-shadow: 0 -10px 40px rgba(15, 23, 42, 0.12);
+    text-align: left;
+  }
+
+  .invite {
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .inviteTitle {
+    font-size: clamp(1.3rem, 6vw, 1.6rem);
+  }
+
+  .inviteBody {
+    margin-bottom: 4px;
+    font-size: 0.92rem;
+  }
+
+  .continueLink {
+    align-self: center;
   }
 
   .hint {
-    bottom: max(calc(env(safe-area-inset-bottom) + 58px), 70px);
+    bottom: max(calc(env(safe-area-inset-bottom) + 76px), 84px);
     max-width: calc(100vw - 32px);
     white-space: normal;
     text-align: center;

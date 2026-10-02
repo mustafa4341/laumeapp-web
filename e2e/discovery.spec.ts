@@ -1,12 +1,15 @@
 import { test, expect, type Page } from "@playwright/test";
 
 /** İzdeki toplam adım — components/discovery/traceGeometry.ts ile aynı. */
-const TRACE_STEPS = 12;
+const TRACE_STEPS = 8;
 
 async function clearDiscoveryStorage(page: Page) {
   await page.addInitScript(() => {
     localStorage.removeItem("laume_discovery_completed");
     localStorage.removeItem("layar_discovery_completed");
+    // GA yapılandırılmışsa ölçüm izni banner'ı alt kenardaki "keşfi geç"
+    // düğmesini kaplar (eski flaky testin nedeni). Tercih önceden verilir.
+    localStorage.setItem("laume_analytics_consent", "denied");
   });
 }
 
@@ -49,13 +52,13 @@ test.describe("Keşif deneyimi", () => {
     await page.mouse.move(400, 300);
     await expectState(page, "trace");
 
-    // İlk üç adım "bir iz" aşamasını tamamlar.
-    await walkTrailWithKeyboard(page, 3);
+    // İlk iki adım "bir iz" aşamasını tamamlar.
+    await walkTrailWithKeyboard(page, 2);
     await expectState(page, "fragment");
     await expect(page.getByText("…senin bulacağını biliyordum…", { exact: true })).toBeVisible();
 
     // Kalan adımlar mesafeyi kapatır.
-    await walkTrailWithKeyboard(page, TRACE_STEPS - 3);
+    await walkTrailWithKeyboard(page, TRACE_STEPS - 2);
     await expectState(page, "seal-ready");
     await expect(page.getByText("Buldun.", { exact: true })).toBeVisible();
   });
@@ -169,9 +172,9 @@ test.describe("Keşif deneyimi", () => {
     await page.mouse.up();
 
     await expectState(page, "letter-read");
-    await expect(page.getByRole("heading", { name: "Bu sadece ilkiydi." })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Merhaba." })).toBeVisible();
     await expect(
-      page.getByTestId("letter-sheet").getByText("Birileri, bir yerde, senin bulman için bir şey bıraktı.")
+      page.getByTestId("letter-sheet").getByText("— Laume Postanesi")
     ).toBeVisible();
   });
 
@@ -187,11 +190,14 @@ test.describe("Keşif deneyimi", () => {
 
     await page.keyboard.press("Enter"); // mektup çekilir
     await expectState(page, "letter-read");
-    await expect(page.getByRole("heading", { name: "Bu sadece ilkiydi." })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Merhaba." })).toBeVisible();
 
     await page.keyboard.press("Enter");
     await expectState(page, "continuation");
-    await expect(page.getByText("Yakınında başka ne var?", { exact: true })).toBeVisible();
+    await expect(
+      page.getByTestId("discovery-invite").getByText("Sıradaki mektup gerçek bir yerde seni bekliyor.")
+    ).toBeVisible();
+    await expect(page.getByTestId("discovery-invite").getByTestId("store-badge-ios")).toBeVisible();
 
     await page.getByTestId("btn-continue-discovery").click();
     await expect(page).toHaveURL(/\/home/, { timeout: 12_000 });
@@ -213,7 +219,7 @@ test.describe("Keşif deneyimi", () => {
     const letter = page.getByTestId("letter-sheet");
     await letter.dispatchEvent("pointerdown", { pointerId: 1, button: 0 });
     await expectState(page, "letter-read");
-    await expect(page.getByRole("heading", { name: "Bu sadece ilkiydi." })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Merhaba." })).toBeVisible();
   });
 
   test("keşif her aşamadan atlanabilir", async ({ page }) => {

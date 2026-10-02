@@ -32,7 +32,8 @@
 }
 .hero h1 { max-width: 640px; margin: 22px 0 24px; font-size: clamp(3.35rem, 6.2vw, 6.6rem); color: #0b2141; }
 .heroBody { font-size: clamp(1.05rem, 1.4vw, 1.28rem); line-height: 1.65; color: #3b4e69; }
-.heroActions { display: flex; align-items: center; gap: 26px; margin-top: 34px; }
+.heroGetApp { margin-top: 32px; }
+.heroActions { display: flex; align-items: center; gap: 26px; margin-top: 22px; }
 .primaryAction { display: inline-flex; align-items: center; justify-content: center; min-height: 54px; padding: 0 28px; border-radius: 14px; color: white; background: #6d28d9; box-shadow: 0 12px 30px rgba(76,29,149,.18); font-weight: 700; }
 .primaryAction:hover { text-decoration: none; background: #5b21b6; transform: translateY(-1px); }
 .textAction { color: #5b21b6; font-weight: 700; }

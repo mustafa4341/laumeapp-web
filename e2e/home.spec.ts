@@ -62,9 +62,13 @@ test.describe("Laume ana sayfası — bağlantılar ve görseller", () => {
     }
   });
 
-  test("yeniden oynatma ritüele, indirme çağrısı indirme sayfasına gider", async ({ page }) => {
+  test("yeniden oynatma ritüele gider, mağaza rozetleri ilk ekranda", async ({ page }) => {
     await page.goto("/home");
     await expect(page.getByRole("link", { name: "Giriş ritüelini yeniden yaşa →" })).toHaveAttribute("href", "/?replay=1");
-    await expect(page.getByRole("link", { name: "İndirme sayfasına git" })).toHaveAttribute("href", "/download");
+    // Hero'da ve sayfa sonunda aynı rozetler: ziyaretçi kaydırmadan indirebilir.
+    const hero = page.locator("section").first();
+    await expect(hero.getByTestId("store-badge-ios")).toBeVisible();
+    await expect(hero.getByTestId("store-badge-android")).toBeVisible();
+    await expect(page.getByTestId("store-badge-ios")).toHaveCount(2);
   });
 });

@@ -1,0 +1,486 @@
+/* ==========================================================================
+   MAĞAZA ROZETLERİ + BEKLEME LİSTESİ
+   Rozetler mürekkep renginde, sakin; mühür moru yalnız eylem anında görünür.
+   ========================================================================== */
+
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 48px;
+  padding: 7px 16px 7px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 13px;
+  background: var(--laume-ink);
+  color: #fff;
+  font: inherit;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.06) inset, 0 6px 18px rgba(15, 23, 42, 0.16);
+  transition: transform 180ms var(--ease-default), box-shadow 180ms var(--ease-default),
+    background-color 180ms var(--ease-default);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.badge:hover {
+  transform: translateY(-1px);
+  background: #1e293b;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.08) inset, 0 10px 24px rgba(15, 23, 42, 0.22);
+}
+
+.badge:active {
+  transform: translateY(0) scale(0.98);
+}
+
+.badge:focus-visible {
+  outline: 2px solid var(--laume-violet);
+  outline-offset: 3px;
+}
+
+.badgeIcon {
+  display: inline-flex;
+  flex: none;
+}
+
+.badgeText {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.05;
+  /* Rozet adı asla kırılmaz: "App / Store" iki satır rozet değil, kaza. */
+  white-space: nowrap;
+}
+
+.badgeTag {
+  font-size: 0.66rem;
+  letter-spacing: 0.04em;
+  opacity: 0.78;
+}
+
+.badge[data-status="soon"] .badgeTag {
+  color: var(--laume-amber-high);
+  opacity: 1;
+}
+
+.badgeName {
+  font-size: 1.02rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+/* ---------------------------------------------------------------- dock ---- */
+.dock {
+  padding: 6px;
+  border: 1px solid var(--laume-border);
+  border-radius: 20px;
+  background: rgba(251, 250, 247, 0.82);
+  -webkit-backdrop-filter: blur(12px) saturate(1.2);
+  backdrop-filter: blur(12px) saturate(1.2);
+  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.1);
+}
+
+.dock .badges {
+  flex-wrap: nowrap;
+  gap: 6px;
+}
+
+.dock .badge {
+  min-height: 44px;
+  padding: 6px 14px 6px 11px;
+  border-radius: 14px;
+  box-shadow: none;
+}
+
+.dock .badgeName {
+  font-size: 0.95rem;
+}
+
+.root {
+  transition: opacity 360ms var(--ease-out), background-color 360ms var(--ease-out),
+    border-color 360ms var(--ease-out), box-shadow 360ms var(--ease-out);
+}
+
+.concealed > .badges {
+  visibility: hidden;
+}
+
+.concealed.dock {
+  border-color: transparent;
+  background: transparent;
+  box-shadow: none;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+
+/* --------------------------------------------------------------- panel ---- */
+.panel .badge {
+  min-height: 54px;
+  padding-inline: 14px 20px;
+}
+
+.panel .badgeName {
+  font-size: 1.12rem;
+}
+
+.note {
+  max-width: 34ch;
+  margin: 0;
+  font-size: var(--text-sm);
+  line-height: 1.5;
+  color: var(--laume-muted);
+}
+
+.textLink {
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: var(--laume-violet);
+  text-align: left;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  cursor: pointer;
+}
+
+/* --------------------------------------------------------------- sheet ---- */
+.sheet {
+  width: min(440px, calc(100vw - 32px));
+  max-height: calc(100dvh - 32px);
+  margin: auto;
+  padding: 0;
+  overflow: auto;
+  border: 1px solid var(--laume-paper-edge);
+  border-radius: 24px;
+  background: var(--laume-paper);
+  color: var(--laume-ink);
+  box-shadow: 0 30px 80px rgba(15, 23, 42, 0.28);
+  overscroll-behavior: contain;
+}
+
+.sheet::backdrop {
+  background: rgba(15, 23, 42, 0.38);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+}
+
+.sheet[open] {
+  animation: sheetIn 320ms var(--ease-default) both;
+}
+
+@keyframes sheetIn {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.sheetInner {
+  position: relative;
+  padding: 34px 28px 26px;
+}
+
+.close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: 50%;
+  background: none;
+  color: var(--laume-muted);
+  cursor: pointer;
+}
+
+.close:hover {
+  background: var(--laume-violet-soft);
+  color: var(--laume-ink);
+}
+
+/* Küçük mum mühür — formun bir mektup olduğunu hatırlatır. */
+.seal {
+  display: block;
+  width: 38px;
+  height: 38px;
+  margin-bottom: 16px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 34% 30%, #a78bfa 0%, var(--laume-violet) 42%, #4c1d95 100%);
+  box-shadow: 0 0 0 4px rgba(124, 58, 237, 0.1), 0 6px 14px rgba(76, 29, 149, 0.3);
+}
+
+.eyebrow {
+  margin: 0 0 6px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--laume-amber-ink);
+}
+
+.sheetTitle {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: clamp(1.45rem, 5vw, 1.75rem);
+  font-weight: 500;
+  line-height: 1.18;
+  color: var(--laume-ink);
+}
+
+.sheetBody {
+  margin: 10px 0 0;
+  font-size: 0.98rem;
+  line-height: 1.55;
+  color: var(--laume-muted);
+}
+
+.fields {
+  display: grid;
+  gap: 14px;
+  margin: 22px 0 16px;
+}
+
+.field {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.label {
+  padding: 0;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--laume-ink);
+}
+
+.input {
+  width: 100%;
+  min-height: 48px;
+  padding: 0 14px;
+  border: 1px solid rgba(15, 23, 42, 0.16);
+  border-radius: 12px;
+  background: #fff;
+  font: inherit;
+  font-size: 16px; /* iOS odakta yakınlaştırmasın */
+  color: var(--laume-ink);
+  transition: border-color 160ms ease, box-shadow 160ms ease;
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--laume-violet);
+  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.16);
+}
+
+.input[aria-invalid="true"],
+.field[aria-invalid="true"] .segment {
+  border-color: #b91c1c;
+}
+
+.segment {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px;
+  padding: 4px;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  border-radius: 13px;
+  background: rgba(15, 23, 42, 0.03);
+}
+
+.segmentOption {
+  position: relative;
+  display: block;
+  cursor: pointer;
+}
+
+.segmentOption input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.segmentOption span {
+  display: grid;
+  place-items: center;
+  min-height: 40px;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  color: var(--laume-muted);
+  transition: background-color 160ms ease, color 160ms ease, box-shadow 160ms ease;
+}
+
+.segmentOption input:checked + span {
+  background: #fff;
+  color: var(--laume-ink);
+  font-weight: 600;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.12);
+}
+
+.segmentOption input:focus-visible + span {
+  outline: 2px solid var(--laume-violet);
+  outline-offset: 1px;
+}
+
+.check {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-top: 10px;
+  font-size: 0.88rem;
+  line-height: 1.45;
+  color: var(--laume-ink);
+  cursor: pointer;
+}
+
+.check input {
+  flex: none;
+  width: 18px;
+  height: 18px;
+  margin: 1px 0 0;
+  accent-color: var(--laume-violet);
+}
+
+.check input[aria-invalid="true"] {
+  outline: 2px solid #b91c1c;
+  outline-offset: 1px;
+}
+
+.fine {
+  margin: 12px 0 0;
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: var(--laume-muted);
+}
+
+.fine a,
+.error a {
+  color: var(--laume-violet);
+  text-underline-offset: 3px;
+}
+
+.messages:empty {
+  display: none;
+}
+
+.error {
+  margin: 12px 0 0;
+  font-size: 0.86rem;
+  line-height: 1.45;
+  color: #b91c1c;
+}
+
+.submit {
+  width: 100%;
+  min-height: 50px;
+  margin-top: 18px;
+  border: 0;
+  border-radius: 14px;
+  background: var(--laume-violet);
+  color: #fff;
+  font: inherit;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(124, 58, 237, 0.26);
+  transition: background-color 160ms ease, transform 160ms ease;
+}
+
+.submit:hover {
+  background: var(--laume-violet-pressed);
+}
+
+.submit:active {
+  transform: scale(0.99);
+}
+
+.submit:disabled {
+  opacity: 0.7;
+  cursor: progress;
+}
+
+.success .submit {
+  margin-top: 22px;
+}
+
+.trap {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* Telefonda form alttan açılan bir kâğıt gibi. */
+@media (max-width: 560px) {
+  .sheet {
+    width: 100%;
+    max-width: none;
+    max-height: calc(100dvh - 24px);
+    margin: auto 0 0;
+    border-radius: 24px 24px 0 0;
+    border-bottom: 0;
+  }
+
+  .sheet[open] {
+    animation-name: sheetUp;
+  }
+
+  .sheetInner {
+    padding: 28px 20px calc(20px + env(safe-area-inset-bottom));
+  }
+
+  @keyframes sheetUp {
+    from {
+      transform: translateY(40px);
+      opacity: 0;
+    }
+    to {
+      transform: none;
+      opacity: 1;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sheet[open] {
+    animation: none;
+  }
+
+  .badge {
+    transition: none;
+  }
+}
+
+/* Çok dar telefonlar (≤ 360 px): iki rozet yine tek satıra sığsın. */
+@media (max-width: 360px) {
+  .dock .badge {
+    gap: 7px;
+    padding: 6px 10px 6px 9px;
+  }
+
+  .dock .badgeName {
+    font-size: 0.86rem;
+  }
+}

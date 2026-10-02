@@ -8,12 +8,15 @@ import type { DiscoveryState } from "@/lib/discovery-machine";
 
 const ASSET = "/assets/discovery";
 
-/** Kesintisiz basılı tutma süresi (asset doc §8). */
-const HOLD_MS = 1050;
+/**
+ * Kesintisiz basılı tutma süresi. 2026-09-30: 1050 → 720 ms. Çatlaklar ve
+ * halka aynı eğriyi izlediği için ritüel hissi korunur, yalnız bekleme kısalır.
+ */
+const HOLD_MS = 720;
 /** Erken bırakınca ilerlemenin geri gevşediği süre. */
 const RELAX_MS = 260;
 /** Tekrarlanan başarısız denemelerden sonra inilen alt sınır. */
-const MIN_HOLD_MS = 850;
+const MIN_HOLD_MS = 560;
 
 const CRACK_1_AT = 0.7;
 const CRACK_2_AT = 0.88;
@@ -26,6 +29,11 @@ interface EnvelopeRigProps {
   width: number;
   /** Mektup okuma aşamasındaki genişlik (px). */
   focusedWidth: number;
+  /**
+   * Okuma aşamasında rig'in merkezi (px). `null` → ekranın tam ortası.
+   * Devam çağrısı belirince mektup kenara kayar, davete yer açar.
+   */
+  focusPoint: { x: number; y: number } | null;
   /** 0 → 1: mesafe kapandıkça zarf pustan yavaşça belirir. */
   emergence: number;
   reducedMotion: boolean;
@@ -34,8 +42,8 @@ interface EnvelopeRigProps {
   onLetterRevealed: () => void;
   /** Erişilebilirlik etiketleri — sayfanın dilinden gelir. */
   labels: { seal: string; letter: string; letterRegion: string };
-  /** Mektubun üzerindeki gerçek metin. */
-  letterCopy: { title: string; body: string };
+  /** Mektubun üzerindeki gerçek metin. Gövdede paragraflar boş satırla ayrılır. */
+  letterCopy: { title: string; body: string; sign: string };
 }
 
 export interface EnvelopeRigHandle {
@@ -60,6 +68,7 @@ export const EnvelopeRig = React.forwardRef<EnvelopeRigHandle, EnvelopeRigProps>
       anchor,
       width,
       focusedWidth,
+      focusPoint,
       emergence,
       reducedMotion,
       onSealHoldStart,
@@ -223,7 +232,7 @@ export const EnvelopeRig = React.forwardRef<EnvelopeRigHandle, EnvelopeRigProps>
       const openTimer = window.setTimeout(() => setEnvelopeOpen(true), reducedMotion ? 0 : 200);
       const doneTimer = window.setTimeout(
         () => setSealPhase("broken"),
-        reducedMotion ? 60 : 760
+        reducedMotion ? 60 : 620
       );
       return () => {
         window.clearTimeout(piecesTimer);
@@ -259,7 +268,7 @@ export const EnvelopeRig = React.forwardRef<EnvelopeRigHandle, EnvelopeRigProps>
       paintPull(1);
       trackEvent({ name: "web_letter_pulled" });
       // Kâğıt önce oturur, sonra okuma aşamasına geçilir — sıçrama olmaz.
-      window.setTimeout(() => onLetterRevealed(), reducedMotion ? 60 : 420);
+      window.setTimeout(() => onLetterRevealed(), reducedMotion ? 60 : 260);
     }, [onLetterRevealed, paintPull, reducedMotion]);
 
     const settleTo = useCallback(
@@ -348,7 +357,7 @@ export const EnvelopeRig = React.forwardRef<EnvelopeRigHandle, EnvelopeRigProps>
         setShowPullHandle(false);
         return;
       }
-      const t = window.setTimeout(() => setShowPullHandle(true), 360);
+      const t = window.setTimeout(() => setShowPullHandle(true), 120);
       return () => window.clearTimeout(t);
     }, [pullStage]);
 
@@ -391,8 +400,8 @@ export const EnvelopeRig = React.forwardRef<EnvelopeRigHandle, EnvelopeRigProps>
         className={`${styles.rig} ${visible ? styles.rigVisible : ""}`}
         style={
           {
-            left: focused ? "50%" : `${anchor.x}px`,
-            top: focused ? "50%" : `${anchor.y}px`,
+            left: focused ? (focusPoint ? `${focusPoint.x}px` : "50%") : `${anchor.x}px`,
+            top: focused ? (focusPoint ? `${focusPoint.y}px` : "50%") : `${anchor.y}px`,
             width: `${rigWidth}px`,
             "--emerge": emerge,
           } as React.CSSProperties
@@ -464,9 +473,12 @@ export const EnvelopeRig = React.forwardRef<EnvelopeRigHandle, EnvelopeRigProps>
           >
             <h2 className={styles.letterTitle}>{letterCopy.title}</h2>
             <span className={styles.letterRule} aria-hidden="true" />
-            <p className={styles.letterBody}>
-              {letterCopy.body}
-            </p>
+            <div className={styles.letterBody}>
+              {letterCopy.body.split(/\n{2,}/).map((paragraph) => (
+                <p key={paragraph}>{paragraph}</p>
+              ))}
+            </div>
+            <p className={styles.letterSign}>{letterCopy.sign}</p>
           </article>
 
           <span

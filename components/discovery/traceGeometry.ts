@@ -32,10 +32,11 @@ export const TRACE_SPRITES: SpriteRect[] = [
 ];
 
 /**
- * Yürüyüş: yol 10 sprite'tan daha uzun olsun diye iki iz tekrar kullanılıyor.
- * Ardışık tekrar yok, böylece göz aynı şekli iki kez yan yana görmüyor.
+ * Yürüyüş: 8 adım. 2026-09-30'da 12'den indirildi — ritüel ilk kez gelen
+ * ziyaretçi için fazla uzundu ve mektuba varmadan bırakılıyordu. En dar iki
+ * sprite (1, 7) atlandı; kalanlar kaynak sırasını korur.
  */
-const TRACE_WALK = [0, 1, 2, 3, 4, 2, 5, 6, 7, 4, 8, 9];
+const TRACE_WALK = [0, 2, 3, 4, 5, 6, 8, 9];
 
 export const TRACE_STEP_COUNT = TRACE_WALK.length;
 
@@ -117,7 +118,7 @@ export function buildTracePath(width: number, height: number): StepPoint[] {
 /** Kâğıt parçası izin ortasında, yolun biraz dışında durur. */
 export function getFragmentAnchor(width: number, height: number): { x: number; y: number } {
   const path = buildTracePath(width, height);
-  const mid = path[5] ?? path[0];
+  const mid = path[Math.floor(path.length / 2)] ?? path[0];
   const mobile = width <= 860;
   return {
     x: mobile ? width * 0.68 : mid.x - width * 0.035,
@@ -127,5 +128,5 @@ export function getFragmentAnchor(width: number, height: number): { x: number; y
 
 /** İzi yakalama yarıçapı — dokunmatikte parmak, masaüstünde imleç. */
 export function getStepCatchRadius(width: number): number {
-  return width <= 860 ? 56 : 80;
+  return width <= 860 ? 64 : 96;
 }

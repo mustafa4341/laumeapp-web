@@ -212,6 +212,42 @@ yok). Yeni testler düzeltme olmadan dev'de geçti; ancak production build'de
 ve canlıda kırıldı. Sunucu/istemci farkına dokunan her iş `E2E_PROD=1` ile
 doğrulanır (bkz. §F).
 
+### 2026-09-30 · Mağaza rozetleri, bekleme listesi, daha kısa ritüel
+
+**SORUN:** İlk ekranda indirme yolu yoktu; ritüel uzun sürüyordu (12 adım,
+4,4 sn zorunlu okuma beklemesi); `/download` aynı iki mağazayı hem rozet hem
+kart olarak gösteriyordu. Keşiften çıkış `/home`'a elle gidiyordu → EN
+ziyaretçi Türkçeye düşüyordu (kural 4 ihlali).
+
+**ÇÖZÜM:**
+- `components/getapp/GetApp.tsx` — tek bileşen, üç durum: yayında → mağaza
+  linki; yayında değil → "Çıkınca haber ver" formu; yayında ama şehirde rota
+  yok → "Şehrime gelince haber ver". Durum yalnız `lib/config.ts` →
+  `appConfig.stores`'tan okunur. Keşif sahnesinde (dock), davet ekranında,
+  `/home` hero + sonunda ve `/download`'da aynı bileşen.
+- Form: `WaitlistSheet` (yerel `<dialog>`) → `POST /api/waitlist` →
+  `join_web_waitlist_v1` RPC. Migration: `layar/infra/supabase/migrations/
+  0219_web_waitlist.sql`. Kanal `?ref=` / `?utm_source=` ile taşınır
+  (ör. `?ref=karakoy-qr`). İki ayrı izin: zorunlu bilgilendirme, isteğe bağlı
+  pazarlama; `consent_version` kaydedilir.
+- Ritüel: iz 8 adım, mühür 720 ms, ara beklemeler kısaldı (`TIMING` sabiti,
+  `DiscoveryStage.tsx`); mektup okunurken dokunuş daveti hemen getirir.
+- Mektup metni Laume Postanesi karşılama mektuplarının sesiyle yazıldı.
+
+**TUZAK:** Diyalog içinde basılan Escape pencereye kadar kabarcıklanırsa keşif
+"atla" sanıp ziyaretçiyi `/home`'a atar. Diyalog klavye olaylarını durdurur,
+sahne de `dialog[open]` varken klavyeyi dinlemez. Kapı: `e2e/getapp.spec.ts`.
+
+**EK:** `/auth/confirmed` — uygulamanın kayıt doğrulama bağlantısı buraya
+döner (layar `AUTH_CONFIRM_REDIRECT_URL`). Doğrulama sunucuda önceden biter;
+sayfa `?error` / `#error_code` varken "doğrulandı" DEMEZ. `noindex`. Kapı:
+`e2e/email-confirmed.spec.ts`. Panel adımları: layar
+`docs/EPOSTA-DOGRULAMA-VE-SABLONLAR.md`.
+
+**TUZAK:** GA yapılandırılmışsa ölçüm izni banner'ı alt kenarı kaplar;
+testler izin tercihini önceden yazar. Keşif sahnesinde küçük "ayarlar"
+düğmesi rozetlerle çakıştığı için gizlidir.
+
 ---
 
 ## F. OTURUM AÇILIŞ PROTOKOLÜ
@@ -247,6 +283,14 @@ görünmez (bkz. §E 2026-09-14).
 ---
 
 ## G. AÇIK İŞLER
+
+- **Bekleme listesi canlıda henüz yazmıyor.** Sıra (layar kural 11: migration
+  önce): `0219_web_waitlist.sql` production'a uygulanır → doğrulanır → sonra
+  site deploy edilir. O zamana kadar form dürüst hata + destek e-postası
+  gösterir. Ayrıca Vercel'de `SUPABASE_URL` / `SUPABASE_ANON_KEY` production
+  kapsamında görünmüyor (aşağıdaki paylaşım önizlemesi maddesiyle aynı kök).
+- **Karaköy rota sayfası yok.** Pazarlama planının sonraki adımı; yalnız
+  gerçek, izinli mektup noktalarıyla yazılır (kural 2).
 
 - **Canlıda paylaşım önizlemesi gerçek başlığı basmıyor.** `laumeapp.com/n/<id>`
   `og:title` = "Laume mührü" (genel metin). [VERIFIED 2026-09-14] Env

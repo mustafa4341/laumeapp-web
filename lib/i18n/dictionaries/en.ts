@@ -713,6 +713,48 @@ const en: Dictionary = {
     missingCodeNote:
       "This page only works when it is opened from the link in your password reset email.",
   },
+  contest: {
+    metaTitle: "Light Up a City — a Laume contest",
+    metaDescription:
+      "Leave letters that belong to your city, film one being left, and win Laume Pro or Plus. Judged on the letters, not on views.",
+    heading: "Light Up a City",
+    lede: "Laume is a map of sealed letters. Each one belongs to the place where it was left, and it only opens when you're there. Most of the map is still empty. This contest is for the people who'll fill it.",
+    datesNote:
+      "The contest starts on the day Laume launches on the App Store and Google Play, and runs for 4 weeks. Exact dates will be posted on this page.",
+    prizesHeading: "The prizes",
+    prizes: [
+      {
+        heading: "Laume Pro, 1 year — 1 winner · Light up a city",
+        body: "Leave at least 10 letters, either in one city or across at least 3 cities on a single trip. Each letter should be:\n• at a public, outdoor place anyone can walk to\n• at least 200 m from your other letters\n• written for that place — something that would lose its meaning anywhere else\n• accompanied by a photo you took right there\nThen film one of them being left: a video of up to 60 seconds.",
+      },
+      {
+        heading: "Laume Plus, 1 year — 3 winners · Film a letter",
+        body: "Make a video of leaving or opening a real Laume letter: a TikTok, Instagram Reel or YouTube Short. Use #LaumeLetters in the caption.",
+      },
+      {
+        heading: "Laume Plus, 1 month — 10 winners · Leave the first letter",
+        body: "Leave a letter, with a photo taken on the spot, somewhere with no other public letter within 1 km. The first 10 valid entries win.",
+      },
+    ],
+    sections: [
+      {
+        heading: "How to enter",
+        body: "Leave your letters in Laume, then email contest@laumeapp.com with:\n• Subject: the category — \"Light up a city\", \"Video\" or \"First letter\"\n• Your Laume username\n• The city (or cities)\n• The titles of the letters you left\n• For video entries: a link to your video (TikTok, Instagram, YouTube, Google Drive or WeTransfer). Please don't attach the file.\nYou'll get a reply confirming we received your entry.",
+      },
+      {
+        heading: "How winners are chosen",
+        body: "Light up a city and Video: chosen by the Laume team for how well the letters belong to their places, the writing, the photos and the video. View and like counts are not a criterion.\nFirst letter: the first 10 valid entries, by the time the letter was left in the app.\nWinners are announced on this page within 7 days after the contest ends, and contacted by email.",
+      },
+      {
+        heading: "The fine print",
+        body: "• Open to anyone 18 or older with a Laume account. The organizer and their family can't win.\n• One prize per person — the highest one you qualify for.\n• Entries are disqualified for: ads or spam, copied or one-word letters, letters inside buildings or on private property, photos not taken at the place, or a faked location.\n• Your letters and videos stay yours. By entering, you allow Laume to show them in the app and to repost them on Laume's channels, always credited to you.\n• Prizes are App Store or Google Play subscription codes. They have no cash value and can't be exchanged.\n• This is a skill-based contest judged on the criteria above. It is not a lottery or a random draw, and no purchase is necessary.\n• Apple and Google are not sponsors of this contest and are not involved in it in any way.\n• We use your email only to run this contest.\n• Organizer: Laume (laumeapp.com). Questions: contest@laumeapp.com",
+      },
+    ],
+    linksHeading: "Links",
+    downloadCta: "Get Laume",
+    aboutCta: "What is Laume?",
+    emailCta: "contest@laumeapp.com",
+  },
 };
 
 export default en;

@@ -740,6 +740,49 @@ const tr = {
     missingCodeNote:
       "Bu sayfa yalnızca şifre sıfırlama e-postandaki bağlantıyla açıldığında çalışır.",
   },
+  /** "Şehrini Aydınlat" yarışma sayfası (/contest). Tarihler yayın günü netleşir. */
+  contest: {
+    metaTitle: "Şehrini Aydınlat — Laume Yarışması",
+    metaDescription:
+      "Şehrine ait mektuplar bırak, mektup bırakırken video çek: Laume Pro ve Plus abonelikleri kazan. Beğeniye değil mektuplara bakılır.",
+    heading: "Şehrini Aydınlat",
+    lede: "Laume, mühürlü mektuplardan oluşan bir harita. Her mektup bırakıldığı yere ait ve yalnızca oradayken açılıyor. Haritanın büyük kısmı hâlâ boş; bu yarışma onu dolduracak insanlar için.",
+    datesNote:
+      "Yarışma, Laume App Store ve Google Play'de yayına çıktığı gün başlar ve 4 hafta sürer. Kesin tarihler bu sayfada duyurulacak.",
+    prizesHeading: "Ödüller",
+    prizes: [
+      {
+        heading: "Laume Pro, 1 yıl — 1 kişi · Bir şehri aydınlat",
+        body: "Aynı şehirde ya da tek bir gezide en az 3 şehre yayılan en az 10 mektup bırak. Her mektup:\n• herkesin yürüyerek gidebileceği, açık havada, halka açık bir yerde olsun\n• diğer mektuplarından en az 200 m uzakta olsun\n• o yer için yazılmış olsun; başka bir yerde okununca anlamını yitirsin\n• o an orada çektiğin bir fotoğrafla birlikte bırakılsın\nBir de bu mektuplardan birini bırakırken en fazla 60 saniyelik bir video çek.",
+      },
+      {
+        heading: "Laume Plus, 1 yıl — 3 kişi · Bir mektubu çek",
+        body: "Gerçek bir Laume mektubunu bırakırken ya da açarken bir video çek: TikTok, Instagram Reels ya da YouTube Shorts. Açıklamada #LaumeLetters etiketini kullan.",
+      },
+      {
+        heading: "Laume Plus, 1 ay — 10 kişi · İlk mektubu bırak",
+        body: "1 km içinde başka herkese açık mektup olmayan bir yere, o an orada çektiğin fotoğrafla bir mektup bırak. Geçerli ilk 10 başvuru kazanır.",
+      },
+    ],
+    sections: [
+      {
+        heading: "Nasıl katılırsın",
+        body: "Mektuplarını Laume'da bırak, sonra contest@laumeapp.com adresine şunlarla yaz:\n• Konu: kategori — \"Şehrini aydınlat\", \"Video\" ya da \"İlk mektup\"\n• Laume kullanıcı adın\n• Şehir (ya da şehirler)\n• Bıraktığın mektupların başlıkları\n• Video için: videonun linki (TikTok, Instagram, YouTube, Google Drive ya da WeTransfer). Dosyayı e-postaya ek olarak gönderme.\nBaşvurunun ulaştığını bildiren bir cevap alacaksın.",
+      },
+      {
+        heading: "Kazananlar nasıl seçilir",
+        body: "Şehrini aydınlat ve Video: Laume ekibi seçer. Ölçüt, mektupların yerlerine ne kadar ait olduğu, yazı, fotoğraflar ve video. İzlenme ve beğeni sayısı ölçüt değildir.\nİlk mektup: mektubun uygulamada bırakıldığı saate göre geçerli ilk 10 başvuru.\nKazananlar yarışma bittikten sonraki 7 gün içinde bu sayfada açıklanır ve e-postayla bilgilendirilir.",
+      },
+      {
+        heading: "Ayrıntılar",
+        body: "• Laume hesabı olan 18 yaşından büyük herkes katılabilir. Düzenleyen ve ailesi kazanamaz.\n• Kişi başı bir ödül; hak ettiğin en yüksek ödül.\n• Şunlar geçersizdir: reklam ya da spam, kopyalanmış ya da tek kelimelik mektuplar, bina içi ya da özel mülkteki mektuplar, o yerde çekilmemiş fotoğraflar, taklit konum.\n• Mektupların ve videoların senin kalır. Katılarak Laume'ın bunları uygulamada göstermesine ve kendi hesaplarında, her zaman senin adınla paylaşmasına izin verirsin.\n• Ödüller App Store ya da Google Play abonelik kodudur; nakit değeri yoktur, değiştirilemez.\n• Bu, yukarıdaki ölçütlere göre değerlendirilen bir beceri yarışmasıdır. Çekiliş ya da kura değildir; katılmak için satın alma gerekmez.\n• Apple ve Google bu yarışmanın sponsoru değildir ve hiçbir şekilde dahil değildir.\n• E-posta adresin yalnızca bu yarışma için kullanılır.\n• Düzenleyen: Laume (laumeapp.com). Sorular: contest@laumeapp.com",
+      },
+    ],
+    linksHeading: "Bağlantılar",
+    downloadCta: "Laume'ı indir",
+    aboutCta: "Laume nedir?",
+    emailCta: "contest@laumeapp.com",
+  },
 };
 
 export default tr;

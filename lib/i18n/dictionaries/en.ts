@@ -721,6 +721,18 @@ const en: Dictionary = {
     lede: "Laume is a map of sealed letters. Each one belongs to the place where it was left, and it only opens when you're there. Most of the map is still empty. This contest is for the people who'll fill it.",
     datesNote:
       "The contest starts on the day Laume launches on the App Store and Google Play, and runs for 4 weeks. Exact dates will be posted on this page.",
+    tryHeading: "Try it before the stores",
+    tryLede:
+      "You can install the test version of Laume today, open the letters near you and leave your first one.",
+    iosLabel: "iPhone",
+    iosCta: "Install with TestFlight",
+    iosNote:
+      "First install Apple's free TestFlight app from the App Store, then open this link on your iPhone.",
+    androidLabel: "Android",
+    androidJoinCta: "1. Join the tester group",
+    androidOptInCta: "2. Turn on the test version",
+    androidNote:
+      "Use the Google account on your phone: join the group first, then turn on the test version with the second link and install Laume from the Play Store.",
     prizesHeading: "The prizes",
     prizes: [
       {

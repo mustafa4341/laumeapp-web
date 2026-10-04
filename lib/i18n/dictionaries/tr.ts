@@ -749,6 +749,18 @@ const tr = {
     lede: "Laume, mühürlü mektuplardan oluşan bir harita. Her mektup bırakıldığı yere ait ve yalnızca oradayken açılıyor. Haritanın büyük kısmı hâlâ boş; bu yarışma onu dolduracak insanlar için.",
     datesNote:
       "Yarışma, Laume App Store ve Google Play'de yayına çıktığı gün başlar ve 4 hafta sürer. Kesin tarihler bu sayfada duyurulacak.",
+    tryHeading: "Mağazayı beklemeden dene",
+    tryLede:
+      "Laume mağazalara çıkmadan önce test sürümünü kurabilir, yakınındaki mektupları açıp ilk mektubunu bırakabilirsin.",
+    iosLabel: "iPhone",
+    iosCta: "TestFlight ile kur",
+    iosNote:
+      "Önce App Store'dan Apple'ın ücretsiz TestFlight uygulamasını kur, sonra bu bağlantıyı iPhone'unda aç.",
+    androidLabel: "Android",
+    androidJoinCta: "1. Test grubuna katıl",
+    androidOptInCta: "2. Test sürümünü etkinleştir",
+    androidNote:
+      "Telefonundaki Google hesabıyla önce gruba katıl, sonra ikinci bağlantıda test sürümünü etkinleştirip Laume'ı Play Store'dan indir.",
     prizesHeading: "Ödüller",
     prizes: [
       {

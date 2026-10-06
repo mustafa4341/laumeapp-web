@@ -720,7 +720,7 @@ const en: Dictionary = {
     heading: "Light Up a City",
     lede: "Laume is a map of sealed letters. Each one belongs to the place where it was left, and it only opens when you're there. Most of the map is still empty. This contest is for the people who'll fill it.",
     datesNote:
-      "The contest starts on the day Laume launches on the App Store and Google Play, and runs for 4 weeks. Exact dates will be posted on this page.",
+      "The contest runs for 4 weeks: from October 15, 2026, 00:00 to November 11, 2026, 23:59 (Istanbul time, UTC+3). Only letters left in the app during these dates count.",
     tryHeading: "Try it before the stores",
     tryLede:
       "You can install the test version of Laume today, open the letters near you and leave your first one.",
@@ -755,7 +755,7 @@ const en: Dictionary = {
       },
       {
         heading: "How winners are chosen",
-        body: "Light up a city and Video: chosen by the Laume team for how well the letters belong to their places, the writing, the photos and the video. View and like counts are not a criterion.\nFirst letter: the first 10 valid entries, by the time the letter was left in the app.\nWinners are announced on this page within 7 days after the contest ends, and contacted by email.",
+        body: "Light up a city and Video: chosen by the Laume team for how well the letters belong to their places, the writing, the photos and the video. View and like counts are not a criterion.\nFirst letter: the first 10 valid entries, by the time the letter was left in the app.\nWinners are announced on this page by November 18, 2026, and contacted by email.",
       },
       {
         heading: "The fine print",

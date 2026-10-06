@@ -740,7 +740,7 @@ const tr = {
     missingCodeNote:
       "Bu sayfa yalnızca şifre sıfırlama e-postandaki bağlantıyla açıldığında çalışır.",
   },
-  /** "Şehrini Aydınlat" yarışma sayfası (/contest). Tarihler yayın günü netleşir. */
+  /** "Şehrini Aydınlat" yarışma sayfası (/contest). Tarihler: 2026-10-15 → 2026-11-11 (TRT). */
   contest: {
     metaTitle: "Şehrini Aydınlat — Laume Yarışması",
     metaDescription:
@@ -748,7 +748,7 @@ const tr = {
     heading: "Şehrini Aydınlat",
     lede: "Laume, mühürlü mektuplardan oluşan bir harita. Her mektup bırakıldığı yere ait ve yalnızca oradayken açılıyor. Haritanın büyük kısmı hâlâ boş; bu yarışma onu dolduracak insanlar için.",
     datesNote:
-      "Yarışma, Laume App Store ve Google Play'de yayına çıktığı gün başlar ve 4 hafta sürer. Kesin tarihler bu sayfada duyurulacak.",
+      "Yarışma 4 hafta sürer: 15 Ekim 2026, 00:00 ile 11 Kasım 2026, 23:59 arası (İstanbul saati, UTC+3). Yalnız bu tarihler arasında uygulamada bırakılan mektuplar sayılır.",
     tryHeading: "Mağazayı beklemeden dene",
     tryLede:
       "Laume mağazalara çıkmadan önce test sürümünü kurabilir, yakınındaki mektupları açıp ilk mektubunu bırakabilirsin.",
@@ -783,7 +783,7 @@ const tr = {
       },
       {
         heading: "Kazananlar nasıl seçilir",
-        body: "Şehrini aydınlat ve Video: Laume ekibi seçer. Ölçüt, mektupların yerlerine ne kadar ait olduğu, yazı, fotoğraflar ve video. İzlenme ve beğeni sayısı ölçüt değildir.\nİlk mektup: mektubun uygulamada bırakıldığı saate göre geçerli ilk 10 başvuru.\nKazananlar yarışma bittikten sonraki 7 gün içinde bu sayfada açıklanır ve e-postayla bilgilendirilir.",
+        body: "Şehrini aydınlat ve Video: Laume ekibi seçer. Ölçüt, mektupların yerlerine ne kadar ait olduğu, yazı, fotoğraflar ve video. İzlenme ve beğeni sayısı ölçüt değildir.\nİlk mektup: mektubun uygulamada bırakıldığı saate göre geçerli ilk 10 başvuru.\nKazananlar 18 Kasım 2026'ya kadar bu sayfada açıklanır ve e-postayla bilgilendirilir.",
       },
       {
         heading: "Ayrıntılar",

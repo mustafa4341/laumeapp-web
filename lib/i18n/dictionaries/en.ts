@@ -767,6 +767,54 @@ const en: Dictionary = {
     aboutCta: "What is Laume?",
     emailCta: "contest@laumeapp.com",
   },
+  /** Basın kiti (/press). Sayılar 2026-10-06 canlı veriden; değişince güncellenir. */
+  press: {
+    metaTitle: "Press kit — Laume",
+    metaDescription:
+      "Facts, images and contact for writing about Laume, the app of sealed letters that only open at the place they were left.",
+    heading: "Press kit",
+    lede: "Everything you need to write about Laume. Use the images freely with the credit \"Laume\". For interviews, test accounts or more images: hello@laumeapp.com",
+    oneLinerHeading: "In one sentence",
+    oneLiner:
+      "Laume is a map of sealed letters: people leave letters at real places, and a letter only opens for someone standing within 50 meters of where it was left.",
+    howHeading: "How it works",
+    how: [
+      "Someone stands somewhere that matters to them and writes a letter there. It is sealed to that spot.",
+      "Others see sealed letters on the map, but they can't read them from home.",
+      "Walk there. Within 50 meters, the seal breaks and the letter opens.",
+      "Reply, start a chain, or leave your own letter nearby. Every opened letter is added to your personal map of places.",
+    ],
+    factsHeading: "Facts",
+    facts: [
+      { label: "Platforms", value: "iPhone and Android, launching October 2026" },
+      {
+        label: "Founding letters",
+        value: "About 900, around landmarks in London, Paris, Dubai, New York, Singapore, Istanbul and Cappadocia",
+      },
+      { label: "Languages", value: "English and Turkish" },
+      { label: "Price", value: "Free to download and read. Optional Plus and Pro subscriptions" },
+      { label: "Made by", value: "Mustafa Karsu, independent developer (Karsu Studio), Türkiye" },
+      { label: "Contest", value: "Light Up a City, October 15 – November 11, 2026 · laumeapp.com/contest" },
+    ],
+    principlesHeading: "What makes it different",
+    principles: [
+      "The letter belongs to the place. There is no way to read it from far away, and the 50 m rule is checked on the server.",
+      "No live location sharing and no background tracking. Your position is only used to check the distance when you try to open a letter.",
+      "No follower counts on the map and no fake activity. The founding letters were written by the Laume team.",
+      "A quieter alternative to love locks and graffiti: leave something at a place without damaging it.",
+    ],
+    imagesHeading: "Images",
+    imagesNote: "Right-click or long-press to save. Higher resolution on request.",
+    images: [
+      { src: "/assets/brand/laume-icon-192.png", alt: "Laume app icon" },
+      { src: "/assets/home/istanbul-ana-nokta.webp", alt: "A sealed letter on the Istanbul map" },
+      { src: "/assets/home/trail-map-full.webp", alt: "Personal map of discovered places" },
+      { src: "/assets/home/traveling-letter.webp", alt: "A letter traveling between places" },
+    ],
+    contactHeading: "Contact",
+    contactBody: "Mustafa Karsu, founder · hello@laumeapp.com · laumeapp.com",
+    contactCta: "hello@laumeapp.com",
+  },
 };
 
 export default en;

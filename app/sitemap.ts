@@ -25,6 +25,7 @@ const ROUTES: Entry[] = [
   { path: "/about", priority: 0.8, changeFrequency: "monthly" },
   { path: "/ideas", priority: 0.8, changeFrequency: "monthly" },
   { path: "/contest", priority: 0.7, changeFrequency: "weekly" },
+  { path: "/press", priority: 0.5, changeFrequency: "monthly" },
   { path: "/support", priority: 0.7, changeFrequency: "monthly" },
   { path: "/support/faq", priority: 0.8, changeFrequency: "monthly" },
   { path: "/support/contact", priority: 0.6, changeFrequency: "yearly" },

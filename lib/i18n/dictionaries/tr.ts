@@ -795,6 +795,54 @@ const tr = {
     aboutCta: "Laume nedir?",
     emailCta: "contest@laumeapp.com",
   },
+  /** Basın kiti (/press). Sayılar 2026-10-06 canlı veriden; değişince güncellenir. */
+  press: {
+    metaTitle: "Basın kiti — Laume",
+    metaDescription:
+      "Laume hakkında yazmak için bilgiler, görseller ve iletişim: yalnızca bırakıldığı yerde açılan mühürlü mektupların uygulaması.",
+    heading: "Basın kiti",
+    lede: "Laume hakkında yazmak için gereken her şey. Görselleri \"Laume\" kaynağıyla serbestçe kullanabilirsiniz. Röportaj, test hesabı ya da daha fazla görsel için: hello@laumeapp.com",
+    oneLinerHeading: "Tek cümlede",
+    oneLiner:
+      "Laume, mühürlü mektuplardan oluşan bir harita: insanlar gerçek yerlere mektup bırakır ve bir mektup yalnızca bırakıldığı yerin 50 metre yakınındaki kişiye açılır.",
+    howHeading: "Nasıl çalışır",
+    how: [
+      "Biri kendisi için anlamlı bir yerde durur ve oraya bir mektup yazar. Mektup o noktaya mühürlenir.",
+      "Diğerleri haritada mühürlü mektupları görür ama evden okuyamaz.",
+      "Oraya yürürsün. 50 metre içinde mühür kırılır, mektup açılır.",
+      "Cevap yazabilir, zincir başlatabilir ya da yakına kendi mektubunu bırakabilirsin. Açtığın her mektup kişisel yer haritana eklenir.",
+    ],
+    factsHeading: "Bilgiler",
+    facts: [
+      { label: "Platformlar", value: "iPhone ve Android, Ekim 2026'da yayında" },
+      {
+        label: "Kurucu mektuplar",
+        value: "Londra, Paris, Dubai, New York, Singapur, İstanbul ve Kapadokya'da simge yerlerin çevresinde yaklaşık 900 mektup",
+      },
+      { label: "Diller", value: "İngilizce ve Türkçe" },
+      { label: "Fiyat", value: "İndirmek ve okumak ücretsiz. İsteğe bağlı Plus ve Pro abonelikleri" },
+      { label: "Geliştiren", value: "Mustafa Karsu, bağımsız geliştirici (Karsu Studio), Türkiye" },
+      { label: "Yarışma", value: "Şehrini Aydınlat, 15 Ekim – 11 Kasım 2026 · laumeapp.com/contest" },
+    ],
+    principlesHeading: "Farkı ne",
+    principles: [
+      "Mektup yere aittir. Uzaktan okumanın yolu yok; 50 metre kuralı sunucuda denetlenir.",
+      "Canlı konum paylaşımı ve arka planda takip yok. Konum yalnızca bir mektubu açmaya çalıştığında mesafeyi ölçmek için kullanılır.",
+      "Haritada takipçi sayısı ve sahte hareket yok. Kurucu mektupları Laume ekibi yazdı.",
+      "Aşk kilitlerine ve duvar yazılarına sessiz bir alternatif: bir yere zarar vermeden iz bırakmak.",
+    ],
+    imagesHeading: "Görseller",
+    imagesNote: "Kaydetmek için sağ tıklayın ya da basılı tutun. Daha yüksek çözünürlük için yazın.",
+    images: [
+      { src: "/assets/brand/laume-icon-192.png", alt: "Laume uygulama ikonu" },
+      { src: "/assets/home/istanbul-ana-nokta.webp", alt: "İstanbul haritasında mühürlü bir mektup" },
+      { src: "/assets/home/trail-map-full.webp", alt: "Keşfedilen yerlerin kişisel haritası" },
+      { src: "/assets/home/traveling-letter.webp", alt: "Yerler arasında dolaşan bir mektup" },
+    ],
+    contactHeading: "İletişim",
+    contactBody: "Mustafa Karsu, kurucu · hello@laumeapp.com · laumeapp.com",
+    contactCta: "hello@laumeapp.com",
+  },
 };
 
 export default tr;
